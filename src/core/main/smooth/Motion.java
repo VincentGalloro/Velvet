@@ -1,6 +1,7 @@
 
 package core.main.smooth;
 
+import core.main.smooth.motion.factories.LinearMotionFactory;
 import core.main.smooth.motion.factories.OvershootMotionFactory;
 import core.main.smooth.motion.factories.SCurveMotionFactory;
 import core.main.smooth.motion.factories.SwishMotionFactory;
@@ -23,5 +24,9 @@ public class Motion {
     }
     public static OvershootMotionFactory overshoot(double acceleration, double friction, double distTolerance, double velocityTolerance){
         return new OvershootMotionFactory(acceleration, friction, distTolerance, velocityTolerance);
+    }
+    
+    public static LinearMotionFactory linear(int timeSteps){
+        return new LinearMotionFactory(timeSteps);
     }
 }

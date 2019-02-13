@@ -27,7 +27,10 @@ public class SmoothPoint {
     public void update(){
         if(motion != null){
             smooth = motion.update();
-            if(atTarget()){ motion = null; }
+            if(atTarget()){ 
+                smooth = new Vector(pos);
+                motion = null; 
+            }
         }
     }
     
