@@ -19,8 +19,8 @@ public class SCurveMotion implements ISmoothMotion{
         if(currentTime > timeSteps){ currentTime = timeSteps; }
         
         double deltaTime = currentTime/(double)timeSteps;
-        double delta = 2 * deltaTime*deltaTime;
-        if(deltaTime >= 0.5){ delta = 1 - 2*Math.pow(deltaTime-1, 2); }
+        double delta = 8 * Math.pow(deltaTime, 4);
+        if(deltaTime >= 0.5){ delta = 1 - 8*Math.pow(1-deltaTime, 4); }
         
         return start.multiply(1-delta).add(end.multiply(delta));
     }

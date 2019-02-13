@@ -27,10 +27,11 @@ public class SmoothPoint {
     public void update(){
         if(motion != null){
             smooth = motion.update();
+            if(atTarget()){ motion = null; }
         }
     }
     
     public Point getPos(){ return pos; }
     public Vector getSmooth(){ return smooth; }
-    public boolean atTarget(){ return motion.atTarget(); }
+    public boolean atTarget(){ return motion==null ? true : motion.atTarget(); }
 }

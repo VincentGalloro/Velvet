@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
 public class Main extends Canvas implements Runnable{  
@@ -22,7 +21,7 @@ public class Main extends Canvas implements Runnable{
         this.level = level;
         
         frame = new JFrame(name);
-        setPreferredSize(new Dimension(level.getSize().x, level.getSize().y));
+        frame.setPreferredSize(new Dimension(level.getSize().x, level.getSize().y));
 	frame.add(this);
         frame.pack();
 	frame.setVisible(true);
@@ -30,8 +29,6 @@ public class Main extends Canvas implements Runnable{
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         
-        start();
-        //TinySound.init();
         keyboard = new Keyboard();
         addKeyListener(keyboard); 
         mouse = new Mouse();
@@ -40,6 +37,8 @@ public class Main extends Canvas implements Runnable{
         
         level.setKeyboard(keyboard);
         level.setMouse(mouse);
+        
+        start();
     }
 
     public synchronized void start() {
@@ -55,11 +54,11 @@ public class Main extends Canvas implements Runnable{
             long now = System.nanoTime();
             delta += (now - lastTime) / nsPerTick;
             lastTime = now;
-            while(delta >= 1){   
+            if(delta >= 1){   
                 delta -= 1;       
-                update();     
+                update();
+                render();     
             }
-            render();
         }
     }
     
@@ -70,18 +69,15 @@ public class Main extends Canvas implements Runnable{
     }
     
     public void render(){
-        BufferStrategy bs = getBufferStrategy();
-        if (bs == null){
-            createBufferStrategy(2);
-            return;
-        }      
-        Graphics g = bs.getDrawGraphics();
+        if (getBufferStrategy() == null){ createBufferStrategy(2); } 
+        
+        Graphics g = getBufferStrategy().getDrawGraphics();
         g.setColor(BACKGROUND_COLOR);
         g.fillRect(0, 0, level.getSize().x, level.getSize().y);
         
         level.render((Graphics2D)g);
         
         g.dispose();
-        bs.show();     
+        getBufferStrategy().show();     
     }
 }
