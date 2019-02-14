@@ -1,7 +1,6 @@
 
 package core.main;
 
-import java.awt.Graphics2D;
 import java.awt.Point;
 
 public abstract class Velvet {
@@ -18,7 +17,7 @@ public abstract class Velvet {
     protected final void setKeyboard(Keyboard keyboard){ this.keyboard = keyboard; }
     
     public abstract void update();
-    public abstract void render(Graphics2D g);
+    public abstract void render(VGraphics g);
     
     public final Point getSize(){ return size; }
     

@@ -75,7 +75,7 @@ public class Main extends Canvas implements Runnable{
         g.setColor(BACKGROUND_COLOR);
         g.fillRect(0, 0, level.getSize().x, level.getSize().y);
         
-        level.render((Graphics2D)g);
+        level.render(new VGraphics((Graphics2D)g));
         
         g.dispose();
         getBufferStrategy().show();     
