@@ -1,28 +1,20 @@
 
 package core.main.smooth.motion;
 
-import core.main.structs.Vector;
-
-public class SwishMotion implements ISmoothMotion{
-
-    private final Vector target;
-    private Vector current;
-    private final double speed, tolerance;
+public class SwishMotion extends SmoothMotion{
+ 
+    //Formula: (1 - e^-sx) / (1 - e^-s)
+    //let A = 1 / (1 - e^-s), the new formula is A * (1 - e^-sx)
     
-    public SwishMotion(Vector current, Vector target, double speed, double tolerance){
-        this.current = current;
-        this.target = target;
-        this.speed = speed;
-        this.tolerance = tolerance;
-    }
+    //set up constants to avoid calculation
+    private static final double SHARPNESS = 5.0; //this can be changed freely
+    private static final double A = 1 / (1 - Math.exp(-SHARPNESS));
     
-    public Vector update() {
-        current = current.multiply(1-speed).add(target.multiply(speed));
-        return current;
+    public SwishMotion(int timeSteps){
+        super(timeSteps);
     }
 
-    public boolean atTarget() {
-        return current.withinRange(target, tolerance);
+    public double getDelta(){
+        return A * (1 - Math.exp(-SHARPNESS * deltaTime));
     }
-    
 }
