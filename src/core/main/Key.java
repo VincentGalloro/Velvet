@@ -6,7 +6,8 @@ public enum Key {
     UP(KeyEvent.VK_W),
     DOWN(KeyEvent.VK_S),
     LEFT(KeyEvent.VK_A),
-    RIGHT(KeyEvent.VK_D);
+    RIGHT(KeyEvent.VK_D),
+    SPACE(KeyEvent.VK_SPACE);
     
     int code;
     

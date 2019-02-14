@@ -13,11 +13,11 @@ public class Main extends Canvas implements Runnable{
 
     private JFrame frame;
     
-    private ILevel level;
+    private Velvet level;
     private Keyboard keyboard;
     private Mouse mouse;
     
-    public Main(ILevel level, String name){
+    public Main(Velvet level, String name){
         this.level = level;
         
         frame = new JFrame(name);
