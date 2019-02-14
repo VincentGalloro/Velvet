@@ -3,6 +3,17 @@ package core.main.smooth.motion;
 
 public class SCurveMotion extends SmoothMotion{
 
+    public static class Factory extends MotionFactory{
+
+        public Factory(int timeSteps) {
+            super(timeSteps);
+        }
+        
+        public SCurveMotion create() {
+            return new SCurveMotion(timeSteps);
+        }
+    }
+    
     public SCurveMotion(int timeSteps) {
         super(timeSteps);
     }

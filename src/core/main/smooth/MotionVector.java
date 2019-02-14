@@ -6,8 +6,8 @@ import core.main.structs.Vector;
 
 public class MotionVector {
     
-    private Vector start, end;
-    private SmoothMotion motion;
+    private final Vector start, end;
+    private final SmoothMotion motion;
     
     public MotionVector(Vector start, Vector end, SmoothMotion motion){
         this.start = start;

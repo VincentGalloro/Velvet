@@ -1,7 +1,7 @@
 
 package core.main.smooth;
 
-import core.main.smooth.motion.SmoothMotion;
+import core.main.smooth.motion.MotionFactory;
 import core.main.structs.Vector;
 import java.awt.Point;
 
@@ -10,7 +10,7 @@ public class SmoothPoint {
     private Point pos;
     private Vector smooth;
     private MotionFactory motionFactory;
-    private MotionVector motion;
+    private MotionVector motionVector;
     
     public SmoothPoint(Point pos, MotionFactory motionFactory){
         this.pos = pos;
@@ -24,20 +24,20 @@ public class SmoothPoint {
     
     public void setPos(Point pos){ 
         this.pos = pos; 
-        motion = motionFactory.create(smooth, new Vector(pos));
+        motionVector = new MotionVector(smooth, new Vector(pos), motionFactory.create());
     }
     
     public void update(){
-        if(motion != null){
-            smooth = motion.update();
+        if(motionVector != null){
+            smooth = motionVector.update();
             if(atTarget()){ 
                 smooth = new Vector(pos);
-                motion = null; 
+                motionVector = null; 
             }
         }
     }
     
     public Point getPos(){ return pos; }
     public Vector getSmooth(){ return smooth; }
-    public boolean atTarget(){ return motion==null ? true : motion.atTarget(); }
+    public boolean atTarget(){ return motionVector==null ? true : motionVector.atTarget(); }
 }

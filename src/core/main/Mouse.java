@@ -11,8 +11,8 @@ public class Mouse implements MouseListener, MouseMotionListener{
     public static final int LEFT = 0, RIGHT = 1, MIDDLE = 2;
     private final int[] BUTTON_CODES = {MouseEvent.BUTTON1, MouseEvent.BUTTON3, MouseEvent.BUTTON2};
     
-    private boolean[] buttons, buttonsPressed, buttonsLast;
-    private Vector pos;
+    private final boolean[] buttons, buttonsPressed, buttonsLast;
+    private final Vector pos;
     
     public Mouse(){
         pos = new Vector();
