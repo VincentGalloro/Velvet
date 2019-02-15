@@ -1,4 +1,4 @@
-package core.main.ui;
+package core.main.ui.elements;
 
 import core.main.VGraphics;
 import core.main.structs.Vector;

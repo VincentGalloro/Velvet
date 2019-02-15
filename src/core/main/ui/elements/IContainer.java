@@ -1,5 +1,5 @@
 
-package core.main.ui;
+package core.main.ui.elements;
 
 import java.awt.geom.AffineTransform;
 
