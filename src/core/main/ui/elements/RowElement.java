@@ -18,6 +18,12 @@ public class RowElement implements IListContainer{
     public void addElement(IElement e){ elements.add(e); }
     public void setSeperation(double s){ seperation = s; }
     
+    public void update(){
+        for(IElement e : elements){
+            e.update();
+        }
+    }
+    
     public Vector getSize() {
         Vector size = new Vector();
         for(IElement e : elements){

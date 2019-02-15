@@ -11,8 +11,14 @@ public class PaddingElement implements IContainer{
     
     public void setElement(IElement e){ element = e; }
     public void setPadding(double p){ padding = p; }
-    public IElement getElement(){ return element; }
     
+    public void update(){
+        if(element != null){
+            element.update();
+        }
+    }
+    
+    public IElement getElement(){ return element; }
     public Vector getSize() {
         if(element == null){ return new Vector(); }
         return element.getSize().add(padding*2);

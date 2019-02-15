@@ -24,6 +24,8 @@ public class TextElement implements IElement{
     
     public void setText(String t){ text = t; }
     
+    public void update(){}
+    
     public Vector getSize() { return new Vector(fontMetrics.stringWidth(text), fontMetrics.getHeight()); }
     public String getText() { return text; } 
 

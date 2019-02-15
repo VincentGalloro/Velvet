@@ -16,6 +16,12 @@ public class ScaleElement implements IContainer{
     public void setElement(IElement e){ element = e; }
     public void setSize(Vector s){ size = s; }
     
+    public void update(){
+        if(element != null){
+            element.update();
+        }
+    }
+    
     public Vector getSize() { return size; }
     public IElement getElement(){ return element; }
     public AffineTransform getTransform(){        

@@ -1,12 +1,16 @@
 package core.main.ui;
 
 import core.main.VGraphics;
+import core.main.structs.Vector;
 import core.main.ui.elements.ColumnElement;
 import core.main.ui.elements.ElementFactory;
 import core.main.ui.elements.IContainer;
 import core.main.ui.elements.IElement;
 import core.main.ui.elements.IListContainer;
 import core.main.ui.elements.PaddingElement;
+import core.main.ui.elements.RowElement;
+import core.main.ui.elements.ScaleElement;
+import core.main.ui.elements.TextElement;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,11 +38,27 @@ public class ElementManager {
                         em.namedElements.put(tokens[1], current);
                     }
                     if(tokens.length >= 3){
+                        if(current instanceof TextElement){ 
+                            String[] words = new String[tokens.length-2];
+                            for(int i = 0; i < words.length; i++){
+                                words[i] = tokens[i+2];
+                            }
+                            ((TextElement)current).setText(String.join(" ", words)); 
+                        }
                         if(current instanceof PaddingElement){ 
                             ((PaddingElement)current).setPadding(Integer.parseInt(tokens[2])); 
                         }
                         if(current instanceof ColumnElement){ 
                             ((ColumnElement)current).setSeperation(Integer.parseInt(tokens[2])); 
+                        }
+                        if(current instanceof RowElement){ 
+                            ((RowElement)current).setSeperation(Integer.parseInt(tokens[2])); 
+                        }
+                    }
+                    if(tokens.length >= 4){
+                        if(current instanceof ScaleElement){ 
+                            ((ScaleElement)current).setSize(
+                                    new Vector(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]))); 
                         }
                     }
                     if(indent > 0){

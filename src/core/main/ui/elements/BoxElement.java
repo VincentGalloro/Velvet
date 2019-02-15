@@ -20,6 +20,12 @@ public class BoxElement implements IContainer{
     public void setOutlineColor(Color o){ outline = o; }
     public void setFillColor(Color f){ fill = f; }
     
+    public void update(){
+        if(element != null){
+            element.update();
+        }
+    }
+    
     public IElement getElement(){ return element; }   
     public Vector getSize() {
         if(element == null){ return new Vector(); }

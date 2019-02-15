@@ -10,6 +10,8 @@ public class ImageElement implements IElement{
     
     public void setImage(BufferedImage i){ image = i; }
 
+    public void update(){}
+    
     public Vector getSize() {
         if(image==null){ return new Vector(); }
         return new Vector(image.getWidth(), image.getHeight());

@@ -7,5 +7,7 @@ public interface IElement {
 
     public Vector getSize();
     
+    public void update();
+    
     public void render(VGraphics g);
 }
