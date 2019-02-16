@@ -1,28 +1,12 @@
-package core.main.ui.elements;
+package core.main.ui.elements.impl;
 
 import core.main.VGraphics;
 import core.main.structs.Vector;
+import core.main.ui.elements.IElement;
+import core.main.ui.elements.SeriesListContainer;
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
-import java.util.Iterator;
 
-public class ColumnElement implements IListContainer{
-    
-    private ArrayList<IElement> elements;
-    private double seperation;
-    
-    public ColumnElement(){
-        elements = new ArrayList<>();
-    }
-    
-    public void addElement(IElement e){ elements.add(e); }
-    public void setSeperation(double s){ seperation = s; }
-    
-    public void update(){
-        for(IElement e : elements){
-            e.update();
-        }
-    }
+public class ColumnElement extends SeriesListContainer{
     
     public Vector getSize() {
         Vector size = new Vector();
@@ -33,8 +17,6 @@ public class ColumnElement implements IListContainer{
         size.y += seperation * (elements.size()-1);
         return size;
     }
-    public int getElementCount() { return elements.size(); }
-    public Iterator<IElement> getElements() { return elements.iterator(); }
 
     public AffineTransform getTransform(int index) {
         AffineTransform at = new AffineTransform();

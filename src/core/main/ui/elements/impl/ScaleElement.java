@@ -1,29 +1,22 @@
-package core.main.ui.elements;
+package core.main.ui.elements.impl;
 
 import core.main.VGraphics;
 import core.main.structs.Vector;
+import core.main.ui.elements.BasicContainer;
 import java.awt.geom.AffineTransform;
 
-public class ScaleElement implements IContainer{
+public class ScaleElement extends BasicContainer{
     
     private Vector size;
-    private IElement element;
 
     public ScaleElement(){
         size = new Vector();
     }
     
-    public void setElement(IElement e){ element = e; }
     public void setSize(Vector s){ size = s; }
     
-    public void update(){
-        if(element != null){
-            element.update();
-        }
-    }
-    
     public Vector getSize() { return size; }
-    public IElement getElement(){ return element; }
+    
     public AffineTransform getTransform(){        
         AffineTransform at = new AffineTransform();
         Vector eSize = element.getSize();

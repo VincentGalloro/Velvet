@@ -1,4 +1,6 @@
-package core.main.ui.elements;
+package core.main.ui.elements.impl;
+
+import core.main.ui.elements.IElement;
 
 public class ElementFactory {
 

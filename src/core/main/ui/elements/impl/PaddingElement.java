@@ -1,28 +1,21 @@
-package core.main.ui.elements;
+package core.main.ui.elements.impl;
 
 import core.main.VGraphics;
 import core.main.structs.Vector;
+import core.main.ui.elements.BasicContainer;
 import java.awt.geom.AffineTransform;
 
-public class PaddingElement implements IContainer{
+public class PaddingElement extends BasicContainer{
 
-    private IElement element;
     private double padding;
     
-    public void setElement(IElement e){ element = e; }
     public void setPadding(double p){ padding = p; }
     
-    public void update(){
-        if(element != null){
-            element.update();
-        }
-    }
-    
-    public IElement getElement(){ return element; }
     public Vector getSize() {
         if(element == null){ return new Vector(); }
         return element.getSize().add(padding*2);
     }
+    
     public AffineTransform getTransform(){
         AffineTransform at = new AffineTransform();
         at.translate(padding, padding);
