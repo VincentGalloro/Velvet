@@ -1,9 +1,10 @@
 package core.main.ui;
 
+import core.main.Mouse;
 import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.elements.impl.ColumnElement;
-import core.main.ui.elements.impl.ElementFactory;
+import core.main.ui.elements.ElementFactory;
 import core.main.ui.elements.IContainer;
 import core.main.ui.elements.IElement;
 import core.main.ui.elements.IListContainer;
@@ -23,8 +24,8 @@ public class ElementManager {
 
     public static class Factory{
         
-        public static ElementManager fromFile(File file){
-            ElementManager em = new ElementManager();
+        public static ElementManager fromFile(File file, Mouse mouse){
+            ElementManager em = new ElementManager(mouse);
             try {
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String line;
@@ -79,11 +80,34 @@ public class ElementManager {
         }
     }
     
-    private IElement root;
+    private Mouse mouse;
+    private IElement root, currentHover;
     private HashMap<String, IElement> namedElements;
+    private Vector pos;
     
-    public ElementManager(){
+    public ElementManager(Mouse mouse){
+        this.mouse = mouse;
         namedElements = new HashMap<>();
+        pos = new Vector();
+    }
+    
+    public void setPos(Vector pos){ this.pos = pos; }
+    
+    public void update(){
+        if(mouse.isReleased(Mouse.LEFT) && currentHover != null){
+            currentHover.onMouseRelease();
+        }
+        
+        IElement newHover = root.getHover(mouse.getPos().subtract(pos));
+        if(currentHover != newHover && !mouse.isDown(Mouse.LEFT)){
+            if(currentHover != null){ currentHover.onHoverEnd(); }
+            currentHover = newHover;
+            if(currentHover != null){ currentHover.onHoverStart(); }
+        }
+        
+        if(mouse.isPressed(Mouse.LEFT) && currentHover != null){
+            currentHover.onMousePress();
+        }
     }
     
     public IElement getElementByName(String name){
@@ -91,6 +115,9 @@ public class ElementManager {
     }
     
     public void render(VGraphics g){
+        g.save();
+        g.translate(pos);
         root.render(g);
+        g.reset();
     }
 }
