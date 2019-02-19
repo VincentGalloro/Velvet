@@ -32,9 +32,7 @@ public class BoxElement extends BasicContainer{
             g.setColor(fill);
             g.fill(new Rectangle2D.Double(0, 0, size.x, size.y));
         }
-        if(element != null){
-            element.render(g);
-        }
+        super.render(g);
         if(outline != null){
             g.setColor(outline);
             g.setStroke(new BasicStroke(2f));
