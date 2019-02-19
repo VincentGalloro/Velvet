@@ -5,6 +5,4 @@ public interface IHoverable {
     
     public void onHoverStart();
     public void onHoverEnd();
-            
-    public void update();
 }
