@@ -15,21 +15,24 @@ public class TextElement extends BasicElement{
     
     private String text;
     private FontMetrics fontMetrics;
+    private Color color;
     
     public TextElement(){ 
         BufferedImage i = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
         Graphics2D g = i.createGraphics();
         fontMetrics = g.getFontMetrics(font);
         text = "";
+        color = Color.BLACK;
     }
     
+    public void setColor(Color c){ color = c; }
     public void setText(String t){ text = t; }
     
     public Vector getSize() { return new Vector(fontMetrics.stringWidth(text), fontMetrics.getHeight()); }
     public String getText() { return text; } 
 
     public void render(VGraphics g) {
-        g.setColor(Color.BLACK);
+        g.setColor(color);
         g.setFont(font);
         g.drawString(text, new Vector(0, fontMetrics.getAscent()));
     }
