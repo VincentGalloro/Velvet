@@ -2,16 +2,14 @@
 package core.main.ui.elements;
 
 import core.main.structs.Vector;
+import java.util.ArrayList;
 import core.main.ui.active.IClickable;
 import core.main.ui.active.IHoverable;
-import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
 
 public abstract class BasicElement implements IElement{
 
-    protected ArrayList<IClickable> clickables;
-    protected ArrayList<IHoverable> hoverables;
-    protected boolean isHovered;
+    private ArrayList<IClickable> clickables;
+    private ArrayList<IHoverable> hoverables;
     
     public BasicElement(){
         clickables = new ArrayList<>();
@@ -21,13 +19,18 @@ public abstract class BasicElement implements IElement{
     public final void addClickHandler(IClickable clickable){ clickables.add(clickable); }
     public final void addHoverHandler(IHoverable hoverable){ hoverables.add(hoverable); }
     
-    public final void update(AffineTransform at){
-        containerUpdate();
-    }
-    public void containerUpdate(){}
+    public final void onHoverStart(){ for(IHoverable h : hoverables){ h.onHoverStart(); } }
+    public final void onHoverEnd(){ for(IHoverable h : hoverables){ h.onHoverEnd(); } }
+    public final void onMousePress(){ for(IClickable c : clickables){ c.onMousePress(); } }
+    public final void onMouseRelease(){ for(IClickable c : clickables){ c.onMouseRelease(); } }
     
-    public final boolean handleClick(){
-        for(IClickable c : clickables){ c.onClick(); }
-        return !clickables.isEmpty();
+    public IElement getHover(Vector mPos){
+        if(isHovered(mPos)){ return this; }
+        return null;
+    }
+    
+    public boolean isHovered(Vector mPos){
+        if(clickables.isEmpty() && hoverables.isEmpty()){ return false; }
+        return mPos.greaterThan(new Vector()) && mPos.lessThan(getSize());
     }
 }

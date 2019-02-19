@@ -1,6 +1,8 @@
 
 package core.main.ui.elements;
 
+import core.main.VGraphics;
+import core.main.structs.Vector;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -16,10 +18,21 @@ public abstract class BasicListContainer extends BasicElement implements IListCo
 
     public final int getElementCount() { return elements.size(); }
     public final Iterator<IElement> getElements() { return elements.iterator(); }
-
-    public final void containerUpdate() {
+    
+    public final IElement getHover(Vector mPos){
         for(int i = 0; i < elements.size(); i++){
-            elements.get(i).update(getTransform(i));
+            IElement cHover = elements.get(i).getHover(mPos.inverseTransform(getTransform(i))); 
+            if(cHover != null){ return cHover; }
+        }
+        return super.getHover(mPos);
+    }
+    
+    public final void render(VGraphics g) {
+        for(int i = 0; i < elements.size(); i++){
+            g.save();
+            g.transform(getTransform(i));
+            elements.get(i).render(g);
+            g.reset();
         }
     }
 }
