@@ -11,25 +11,28 @@ public class Mouse implements MouseListener, MouseMotionListener{
     public static final int LEFT = 0, RIGHT = 1, MIDDLE = 2;
     private final int[] BUTTON_CODES = {MouseEvent.BUTTON1, MouseEvent.BUTTON3, MouseEvent.BUTTON2};
     
-    private final boolean[] buttons, buttonsPressed, buttonsLast;
+    private final boolean[] buttons, buttonsPressed, buttonsLast, buttonsReleased;
     private final Vector pos;
     
     public Mouse(){
         pos = new Vector();
         buttons = new boolean[BUTTON_CODES.length]; 
         buttonsPressed = new boolean[BUTTON_CODES.length];
+        buttonsReleased = new boolean[BUTTON_CODES.length];
         buttonsLast = new boolean[BUTTON_CODES.length];
     }
     
     public void update(){
         for(int i = 0; i < BUTTON_CODES.length; i++){
             buttonsPressed[i] = !buttonsLast[i] && buttons[i];
+            buttonsPressed[i] = buttonsLast[i] && !buttons[i];
             buttonsLast[i] = buttons[i]; 
         }
     }
     
     public boolean isDown(int b){ return buttons[b]; }
     public boolean isPressed(int b){ return buttonsPressed[b]; }
+    public boolean isReleased(int b){ return buttonsReleased[b]; }
     
     public Vector getPos(){ return new Vector(pos); }
     public Vector getTransformedPos(AffineTransform at){ return pos.transform(at); }
