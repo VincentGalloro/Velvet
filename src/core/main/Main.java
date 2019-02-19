@@ -38,6 +38,8 @@ public class Main extends Canvas implements Runnable{
         level.setKeyboard(keyboard);
         level.setMouse(mouse);
         
+        level.init();
+        
         start();
     }
 

@@ -13,6 +13,8 @@ public abstract class Velvet {
         this.size = size;
     }
     
+    public abstract void init();
+    
     protected final void setMouse(Mouse mouse){ this.mouse = mouse; }
     protected final void setKeyboard(Keyboard keyboard){ this.keyboard = keyboard; }
     
