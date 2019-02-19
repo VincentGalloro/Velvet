@@ -27,13 +27,4 @@ public class ScaleElement extends BasicContainer{
         
         return at;
     }
-    
-    public void render(VGraphics g){
-        if(element != null){
-            g.save();
-            g.transform(getTransform());
-            element.render(g);
-            g.reset();
-        }
-    }
 }

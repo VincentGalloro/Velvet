@@ -21,13 +21,4 @@ public class PaddingElement extends BasicContainer{
         at.translate(padding, padding);
         return at;
     }
-
-    public void render(VGraphics g) {
-        if(element != null){
-            g.save();
-            g.transform(getTransform());
-            element.render(g);
-            g.reset();
-        }
-    }
 }

@@ -25,13 +25,4 @@ public class ColumnElement extends SeriesListContainer{
         }
         return at;
     }
-    
-    public void render(VGraphics g) {
-        for(int i = 0; i < elements.size(); i++){
-            g.save();
-            g.transform(getTransform(i));
-            elements.get(i).render(g);
-            g.reset();
-        }
-    }
 }
