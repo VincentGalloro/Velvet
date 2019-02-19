@@ -2,6 +2,9 @@ package core.main.structs;
 
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Stores an X and Y coordinate of type Double
@@ -193,6 +196,13 @@ public class Vector {
     public Vector transform(AffineTransform at){
         double[] d = toDoubleArr();
         at.transform(d, 0, d, 0, 1);
+        return new Vector(d);
+    }
+    public Vector inverseTransform(AffineTransform at){
+        double[] d = toDoubleArr();
+        try {
+            at.inverseTransform(d, 0, d, 0, 1);
+        } catch (NoninvertibleTransformException ex) {}
         return new Vector(d);
     }
     
