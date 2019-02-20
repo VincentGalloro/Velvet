@@ -1,11 +1,28 @@
 package core.main.ui.elements.impl;
 
-import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicContainer;
 import java.awt.geom.AffineTransform;
 
 public class ScaleElement extends BasicContainer{
+    
+    public static class Builder extends BasicContainer.Builder{
+
+        private final ScaleElement scale;
+                
+        public Builder() {
+            super(new ScaleElement());
+            scale = (ScaleElement)create();
+        }
+        
+        public void handleString(String field, String value) {
+            super.handleString(field, value);
+            if(field.equals("size")){
+                String[] tokens = value.split(",");
+                scale.size = new Vector(Double.parseDouble(tokens[0]), Double.parseDouble(tokens[1])); 
+            }
+        }
+    }
     
     private Vector size;
 

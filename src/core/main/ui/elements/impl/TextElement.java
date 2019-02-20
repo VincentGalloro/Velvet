@@ -10,7 +10,23 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 public class TextElement extends BasicElement{
+    
+    public static class Builder extends BasicElement.Builder{
 
+        private final TextElement text;
+                
+        public Builder() {
+            super(new TextElement());
+            text = (TextElement)create();
+        }
+        
+        public void handleString(String field, String value) {
+            super.handleString(field, value);
+            if(field.equals("text")){ text.text = value; }
+            if(field.equals("color")){ text.color = toColor(value); }
+        }
+    }
+        
     private static final Font font = new Font("Arial", Font.PLAIN, 24);
     
     private String text;

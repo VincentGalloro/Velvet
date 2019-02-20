@@ -9,11 +9,30 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 public class BoxElement extends BasicContainer{
+    
+    public static class Builder extends BasicContainer.Builder{
 
+        private final BoxElement box;
+                
+        public Builder() {
+            super(new BoxElement());
+            box = (BoxElement)create();
+        }
+        
+        public void handleString(String field, String value) {
+            super.handleString(field, value);
+            if(field.equals("outline")){ box.outline = toColor(value); }
+            if(field.equals("fill")){ box.fill = toColor(value); }
+            if(field.equals("thickness")){ box.thickness = Float.parseFloat(value); }
+        }
+    }
+    
     private Color outline, fill;
+    private float thickness;
     
     public BoxElement(){
         outline = Color.BLACK;
+        thickness = 2;
     }
     
     public void setOutlineColor(Color o){ outline = o; }
@@ -35,7 +54,7 @@ public class BoxElement extends BasicContainer{
         super.render(g);
         if(outline != null){
             g.setColor(outline);
-            g.setStroke(new BasicStroke(2f));
+            g.setStroke(new BasicStroke(thickness));
             g.draw(new Rectangle2D.Double(0, 0, size.x, size.y));
         }
     }   
