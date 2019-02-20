@@ -8,6 +8,21 @@ import java.util.Iterator;
 
 public abstract class BasicListContainer extends BasicElement implements IListContainer{
 
+    public static class Builder extends BasicElement.Builder{
+        
+        private final BasicListContainer listContainer;
+        
+        public Builder(BasicListContainer listContainer) {
+            super(listContainer);
+            this.listContainer = listContainer;
+        }
+        
+        public void handleString(String field, String value) {
+            super.handleString(field, value);
+            //TODO
+        }
+    }
+    
     protected final ArrayList<IElement> elements;
     
     public BasicListContainer(){

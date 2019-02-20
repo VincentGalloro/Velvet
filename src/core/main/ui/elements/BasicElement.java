@@ -5,9 +5,27 @@ import core.main.structs.Vector;
 import java.util.ArrayList;
 import core.main.ui.active.IClickable;
 import core.main.ui.active.IHoverable;
+import java.awt.Color;
 
 public abstract class BasicElement implements IElement{
 
+    public static class Builder implements ElementBuilder{
+
+        private final BasicElement element;
+        
+        public Builder(BasicElement element){ this.element = element; }
+        
+        public void handleString(String field, String value) {
+            //TODO
+        }
+
+        public final IElement create() { return element; }
+        
+        public final Color toColor(String s){
+            return Color.getColor(s);
+        }
+    }
+    
     private ArrayList<IClickable> clickables;
     private ArrayList<IHoverable> hoverables;
     

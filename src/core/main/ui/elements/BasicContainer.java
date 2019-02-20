@@ -6,6 +6,21 @@ import core.main.structs.Vector;
 
 public abstract class BasicContainer extends BasicElement implements IContainer{
 
+    public static class Builder extends BasicElement.Builder{
+        
+        private final BasicContainer container;
+        
+        public Builder(BasicContainer container) {
+            super(container);
+            this.container = container;
+        }
+        
+        public void handleString(String field, String value) {
+            super.handleString(field, value);
+            //TODO
+        }
+    }
+    
     protected IElement element;
     
     public final void setElement(IElement e) { element = e; }
