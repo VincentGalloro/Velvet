@@ -16,7 +16,7 @@ public abstract class BasicElement implements IElement{
         public Builder(BasicElement element){ this.element = element; }
         
         public void handleString(String field, String value) {
-            //TODO
+            if(field.equals("name")){ element.name = value; }
         }
 
         public final IElement create() { return element; }
