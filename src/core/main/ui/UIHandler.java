@@ -9,9 +9,12 @@ public class UIHandler {
     private Mouse mouse;
     private IElement root, currentHover;
     
-    public UIHandler(IElement root, Mouse mouse){
-        this.root = root;
+    public UIHandler(Mouse mouse){
         this.mouse = mouse;
+    }
+    
+    public void setRoot(IElement root){
+        this.root = root;
     }
     
     public void update(){
