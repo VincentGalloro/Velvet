@@ -45,11 +45,10 @@ public class TextElement extends BasicElement implements ITextable{
     public void setText(String t){ text = t; }
     public void setTextColor(Color c){ color = c; }
     
-    public Vector getSize() { return new Vector(fontMetrics.stringWidth(text), fontMetrics.getHeight()); }
+    public Vector getSize() { return new Vector(fontMetrics.stringWidth(text), fontMetrics.getAscent()+fontMetrics.getDescent()); }
     public String getText() { return text; } 
     public Color getTextColor() { return color; }
     
-
     public void render(VGraphics g) {
         g.setColor(color);
         g.setFont(font);
