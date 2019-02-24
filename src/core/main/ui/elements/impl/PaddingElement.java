@@ -13,7 +13,7 @@ public class PaddingElement extends BasicContainer implements IPaddable{
                 
         public Builder() {
             super(new PaddingElement());
-            padding = (PaddingElement)create();
+            padding = (PaddingElement)get();
         }
         
         public void handleString(String field, String value) {

@@ -17,7 +17,7 @@ public class BoxElement extends BasicContainer implements IBoxable{
                 
         public Builder() {
             super(new BoxElement());
-            box = (BoxElement)create();
+            box = (BoxElement)get();
         }
         
         public void handleString(String field, String value) {

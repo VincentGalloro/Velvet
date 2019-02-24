@@ -17,7 +17,7 @@ public class ImageElement extends BasicElement implements IImageable{
                 
         public Builder() {
             super(new ImageElement());
-            image = (ImageElement)create();
+            image = (ImageElement)get();
         }
         
         public void handleString(String field, String value) {

@@ -13,7 +13,7 @@ public class ScaleElement extends BasicContainer implements ISizeable{
                 
         public Builder() {
             super(new ScaleElement());
-            scale = (ScaleElement)create();
+            scale = (ScaleElement)get();
         }
         
         public void handleString(String field, String value) {

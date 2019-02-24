@@ -18,7 +18,7 @@ public class TextElement extends BasicElement implements ITextable{
                 
         public Builder() {
             super(new TextElement());
-            text = (TextElement)create();
+            text = (TextElement)get();
         }
         
         public void handleString(String field, String value) {
