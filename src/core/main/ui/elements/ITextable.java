@@ -2,7 +2,7 @@ package core.main.ui.elements;
 
 import java.awt.Color;
 
-public interface ITextable {
+public interface ITextable extends IElement{
 
     public void setText(String t);
     public void setTextColor(Color c);

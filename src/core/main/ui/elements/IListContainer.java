@@ -4,7 +4,7 @@ package core.main.ui.elements;
 import java.awt.geom.AffineTransform;
 import java.util.Iterator;
 
-public interface IListContainer {
+public interface IListContainer extends IElement{
     
     public void addElement(IElement e);
     

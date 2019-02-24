@@ -2,7 +2,7 @@ package core.main.ui.elements;
 
 import java.awt.Color;
 
-public interface IBoxable {
+public interface IBoxable extends IElement{
 
     public void setOutlineColor(Color o);
     public void setFillColor(Color f);

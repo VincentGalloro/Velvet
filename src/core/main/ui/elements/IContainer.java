@@ -3,7 +3,7 @@ package core.main.ui.elements;
 
 import java.awt.geom.AffineTransform;
 
-public interface IContainer {
+public interface IContainer extends IElement{
     
     public void setElement(IElement e);
     
