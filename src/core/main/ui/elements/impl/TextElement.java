@@ -3,14 +3,15 @@ package core.main.ui.elements.impl;
 import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicElement;
+import core.main.ui.elements.ITextable;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-public class TextElement extends BasicElement{
-    
+public class TextElement extends BasicElement implements ITextable{
+
     public static class Builder extends BasicElement.Builder{
 
         private final TextElement text;
@@ -41,11 +42,13 @@ public class TextElement extends BasicElement{
         color = Color.BLACK;
     }
     
-    public void setColor(Color c){ color = c; }
     public void setText(String t){ text = t; }
+    public void setTextColor(Color c){ color = c; }
     
     public Vector getSize() { return new Vector(fontMetrics.stringWidth(text), fontMetrics.getHeight()); }
     public String getText() { return text; } 
+    public Color getTextColor() { return color; }
+    
 
     public void render(VGraphics g) {
         g.setColor(color);

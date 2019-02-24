@@ -2,9 +2,10 @@ package core.main.ui.elements.impl;
 
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicContainer;
+import core.main.ui.elements.ISizeable;
 import java.awt.geom.AffineTransform;
 
-public class ScaleElement extends BasicContainer{
+public class ScaleElement extends BasicContainer implements ISizeable{
     
     public static class Builder extends BasicContainer.Builder{
 

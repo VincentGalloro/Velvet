@@ -3,12 +3,13 @@ package core.main.ui.elements.impl;
 import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicContainer;
+import core.main.ui.elements.IBoxable;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-public class BoxElement extends BasicContainer{
+public class BoxElement extends BasicContainer implements IBoxable{
     
     public static class Builder extends BasicContainer.Builder{
 
@@ -37,6 +38,7 @@ public class BoxElement extends BasicContainer{
     
     public void setOutlineColor(Color o){ outline = o; }
     public void setFillColor(Color f){ fill = f; }
+    public void setThickness(float t){ thickness = t; }
     
     public Vector getSize() {
         if(element == null){ return new Vector(); }

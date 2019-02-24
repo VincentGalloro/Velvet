@@ -2,9 +2,10 @@ package core.main.ui.elements.impl;
 
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicContainer;
+import core.main.ui.elements.IPaddable;
 import java.awt.geom.AffineTransform;
 
-public class PaddingElement extends BasicContainer{
+public class PaddingElement extends BasicContainer implements IPaddable{
 
     public static class Builder extends BasicContainer.Builder{
 
