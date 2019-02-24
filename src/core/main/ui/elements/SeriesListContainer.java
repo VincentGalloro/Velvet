@@ -3,7 +3,7 @@ package core.main.ui.elements;
 
 public abstract class SeriesListContainer extends BasicListContainer{
     
-    public static class Builder extends BasicListContainer.Builder{
+    public static abstract class Builder extends BasicListContainer.Builder{
         
         private final SeriesListContainer slc;
         

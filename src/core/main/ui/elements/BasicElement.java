@@ -9,7 +9,7 @@ import java.awt.Color;
 
 public abstract class BasicElement implements IElement{
 
-    public static class Builder implements ElementBuilder{
+    public static abstract class Builder implements ElementBuilder{
 
         private final BasicElement element;
         
@@ -19,10 +19,11 @@ public abstract class BasicElement implements IElement{
             if(field.equals("name")){ element.name = value; }
         }
 
-        public final IElement create() { return element; }
+        public final IElement get() { return element; }
         
         public final Color toColor(String s){
-            return Color.getColor(s);
+            String[] tokens = s.split(",");
+            return new Color(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
         }
     }
     

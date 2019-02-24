@@ -6,7 +6,7 @@ import core.main.structs.Vector;
 
 public abstract class BasicContainer extends BasicElement implements IContainer{
 
-    public static class Builder extends BasicElement.Builder{
+    public static abstract class Builder extends BasicElement.Builder{
         
         private final BasicContainer container;
         

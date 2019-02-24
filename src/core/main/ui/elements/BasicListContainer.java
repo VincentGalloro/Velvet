@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 public abstract class BasicListContainer extends BasicElement implements IListContainer{
 
-    public static class Builder extends BasicElement.Builder{
+    public static abstract class Builder extends BasicElement.Builder{
         
         private final BasicListContainer listContainer;
         
