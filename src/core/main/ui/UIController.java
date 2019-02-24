@@ -24,7 +24,7 @@ public class UIController{
                 String[] parts = tokens[i].split("=");
                 eb.handleString(parts[0], parts[1]);
             }
-            return eb.create();
+            return eb.get();
         }
         
         private static int getIndent(String line){
