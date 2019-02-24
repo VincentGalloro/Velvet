@@ -12,6 +12,7 @@ public interface IElement extends IClickable, IHoverable{
     
     public Vector getSize();
     public IElement getHover(Vector mPos);
+    public String getName();
     
     public void render(VGraphics g);
 }
