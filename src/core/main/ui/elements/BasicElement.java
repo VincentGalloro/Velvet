@@ -26,6 +26,7 @@ public abstract class BasicElement implements IElement{
         }
     }
     
+    private String name;
     private ArrayList<IClickable> clickables;
     private ArrayList<IHoverable> hoverables;
     
@@ -46,6 +47,7 @@ public abstract class BasicElement implements IElement{
         if(isHovered(mPos)){ return this; }
         return null;
     }
+    public String getName(){ return name; }
     
     public boolean isHovered(Vector mPos){
         if(clickables.isEmpty() && hoverables.isEmpty()){ return false; }
