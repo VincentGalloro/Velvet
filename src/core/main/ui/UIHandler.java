@@ -3,6 +3,7 @@ package core.main.ui;
 import core.main.Mouse;
 import core.main.VGraphics;
 import core.main.ui.elements.IElement;
+import java.awt.geom.AffineTransform;
 
 public class UIHandler {
     
@@ -32,6 +33,8 @@ public class UIHandler {
         if(mouse.isPressed(Mouse.LEFT) && currentHover != null){
             currentHover.onMousePress();
         }
+        
+        root.update(new AffineTransform());
     }
     
     public void render(VGraphics g){
