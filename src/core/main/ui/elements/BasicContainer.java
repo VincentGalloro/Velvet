@@ -3,6 +3,7 @@ package core.main.ui.elements;
 
 import core.main.VGraphics;
 import core.main.structs.Vector;
+import java.awt.geom.AffineTransform;
 
 public abstract class BasicContainer extends BasicElement implements IContainer{
 
@@ -24,6 +25,15 @@ public abstract class BasicContainer extends BasicElement implements IContainer{
     protected IElement element;
     
     public final void setElement(IElement e) { element = e; }
+    
+    protected final void containerUpdate(AffineTransform at){
+        if(element != null){
+            AffineTransform nat = new AffineTransform(at);
+            nat.concatenate(getTransform());
+            element.update(nat);
+        }
+    }
+    
     public final IElement getElement() { return element; }
     
     public final IElement getHover(Vector mPos){

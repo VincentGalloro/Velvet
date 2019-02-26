@@ -3,6 +3,7 @@ package core.main.ui.elements;
 
 import core.main.VGraphics;
 import core.main.structs.Vector;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -31,6 +32,14 @@ public abstract class BasicListContainer extends BasicElement implements IListCo
     
     public final void addElement(IElement e) { elements.add(e); }
 
+    protected final void containerUpdate(AffineTransform at){
+        for(int i = 0; i < elements.size(); i++){
+            AffineTransform nat = new AffineTransform(at);
+            nat.concatenate(getTransform(i));
+            elements.get(i).update(nat);
+        }
+    }
+    
     public final int getElementCount() { return elements.size(); }
     public final Iterator<IElement> getElements() { return elements.iterator(); }
     

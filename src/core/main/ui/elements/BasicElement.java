@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import core.main.ui.active.IClickable;
 import core.main.ui.active.IHoverable;
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
 
 public abstract class BasicElement implements IElement{
 
@@ -43,6 +44,14 @@ public abstract class BasicElement implements IElement{
     public final void onHoverEnd(){ for(IHoverable h : hoverables){ h.onHoverEnd(); } }
     public final void onMousePress(){ for(IClickable c : clickables){ c.onMousePress(); } }
     public final void onMouseRelease(){ for(IClickable c : clickables){ c.onMouseRelease(); } }
+    
+    public final void update(AffineTransform at){
+        containerUpdate(at);
+        onUpdate(at);
+    }
+    
+    protected void containerUpdate(AffineTransform at){}
+    public void onUpdate(AffineTransform at){}
     
     public IElement getHover(Vector mPos){
         if(isHovered(mPos)){ return this; }

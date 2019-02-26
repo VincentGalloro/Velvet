@@ -4,8 +4,9 @@ import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.active.IClickable;
 import core.main.ui.active.IHoverable;
+import core.main.ui.active.IUpdateable;
 
-public interface IElement extends IClickable, IHoverable{
+public interface IElement extends IClickable, IHoverable, IUpdateable{
     
     public void addClickHandler(IClickable clickable);
     public void addHoverHandler(IHoverable hoverable);
