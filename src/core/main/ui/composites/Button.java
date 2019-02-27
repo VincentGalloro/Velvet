@@ -1,9 +1,13 @@
 package core.main.ui.composites;
 
 import core.main.VGraphics;
+import core.main.smooth.SmoothColor;
+import core.main.smooth.motion.Motion;
 import core.main.structs.Vector;
-import core.main.ui.active.impl.TextClickColorTransition;
-import core.main.ui.active.impl.TextHoverColorTransition;
+import core.main.ui.active.impl.ColorTransition;
+import core.main.ui.active.impl.SmoothColorAdapter;
+import core.main.ui.active.impl.SmoothColorSetter;
+import core.main.ui.active.impl.TextColorAdapter;
 import core.main.ui.elements.BasicElement;
 import core.main.ui.elements.ElementBuilder;
 import core.main.ui.elements.IBoxable;
@@ -46,8 +50,13 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
             button.setPadding(5);
             button.setSize(new Vector(200, 40));
             
-            button.addHoverHandler(new TextHoverColorTransition(button.text, Color.BLACK, new Color(180, 180, 180)));
-            button.addClickHandler(new TextClickColorTransition(button.text, new Color(100, 255, 100)));
+            SmoothColor smoothColor = new SmoothColor(Color.BLACK);
+            smoothColor.setMotionFactory(Motion.linear(30));
+            SmoothColorAdapter colorAdapter = new SmoothColorAdapter(button.text.getTextColorAdapter(), smoothColor);
+            
+            button.addUpdateHandler(colorAdapter);
+            button.addHoverHandler(new ColorTransition(colorAdapter, new Color(180, 180, 180), Color.BLACK));
+            button.addClickHandler(new SmoothColorSetter(colorAdapter, new Color(100, 255, 100), null));
         }
         
         public void handleString(String field, String value) {
@@ -71,12 +80,12 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
     public void setThickness(float t) { box.setThickness(t); }
     public void setText(String t) { text.setText(t); }
     public void setTextColor(Color c) { text.setTextColor(c); }
-    public void setTextSmoothColor(Color c) { text.setTextSmoothColor(c); }
     public void setPadding(double p) { padding.setPadding(p); }
     public void setSize(Vector s) { sizing.setSize(s); }
     
-    public void onUpdate(AffineTransform at){ box.update(at); }
+    public void containerUpdate(AffineTransform at){ box.update(at); }
     
+    public TextColorAdapter getTextColorAdapter() { return text.getTextColorAdapter(); }
     public Vector getSize() { return box.getSize(); }
     public String getText() { return text.getText(); }
     public Color getTextColor() { return text.getTextColor(); }
