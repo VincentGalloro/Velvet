@@ -9,10 +9,9 @@ public class SmoothColor {
     private MotionFactory motionFactory;
     private MotionColor motionColor;
     
-    public SmoothColor(Color color, MotionFactory motionFactory){
+    public SmoothColor(Color color){
         this.color = color;
         this.smooth = color;
-        this.motionFactory = motionFactory;
     }
     
     public void setMotionFactory(MotionFactory motionFactory){
@@ -30,7 +29,9 @@ public class SmoothColor {
     }
     
     private void createMotion(){
-        motionColor = new MotionColor(smooth, color, motionFactory.create());
+        if(motionFactory != null){
+            motionColor = new MotionColor(smooth, color, motionFactory.create());
+        }
     }
     
     public void overrideColor(Color color){
