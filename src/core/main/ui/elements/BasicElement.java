@@ -2,9 +2,9 @@
 package core.main.ui.elements;
 
 import core.main.structs.Vector;
+import core.main.ui.active.IActivateable;
 import java.util.ArrayList;
-import core.main.ui.active.IClickable;
-import core.main.ui.active.IHoverable;
+import core.main.ui.active.IUpdateable;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 
@@ -29,29 +29,29 @@ public abstract class BasicElement implements IElement{
     }
     
     private String name;
-    private ArrayList<IClickable> clickables;
-    private ArrayList<IHoverable> hoverables;
+    private ArrayList<IActivateable> clickables, hoverables;
+    private ArrayList<IUpdateable> updateables;
     
     public BasicElement(){
         clickables = new ArrayList<>();
         hoverables = new ArrayList<>();
+        updateables = new ArrayList<>();
     }
     
-    public final void addClickHandler(IClickable clickable){ clickables.add(clickable); }
-    public final void addHoverHandler(IHoverable hoverable){ hoverables.add(hoverable); }
+    public final void addClickHandler(IActivateable clickable){ clickables.add(clickable); }
+    public final void addHoverHandler(IActivateable hoverable){ hoverables.add(hoverable); }
+    public final void addUpdateHandler(IUpdateable updateable){ updateables.add(updateable); }
     
-    public final void onHoverStart(){ for(IHoverable h : hoverables){ h.onHoverStart(); } }
-    public final void onHoverEnd(){ for(IHoverable h : hoverables){ h.onHoverEnd(); } }
-    public final void onMousePress(){ for(IClickable c : clickables){ c.onMousePress(); } }
-    public final void onMouseRelease(){ for(IClickable c : clickables){ c.onMouseRelease(); } }
+    public final void onHoverStart(){ for(IActivateable h : hoverables){ h.onStart(); } }
+    public final void onHoverEnd(){ for(IActivateable h : hoverables){ h.onStop(); } }
+    public final void onMousePress(){ for(IActivateable c : clickables){ c.onStart(); } }
+    public final void onMouseRelease(){ for(IActivateable c : clickables){ c.onStop(); } }
     
     public final void update(AffineTransform at){
+        for(IUpdateable u : updateables){ u.update(at); }
         containerUpdate(at);
-        onUpdate(at);
     }
-    
     protected void containerUpdate(AffineTransform at){}
-    public void onUpdate(AffineTransform at){}
     
     public IElement getHover(Vector mPos){
         if(isHovered(mPos)){ return this; }

@@ -2,14 +2,18 @@ package core.main.ui.elements;
 
 import core.main.VGraphics;
 import core.main.structs.Vector;
-import core.main.ui.active.IClickable;
-import core.main.ui.active.IHoverable;
+import core.main.ui.active.IActivateable;
 import core.main.ui.active.IUpdateable;
 
-public interface IElement extends IClickable, IHoverable, IUpdateable{
+public interface IElement extends IUpdateable{
     
-    public void addClickHandler(IClickable clickable);
-    public void addHoverHandler(IHoverable hoverable);
+    public void addClickHandler(IActivateable clickable);
+    public void addHoverHandler(IActivateable hoverable);
+    
+    public void onHoverStart();
+    public void onHoverEnd();
+    public void onMousePress();
+    public void onMouseRelease();
     
     public Vector getSize();
     public IElement getHover(Vector mPos);
