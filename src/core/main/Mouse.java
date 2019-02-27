@@ -25,7 +25,7 @@ public class Mouse implements MouseListener, MouseMotionListener{
     public void update(){
         for(int i = 0; i < BUTTON_CODES.length; i++){
             buttonsPressed[i] = !buttonsLast[i] && buttons[i];
-            buttonsPressed[i] = buttonsLast[i] && !buttons[i];
+            buttonsReleased[i] = buttonsLast[i] && !buttons[i];
             buttonsLast[i] = buttons[i]; 
         }
     }
