@@ -20,6 +20,10 @@ public class UIController{
         private static IElement createElement(String line){
             String[] tokens = line.split(" ");
             ElementBuilder eb = ElementBuilderFactory.fromString(tokens[0]);
+            if(eb == null){
+                System.err.println("NOT A VALID ELEMENT: "+tokens[0]);
+                return null;
+            }
             for(int i = 1; i < tokens.length; i++){
                 String[] parts = tokens[i].split("=");
                 eb.handleString(parts[0], parts[1]);
@@ -45,6 +49,7 @@ public class UIController{
                     int indent = getIndent(line);
                     if(indent >= line.length()){ continue; }
                     IElement e = createElement(line.substring(indent));
+                    if(e == null){ continue; }
                     
                     if(indent >= chain.size()){ chain.add(e); }
                     else{ chain.set(indent, e); }
