@@ -1,8 +1,6 @@
 package core.main.ui.elements.impl;
 
 import core.main.VGraphics;
-import core.main.smooth.SmoothColor;
-import core.main.smooth.motion.Motion;
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicContainer;
 import core.main.ui.elements.IBoxable;
@@ -24,29 +22,23 @@ public class BoxElement extends BasicContainer implements IBoxable{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
-            if(field.equals("outline")){ box.outline.overrideColor(toColor(value)); }
-            if(field.equals("fill")){ box.fill.overrideColor(toColor(value)); }
+            if(field.equals("outline")){ box.outline = toColor(value); }
+            if(field.equals("fill")){ box.fill = toColor(value); }
             if(field.equals("thickness")){ box.thickness = Float.parseFloat(value); }
         }
     }
     
-    private final SmoothColor outline, fill;
+    private Color outline, fill;
     private float thickness;
     
     public BoxElement(){
-        outline = new SmoothColor(Color.BLACK, Motion.linear(60));
-        fill = new SmoothColor(Color.WHITE, Motion.linear(1));
+        outline = Color.BLACK;
         thickness = 2;
     }
     
-    public void setOutlineColor(Color o){ outline.setColor(o); }
-    public void setFillColor(Color f){ fill.setColor(f); }
+    public void setOutlineColor(Color o){ outline = o; }
+    public void setFillColor(Color f){ fill = f; }
     public void setThickness(float t){ thickness = t; }
-    
-    public void onUpdate(AffineTransform at){
-        outline.update();
-        fill.update();
-    }
     
     public Vector getSize() {
         if(element == null){ return new Vector(); }
@@ -57,14 +49,15 @@ public class BoxElement extends BasicContainer implements IBoxable{
 
     public void render(VGraphics g) {
         Vector size = getSize();
-        
-        g.setColor(fill.getSmooth());
-        g.fill(new Rectangle2D.Double(0, 0, size.x, size.y));
-        
+        if(fill != null){
+            g.setColor(fill);
+            g.fill(new Rectangle2D.Double(0, 0, size.x, size.y));
+        }
         super.render(g);
-        
-        g.setColor(outline.getSmooth());
-        g.setStroke(new BasicStroke(thickness));
-        g.draw(new Rectangle2D.Double(0, 0, size.x, size.y));
+        if(outline != null){
+            g.setColor(outline);
+            g.setStroke(new BasicStroke(thickness));
+            g.draw(new Rectangle2D.Double(0, 0, size.x, size.y));
+        }
     }   
 }
