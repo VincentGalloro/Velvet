@@ -2,8 +2,7 @@ package core.main.ui.elements.impl;
 
 import core.main.VGraphics;
 import core.main.structs.Vector;
-import core.main.ui.active.IColorAdapter;
-import core.main.ui.active.impl.TextColorAdapter;
+import core.main.ui.active.adapters.impl.TextColorAdapter;
 import core.main.ui.elements.BasicElement;
 import core.main.ui.elements.ITextable;
 import java.awt.Color;

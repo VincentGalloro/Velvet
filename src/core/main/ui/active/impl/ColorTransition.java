@@ -1,7 +1,7 @@
 package core.main.ui.active.impl;
 
 import core.main.ui.active.IActivateable;
-import core.main.ui.active.IColorAdapter;
+import core.main.ui.active.adapters.IColorAdapter;
 import java.awt.Color;
 
 public class ColorTransition implements IActivateable{

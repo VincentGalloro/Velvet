@@ -1,6 +1,6 @@
 package core.main.ui.elements;
 
-import core.main.ui.active.impl.TextColorAdapter;
+import core.main.ui.active.adapters.impl.TextColorAdapter;
 import java.awt.Color;
 
 public interface ITextable extends IElement{
