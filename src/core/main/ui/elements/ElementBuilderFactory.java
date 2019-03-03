@@ -1,6 +1,7 @@
 package core.main.ui.elements;
 
 import core.main.ui.composites.Button;
+import core.main.ui.composites.Toggle;
 import core.main.ui.elements.impl.BoxElement;
 import core.main.ui.elements.impl.CenteredElement;
 import core.main.ui.elements.impl.ColumnElement;
@@ -25,6 +26,7 @@ public class ElementBuilderFactory {
         
         //composites
         if(s.equals("button")){ return new Button.Builder(); }
+        if(s.equals("toggle")){ return new Toggle.Builder(); }
         
         return null;
     }
