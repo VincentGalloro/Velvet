@@ -4,10 +4,11 @@ import core.main.VGraphics;
 import core.main.smooth.SmoothColor;
 import core.main.smooth.motion.Motion;
 import core.main.structs.Vector;
+import core.main.ui.active.adapters.impl.BoxOutlineAdapter;
 import core.main.ui.active.impl.ColorTransition;
-import core.main.ui.active.impl.SmoothColorAdapter;
-import core.main.ui.active.impl.SmoothColorSetter;
-import core.main.ui.active.impl.TextColorAdapter;
+import core.main.ui.active.adapters.impl.SmoothColorAdapter;
+import core.main.ui.active.adapters.impl.SmoothSetterAdapter;
+import core.main.ui.active.adapters.impl.TextColorAdapter;
 import core.main.ui.elements.BasicElement;
 import core.main.ui.elements.ElementBuilder;
 import core.main.ui.elements.IBoxable;
@@ -26,8 +27,8 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
 
     public static class Builder extends BasicElement.Builder{
 
-        private Button button;
-        private ElementBuilder boxBuilder, textBuilder, padBuilder, sizeBuilder;
+        private final Button button;
+        private final ElementBuilder boxBuilder, textBuilder, padBuilder, sizeBuilder;
         
         public Builder() {
             super(new Button());
@@ -51,12 +52,12 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
             button.setSize(new Vector(200, 40));
             
             SmoothColor smoothColor = new SmoothColor(Color.BLACK);
-            smoothColor.setMotionFactory(Motion.linear(30));
+            smoothColor.setMotionFactory(Motion.linear(20));
             SmoothColorAdapter colorAdapter = new SmoothColorAdapter(button.text.getTextColorAdapter(), smoothColor);
             
             button.addUpdateHandler(colorAdapter);
-            button.addHoverHandler(new ColorTransition(colorAdapter, new Color(180, 180, 180), Color.BLACK));
-            button.addClickHandler(new SmoothColorSetter(colorAdapter, new Color(100, 255, 100), null));
+            button.addHoverHandler(new ColorTransition(colorAdapter, new Color(200, 200, 200), Color.BLACK));
+            button.addClickHandler(new ColorTransition(new SmoothSetterAdapter(colorAdapter), new Color(0, 255, 0), null));
         }
         
         public void handleString(String field, String value) {
@@ -85,6 +86,7 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
     
     public void containerUpdate(AffineTransform at){ box.update(at); }
     
+    public BoxOutlineAdapter getOutlineColorAdapter() { return box.getOutlineColorAdapter(); }
     public TextColorAdapter getTextColorAdapter() { return text.getTextColorAdapter(); }
     public Vector getSize() { return box.getSize(); }
     public String getText() { return text.getText(); }
