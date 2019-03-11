@@ -87,7 +87,6 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
     private ITextable text;
     private IPaddable padding;
     private ISizeable sizing;
-    private boolean toggled;
     
     private Toggle(){}
     
