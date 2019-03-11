@@ -2,7 +2,7 @@ package core.main.ui.elements;
 
 import core.main.ui.active.IActivateable;
 
-public interface IToggleable {
+public interface IToggleable extends IElement{
 
     public void addToggleHandler(IActivateable toggleable);
     
