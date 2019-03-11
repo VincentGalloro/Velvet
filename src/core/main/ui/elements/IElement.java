@@ -9,6 +9,7 @@ public interface IElement extends IUpdateable{
     
     public void addClickHandler(IActivateable clickable);
     public void addHoverHandler(IActivateable hoverable);
+    public void addUpdateHandler(IUpdateable updateable);
     
     public void onHoverStart();
     public void onHoverEnd();
