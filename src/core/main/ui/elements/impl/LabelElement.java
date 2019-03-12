@@ -52,6 +52,7 @@ public class LabelElement extends BasicElement implements ITextable{
     public void render(VGraphics g) {
         g.setColor(color);
         g.setFont(font);
+        fontMetrics = g.getGraphics().getFontMetrics();
         g.drawString(text, new Vector(0, fontMetrics.getAscent()));
     }
 }
