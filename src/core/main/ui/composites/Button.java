@@ -19,7 +19,7 @@ import core.main.ui.elements.ITextable;
 import core.main.ui.elements.impl.BoxElement;
 import core.main.ui.elements.impl.CenteredElement;
 import core.main.ui.elements.impl.PaddingElement;
-import core.main.ui.elements.impl.TextElement;
+import core.main.ui.elements.impl.LabelElement;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 
@@ -35,7 +35,7 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
             button = (Button)get();
             
             boxBuilder = new BoxElement.Builder();
-            textBuilder = new TextElement.Builder();
+            textBuilder = new LabelElement.Builder();
             padBuilder = new PaddingElement.Builder();
             sizeBuilder = new CenteredElement.Builder();
             

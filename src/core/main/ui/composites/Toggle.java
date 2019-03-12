@@ -12,7 +12,6 @@ import core.main.ui.active.adapters.impl.SmoothColorAdapter;
 import core.main.ui.active.adapters.impl.TextColorAdapter;
 import core.main.ui.active.adapters.impl.SmoothSetterAdapter;
 import core.main.ui.active.impl.ToggleConditional;
-import core.main.ui.active.impl.Toggler;
 import core.main.ui.elements.BasicElement;
 import core.main.ui.elements.BasicToggleable;
 import core.main.ui.elements.ElementBuilder;
@@ -24,7 +23,7 @@ import core.main.ui.elements.ITextable;
 import core.main.ui.elements.impl.BoxElement;
 import core.main.ui.elements.impl.CenteredElement;
 import core.main.ui.elements.impl.PaddingElement;
-import core.main.ui.elements.impl.TextElement;
+import core.main.ui.elements.impl.LabelElement;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 
@@ -40,7 +39,7 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
             toggle = (Toggle)get();
             
             boxBuilder = new BoxElement.Builder();
-            textBuilder = new TextElement.Builder();
+            textBuilder = new LabelElement.Builder();
             padBuilder = new PaddingElement.Builder();
             sizeBuilder = new CenteredElement.Builder();
             
@@ -61,7 +60,10 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
             SmoothColorAdapter textColorAdapter = new SmoothColorAdapter(toggle.text.getTextColorAdapter(), smoothColor);
             
             toggle.addUpdateHandler(textColorAdapter);
-            toggle.addClickHandler(new Toggler(toggle));
+            toggle.addClickHandler(new IActivateable(){
+                public void onStart(){ toggle.toggle(); }
+                public void onStop(){}
+            });
             
             ColorMultiAdapter multi = new ColorMultiAdapter();
             multi.addAdapter(toggle.box.getOutlineColorAdapter());

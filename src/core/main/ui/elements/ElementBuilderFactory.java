@@ -9,7 +9,7 @@ import core.main.ui.elements.impl.ImageElement;
 import core.main.ui.elements.impl.PaddingElement;
 import core.main.ui.elements.impl.RowElement;
 import core.main.ui.elements.impl.ScaleElement;
-import core.main.ui.elements.impl.TextElement;
+import core.main.ui.elements.impl.LabelElement;
 
 public class ElementBuilderFactory {
 
@@ -22,7 +22,7 @@ public class ElementBuilderFactory {
         if(s.equals("row")){ return new RowElement.Builder(); }
         if(s.equals("scale")){ return new ScaleElement.Builder(); }
         if(s.equals("centered")){ return new CenteredElement.Builder(); }
-        if(s.equals("text")){ return new TextElement.Builder(); }
+        if(s.equals("label")){ return new LabelElement.Builder(); }
         
         //composites
         if(s.equals("button")){ return new Button.Builder(); }
