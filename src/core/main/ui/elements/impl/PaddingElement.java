@@ -18,7 +18,7 @@ public class PaddingElement extends BasicContainer implements IPaddable{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
-            if(field.equals("amount")){ padding.padding = Float.parseFloat(value); }
+            if(field.equals("padding")){ padding.padding = Float.parseFloat(value); }
         }
     } 
     
