@@ -5,21 +5,20 @@ import core.main.structs.Vector;
 import core.main.ui.active.adapters.impl.TextColorAdapter;
 import core.main.ui.elements.BasicElement;
 import core.main.ui.elements.ITextable;
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
-public class TextElement extends BasicElement implements ITextable{
+public class LabelElement extends BasicElement implements ITextable{
 
     public static class Builder extends BasicElement.Builder{
 
-        private final TextElement text;
+        private final LabelElement text;
                 
         public Builder() {
-            super(new TextElement());
-            text = (TextElement)get();
+            super(new LabelElement());
+            text = (LabelElement)get();
         }
         
         public void handleString(String field, String value) {
@@ -35,10 +34,9 @@ public class TextElement extends BasicElement implements ITextable{
     private FontMetrics fontMetrics;
     private Color color;
     
-    public TextElement(){ 
-        BufferedImage i = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = i.createGraphics();
-        fontMetrics = g.getFontMetrics(font);
+    public LabelElement(){
+        Canvas c = new Canvas();
+        fontMetrics = c.getFontMetrics(font);
         text = "";
         color = Color.BLACK;
     }
