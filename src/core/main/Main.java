@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import javax.swing.JFrame;
 
 public class Main extends Canvas implements Runnable{  
@@ -76,6 +77,11 @@ public class Main extends Canvas implements Runnable{
         Graphics g = getBufferStrategy().getDrawGraphics();
         g.setColor(BACKGROUND_COLOR);
         g.fillRect(0, 0, level.getSize().x, level.getSize().y);
+        
+        ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                            RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
+                            RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         
         level.render(new VGraphics((Graphics2D)g));
         

@@ -23,6 +23,8 @@ public class VGraphics {
     public void save(){ saves.add(g.getTransform()); }
     public void reset(){ g.setTransform(saves.remove(saves.size()-1)); }
     
+    public Graphics2D getGraphics(){ return g; }
+    
     public void translate(Vector v){ g.translate(v.x, v.y); }
     public void scale(double d){ g.scale(d, d); }
     public void scale(Vector v){ g.scale(v.x, v.y); }
