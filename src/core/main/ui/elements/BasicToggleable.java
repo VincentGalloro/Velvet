@@ -5,6 +5,21 @@ import java.util.ArrayList;
 
 public abstract class BasicToggleable extends BasicElement implements IToggleable{
 
+    public static abstract class Builder extends BasicElement.Builder{
+        
+        private final BasicToggleable toggleable;
+        
+        public Builder(BasicToggleable toggleable) {
+            super(toggleable);
+            this.toggleable = toggleable;
+        }
+        
+        public void handleString(String field, String value) {
+            super.handleString(field, value);
+            //TODO
+        }
+    }
+
     protected boolean toggled;
     private ArrayList<IActivateable> toggleables;
     

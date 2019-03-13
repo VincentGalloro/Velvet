@@ -12,7 +12,6 @@ import core.main.ui.active.adapters.impl.SmoothColorAdapter;
 import core.main.ui.active.adapters.impl.TextColorAdapter;
 import core.main.ui.active.adapters.impl.SmoothSetterAdapter;
 import core.main.ui.active.impl.ToggleConditional;
-import core.main.ui.elements.BasicElement;
 import core.main.ui.elements.BasicToggleable;
 import core.main.ui.elements.ElementBuilder;
 import core.main.ui.elements.IBoxable;
@@ -29,7 +28,7 @@ import java.awt.geom.AffineTransform;
 
 public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPaddable, ISizeable{
 
-    public static class Builder extends BasicElement.Builder{
+    public static class Builder extends BasicToggleable.Builder{
 
         private final Toggle toggle;
         private final ElementBuilder boxBuilder, textBuilder, padBuilder, sizeBuilder;
