@@ -8,8 +8,10 @@ public interface IListContainer extends IElement{
     
     public void addElement(IElement e);
     
-    public int getElementCount();
+    public int elementCount();
     public Iterator<IElement> getElements();
+    public IElement getElement(int index);
+    public IElement removeElement(int index);
     public AffineTransform getTransform(int index);
     
 }
