@@ -4,6 +4,7 @@ import core.main.Mouse;
 import core.main.VGraphics;
 import core.main.ui.elements.IElement;
 import java.awt.geom.AffineTransform;
+import java.io.File;
 
 public class UIHandler {
     
@@ -35,6 +36,10 @@ public class UIHandler {
         }
         
         root.update(new AffineTransform());
+    }
+    
+    public UIController loadController(File file){
+        return UIController.Factory.fromFile(file, mouse);
     }
     
     public void render(VGraphics g){

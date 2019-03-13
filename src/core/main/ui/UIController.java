@@ -1,5 +1,6 @@
 package core.main.ui;
 
+import core.main.Mouse;
 import core.main.ui.elements.ElementBuilder;
 import core.main.ui.elements.ElementBuilderFactory;
 import core.main.ui.elements.IContainer;
@@ -17,9 +18,9 @@ public class UIController{
 
     public static class Factory{
         
-        private static IElement createElement(String line){
+        private static IElement createElement(String line, Mouse mouse){
             String[] tokens = line.split(" ");
-            ElementBuilder eb = ElementBuilderFactory.fromString(tokens[0]);
+            ElementBuilder eb = ElementBuilderFactory.fromString(tokens[0], mouse);
             if(eb == null){
                 System.err.println("NOT A VALID ELEMENT: "+tokens[0]);
                 return null;
@@ -37,18 +38,18 @@ public class UIController{
             return indent;
         }
         
-        public static UIController fromFile(File f){
+        public static UIController fromFile(File f, Mouse mouse){
             UIController controller = new UIController();
             ArrayList<IElement> chain = new ArrayList<>();
             try {
                 BufferedReader br = new BufferedReader(new FileReader(f));
-                controller.setRoot(createElement(br.readLine()));
+                controller.root = createElement(br.readLine(), mouse);
                 chain.add(controller.getRoot());
                 String line;
                 while((line = br.readLine()) != null){
                     int indent = getIndent(line);
                     if(indent >= line.length()){ continue; }
-                    IElement e = createElement(line.substring(indent));
+                    IElement e = createElement(line.substring(indent), mouse);
                     if(e == null){ continue; }
                     
                     if(indent >= chain.size()){ chain.add(e); }
@@ -74,7 +75,6 @@ public class UIController{
     
     public IElement getRoot(){ return root; }
     
-    public void setRoot(IElement r){ root = r; } 
     public void addElement(IElement e){ elements.put(e.getName(), e); }
     
     public IElement getElement(String name){ return elements.get(name); }
