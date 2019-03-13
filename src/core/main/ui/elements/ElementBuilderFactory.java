@@ -5,6 +5,7 @@ import core.main.ui.composites.Toggle;
 import core.main.ui.elements.impl.BoxElement;
 import core.main.ui.elements.impl.CenteredElement;
 import core.main.ui.elements.impl.ColumnElement;
+import core.main.ui.elements.impl.HScrollElement;
 import core.main.ui.elements.impl.ImageElement;
 import core.main.ui.elements.impl.PaddingElement;
 import core.main.ui.elements.impl.RowElement;
@@ -23,6 +24,7 @@ public class ElementBuilderFactory {
         if(s.equals("scale")){ return new ScaleElement.Builder(); }
         if(s.equals("centered")){ return new CenteredElement.Builder(); }
         if(s.equals("label")){ return new LabelElement.Builder(); }
+        if(s.equals("hscrollbar")){ return new HScrollElement.Builder(); }
         
         //composites
         if(s.equals("button")){ return new Button.Builder(); }
