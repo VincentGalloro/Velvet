@@ -1,8 +1,10 @@
 
 package core.main.ui.elements.impl;
 
+import core.main.Mouse;
 import core.main.VGraphics;
 import core.main.structs.Vector;
+import core.main.ui.active.impl.HorizontalScroller;
 import core.main.ui.elements.BasicScrollable;
 import java.awt.BasicStroke;
 import java.awt.geom.AffineTransform;
@@ -11,7 +13,15 @@ import java.awt.geom.Line2D;
 public class HScrollElement extends BasicScrollable{
 
     public static class Builder extends BasicScrollable.Builder{
-        public Builder() { super(new HScrollElement()); }
+        
+        public Builder(Mouse mouse) { 
+            super(new HScrollElement()); 
+            HScrollElement hScroll = (HScrollElement)get();
+            
+            HorizontalScroller scroller = new HorizontalScroller(hScroll, mouse);
+            hScroll.addClickHandler(scroller);
+            hScroll.addUpdateHandler(scroller);
+        }
     }
     
     public Vector getSize() {
@@ -31,7 +41,7 @@ public class HScrollElement extends BasicScrollable{
         g.setColor(color);
         g.setStroke(new BasicStroke(thickness));
         Vector eSize = element.getSize();
-        g.draw(new Line2D.Double(eSize.x/2, eSize.y/2, eSize.x/2 + length, eSize.y/2));
+        g.draw(new Line2D.Double(eSize.x/2, eSize.y/2, length + eSize.x/2, eSize.y/2));
         
         super.render(g);
     }
