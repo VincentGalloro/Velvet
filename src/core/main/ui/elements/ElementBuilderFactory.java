@@ -12,6 +12,7 @@ import core.main.ui.elements.impl.PaddingElement;
 import core.main.ui.elements.impl.RowElement;
 import core.main.ui.elements.impl.ScaleElement;
 import core.main.ui.elements.impl.LabelElement;
+import core.main.ui.elements.impl.TextAreaElement;
 
 public class ElementBuilderFactory {
 
@@ -25,6 +26,7 @@ public class ElementBuilderFactory {
         if(s.equals("scale")){ return new ScaleElement.Builder(); }
         if(s.equals("centered")){ return new CenteredElement.Builder(); }
         if(s.equals("label")){ return new LabelElement.Builder(); }
+        if(s.equals("textarea")){ return new TextAreaElement.Builder(); }
         if(s.equals("hscrollbar")){ return new HScrollElement.Builder(mouse); }
         
         //composites
