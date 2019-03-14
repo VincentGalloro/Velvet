@@ -1,39 +1,14 @@
 package core.main.ui.elements.impl;
 
 import core.main.structs.Vector;
-import core.main.ui.elements.BasicContainer;
-import core.main.ui.elements.ISizeable;
+import core.main.ui.elements.BasicSizeable;
 import java.awt.geom.AffineTransform;
 
-public class CenteredElement extends BasicContainer implements ISizeable{
+public class CenteredElement extends BasicSizeable{
     
-    public static class Builder extends BasicContainer.Builder{
-
-        private final CenteredElement center;
-                
-        public Builder() {
-            super(new CenteredElement());
-            center = (CenteredElement)get();
-        }
-        
-        public void handleString(String field, String value) {
-            super.handleString(field, value);
-            if(field.equals("size")){
-                String[] tokens = value.split(",");
-                center.size = new Vector(Double.parseDouble(tokens[0]), Double.parseDouble(tokens[1])); 
-            }
-        }
+    public static class Builder extends BasicSizeable.Builder{
+        public Builder() { super(new CenteredElement()); }
     }
-    
-    private Vector size;
-
-    public CenteredElement(){
-        size = new Vector();
-    }
-    
-    public void setSize(Vector s){ size = s; }
-    
-    public Vector getSize() { return size; }
     
     public AffineTransform getTransform(){        
         AffineTransform at = new AffineTransform();
