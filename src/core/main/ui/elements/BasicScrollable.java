@@ -27,8 +27,8 @@ public abstract class BasicScrollable extends BasicContainer implements IScrolla
         public void handleString(String field, String value) {
             super.handleString(field, value);
             if(field.equals("length")){ scrollable.length = Double.parseDouble(value); }
-            if(field.equals("color")){ scrollable.color = toColor(value); }
-            if(field.equals("thickness")){ scrollable.thickness = Float.parseFloat(value); }
+            if(field.equals("bar-color")){ scrollable.color = toColor(value); }
+            if(field.equals("bar-thickness")){ scrollable.thickness = Float.parseFloat(value); }
             if(field.equals("delta")){ scrollable.delta = Double.parseDouble(value); }
         }
     }

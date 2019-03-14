@@ -10,7 +10,9 @@ public class LabelElement extends BasicTextable{
         public Builder() { super(new LabelElement()); }
     }
     
-    public Vector getSize() { return new Vector(fontMetrics.stringWidth(text), fontMetrics.getAscent()+fontMetrics.getDescent()); }
+    public Vector getSize() { 
+        return new Vector(fontMetrics.stringWidth(text), fontMetrics.getAscent()+fontMetrics.getDescent()); 
+    }
     
     public void render(VGraphics g) {
         g.setColor(color);
