@@ -43,8 +43,8 @@ public abstract class BasicListContainer extends BasicElement implements IListCo
     public final int elementCount() { return elements.size(); }
     public final Iterator<IElement> getElements() { return elements.iterator(); }
     
-    public IElement getElement(int index){ return elements.get(index); }
-    public IElement removeElement(int index){ return elements.remove(index); }
+    public final IElement getElement(int index){ return elements.get(index); }
+    public final IElement removeElement(int index){ return elements.remove(index); }
     
     public final IElement getHover(Vector mPos){
         for(int i = 0; i < elements.size(); i++){

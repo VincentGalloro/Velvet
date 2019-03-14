@@ -43,12 +43,12 @@ public abstract class BasicScrollable extends BasicContainer implements IScrolla
         thickness = 2;
     }
 
-    public void setDelta(double d) { delta = d; }
+    public final void setDelta(double d) { delta = d; }
 
-    public double getDelta() { return delta; }
-    public double getLength(){ return length; }
+    public final double getDelta() { return delta; }
+    public final double getLength(){ return length; }
     
-    public double getOffset(){
+    public final double getOffset(){
         if(element == null){ return 0; }
         return element.getSize().x/2;
     }
