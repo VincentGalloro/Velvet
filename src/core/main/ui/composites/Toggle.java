@@ -4,14 +4,13 @@ import core.main.VGraphics;
 import core.main.smooth.SmoothColor;
 import core.main.smooth.motion.Motion;
 import core.main.structs.Vector;
-import core.main.ui.active.IActivateable;
+import core.main.ui.active.IEventable;
 import core.main.ui.active.adapters.impl.BoxOutlineAdapter;
 import core.main.ui.active.adapters.impl.ColorMultiAdapter;
 import core.main.ui.active.impl.ColorTransition;
 import core.main.ui.active.adapters.impl.SmoothColorAdapter;
 import core.main.ui.active.adapters.impl.TextColorAdapter;
 import core.main.ui.active.adapters.impl.SmoothSetterAdapter;
-import core.main.ui.active.impl.ToggleConditional;
 import core.main.ui.elements.BasicToggleable;
 import core.main.ui.elements.ElementBuilder;
 import core.main.ui.elements.IBoxable;
@@ -59,20 +58,28 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
             SmoothColorAdapter textColorAdapter = new SmoothColorAdapter(toggle.text.getTextColorAdapter(), smoothColor);
             
             toggle.addUpdateHandler(textColorAdapter);
-            toggle.addClickHandler(new IActivateable(){
-                public void onStart(){ toggle.toggle(); }
-                public void onStop(){}
+            toggle.addMousePressHandler(new IEventable(){
+                public void onEvent(){ toggle.toggle(); }
             });
             
             ColorMultiAdapter multi = new ColorMultiAdapter();
             multi.addAdapter(toggle.box.getOutlineColorAdapter());
             multi.addAdapter(textColorAdapter);
             multi.addAdapter(new SmoothSetterAdapter(textColorAdapter));
-            toggle.addToggleHandler(new ColorTransition(multi, new Color(0, 255, 0), Color.BLACK));
             
-            IActivateable toggleOffHover = new ColorTransition(textColorAdapter, new Color(200, 200, 200), Color.BLACK);
-            IActivateable toggleOnHover = new ColorTransition(textColorAdapter, new Color(200, 255, 200), new Color(0, 255, 0));
-            toggle.addHoverHandler(new ToggleConditional(toggle, toggleOffHover, toggleOnHover));
+            toggle.addToggleOnHandler(new ColorTransition(multi, new Color(0, 255, 0)));
+            toggle.addToggleOffHandler(new ColorTransition(multi, Color.BLACK));
+            
+            toggle.addHoverStartHandler(new IEventable(){
+                public void onEvent(){
+                    textColorAdapter.setColor(toggle.isToggled() ? new Color(200, 255, 200) : new Color(200, 200, 200));
+                }
+            });
+            toggle.addHoverEndHandler(new IEventable(){
+                public void onEvent(){
+                    textColorAdapter.setColor(toggle.isToggled() ? new Color(0, 255, 0) : Color.BLACK);
+                }
+            });
         }
         
         public void handleString(String field, String value) {

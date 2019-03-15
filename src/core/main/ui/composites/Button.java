@@ -56,8 +56,9 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
             SmoothColorAdapter colorAdapter = new SmoothColorAdapter(button.text.getTextColorAdapter(), smoothColor);
             
             button.addUpdateHandler(colorAdapter);
-            button.addHoverHandler(new ColorTransition(colorAdapter, new Color(200, 200, 200), Color.BLACK));
-            button.addClickHandler(new ColorTransition(new SmoothSetterAdapter(colorAdapter), new Color(0, 255, 0), null));
+            button.addHoverStartHandler(new ColorTransition(colorAdapter, new Color(200, 200, 200)));
+            button.addHoverEndHandler(new ColorTransition(colorAdapter, Color.BLACK));
+            button.addMousePressHandler(new ColorTransition(new SmoothSetterAdapter(colorAdapter), new Color(0, 255, 0)));
         }
         
         public void handleString(String field, String value) {
