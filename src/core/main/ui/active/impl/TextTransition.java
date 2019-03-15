@@ -1,28 +1,17 @@
 package core.main.ui.active.impl;
 
-import core.main.ui.active.IActivateable;
+import core.main.ui.active.IEventable;
 import core.main.ui.elements.ITextable;
 
-public class TextTransition implements IActivateable{
+public class TextTransition implements IEventable{
 
     private final ITextable textable;
-    private final String startText, stopText;
+    private final String text;
     
-    public TextTransition(ITextable textable, String startText, String stopText){
+    public TextTransition(ITextable textable, String text){
         this.textable = textable;
-        this.startText = startText;
-        this.stopText = stopText;
+        this.text = text;
     }
     
-    public void onStart() {
-        if(startText != null){
-            textable.setText(startText);
-        }
-    }
-
-    public void onStop() {
-        if(stopText != null){
-            textable.setText(stopText);
-        }
-    }
+    public void onEvent() { textable.setText(text); }
 }
