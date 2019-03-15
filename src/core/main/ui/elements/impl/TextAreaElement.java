@@ -18,8 +18,8 @@ public class TextAreaElement extends BasicTextable{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
-            if(field.equals("text-width")){ textArea.width = Double.parseDouble(value); }
-            if(field.equals("line-sep")){ textArea.sep = Double.parseDouble(value); }
+            if(field.equals("text width")){ textArea.width = Double.parseDouble(value); }
+            if(field.equals("line sep")){ textArea.sep = Double.parseDouble(value); }
         }
     }
     

@@ -23,9 +23,9 @@ public class BoxElement extends BasicContainer implements IBoxable{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
-            if(field.equals("outline-color")){ box.outline = toColor(value); }
-            if(field.equals("fill-color")){ box.fill = toColor(value); }
-            if(field.equals("outline-thickness")){ box.thickness = Float.parseFloat(value); }
+            if(field.equals("outline color")){ box.outline = toColor(value); }
+            if(field.equals("fill color")){ box.fill = toColor(value); }
+            if(field.equals("outline thickness")){ box.thickness = Float.parseFloat(value); }
         }
     }
     

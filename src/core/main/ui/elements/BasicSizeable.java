@@ -17,7 +17,7 @@ public abstract class BasicSizeable extends BasicContainer implements ISizeable{
         public void handleString(String field, String value) {
             super.handleString(field, value);
             if(field.equals("size")){
-                String[] tokens = value.split(",");
+                String[] tokens = value.split(" ");
                 sizeable.size = new Vector(Double.parseDouble(tokens[0]), Double.parseDouble(tokens[1])); 
             }
         }

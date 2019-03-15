@@ -20,7 +20,7 @@ public abstract class BasicTextable extends BasicElement implements ITextable{
         public void handleString(String field, String value) {
             super.handleString(field, value);
             if(field.equals("text")){ textable.text = value; }
-            if(field.equals("text-color")){ textable.color = toColor(value); }
+            if(field.equals("text color")){ textable.color = toColor(value); }
         }
     }
         

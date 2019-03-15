@@ -23,7 +23,7 @@ public abstract class BasicElement implements IElement{
         public final IElement get() { return element; }
         
         public final Color toColor(String s){
-            String[] tokens = s.split(",");
+            String[] tokens = s.split(" ");
             return new Color(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
         }
     }
