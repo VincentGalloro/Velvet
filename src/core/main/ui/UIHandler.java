@@ -41,6 +41,9 @@ public class UIHandler {
     public UIController loadController(File file){
         return UIController.Factory.fromFile(file, mouse);
     }
+    public UIController loadController(String fName){
+        return loadController(new File(fName));
+    }
     
     public void render(VGraphics g){
         root.render(g);
