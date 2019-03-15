@@ -13,21 +13,28 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UIController{
 
     public static class Factory{
         
+        private static Pattern argPattern = Pattern.compile("([^,=]+)=([^,]+)");
+        
         private static IElement createElement(String line, Mouse mouse){
-            String[] tokens = line.split(" ");
+            String[] tokens = line.split(":", 2);
+            if(tokens.length == 1){
+                tokens = new String[]{tokens[0], ""};
+            }
             ElementBuilder eb = ElementBuilderFactory.fromString(tokens[0], mouse);
             if(eb == null){
                 System.err.println("NOT A VALID ELEMENT: "+tokens[0]);
                 return null;
             }
-            for(int i = 1; i < tokens.length; i++){
-                String[] parts = tokens[i].split("=");
-                eb.handleString(parts[0], parts[1]);
+            Matcher matches = argPattern.matcher(tokens[1]);
+            while(matches.find()){
+                eb.handleString(matches.group(1).trim(), matches.group(2).trim());
             }
             return eb.get();
         }
@@ -66,7 +73,6 @@ public class UIController{
     }
     
     private IElement root;
-    
     private HashMap<String, IElement> elements;
     
     public UIController(){
@@ -74,8 +80,8 @@ public class UIController{
     }
     
     public IElement getRoot(){ return root; }
+    public IElement getElement(String name){ return elements.get(name); }
     
     public void addElement(IElement e){ elements.put(e.getName(), e); }
     
-    public IElement getElement(String name){ return elements.get(name); }
 }
