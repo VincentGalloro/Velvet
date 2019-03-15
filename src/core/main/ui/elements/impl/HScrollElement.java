@@ -4,6 +4,7 @@ package core.main.ui.elements.impl;
 import core.main.Mouse;
 import core.main.VGraphics;
 import core.main.structs.Vector;
+import core.main.ui.active.impl.DragObserver;
 import core.main.ui.active.impl.HorizontalScroller;
 import core.main.ui.elements.BasicScrollable;
 import java.awt.BasicStroke;
@@ -18,8 +19,8 @@ public class HScrollElement extends BasicScrollable{
             super(new HScrollElement()); 
             HScrollElement hScroll = (HScrollElement)get();
             
-            HorizontalScroller scroller = new HorizontalScroller(hScroll, mouse);
-            hScroll.addClickHandler(scroller);
+            DragObserver dragObserver = new DragObserver(hScroll);
+            HorizontalScroller scroller = new HorizontalScroller(hScroll, mouse, dragObserver);
             hScroll.addUpdateHandler(scroller);
         }
     }
