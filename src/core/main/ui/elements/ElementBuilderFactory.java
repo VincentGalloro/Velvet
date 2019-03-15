@@ -27,7 +27,7 @@ public class ElementBuilderFactory {
         if(s.equals("scale")){ return new ScaleElement.Builder(); }
         if(s.equals("centered")){ return new CenteredElement.Builder(); }
         if(s.equals("label")){ return new LabelElement.Builder(); }
-        if(s.equals("textarea")){ return new TextAreaElement.Builder(); }
+        if(s.equals("text area")){ return new TextAreaElement.Builder(); }
         if(s.equals("hscrollbar")){ return new HScrollElement.Builder(mouse); }
         if(s.equals("vscrollbar")){ return new VScrollElement.Builder(mouse); }
         
