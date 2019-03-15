@@ -1,6 +1,6 @@
 package core.main.ui.elements;
 
-import core.main.ui.active.IActivateable;
+import core.main.ui.active.IEventable;
 import java.util.ArrayList;
 
 public abstract class BasicToggleable extends BasicElement implements IToggleable{
@@ -21,13 +21,17 @@ public abstract class BasicToggleable extends BasicElement implements IToggleabl
     }
 
     protected boolean toggled;
-    private ArrayList<IActivateable> toggleables;
+    private ArrayList<IEventable> toggleHandlers, toggleOnHandlers, toggleOffHandlers;
     
     public BasicToggleable(){
-        toggleables = new ArrayList<>();
+        toggleHandlers = new ArrayList<>();
+        toggleOnHandlers = new ArrayList<>();
+        toggleOffHandlers = new ArrayList<>();
     }
     
-    public final void addToggleHandler(IActivateable toggleable) { toggleables.add(toggleable); }
+    public final void addToggleHandler(IEventable eventable){ toggleHandlers.add(eventable); }
+    public final void addToggleOnHandler(IEventable eventable){ toggleOnHandlers.add(eventable); }
+    public final void addToggleOffHandler(IEventable eventable){ toggleOffHandlers.add(eventable); }
     
     public final void toggle() { setToggle(!toggled); }
     public final void setToggle(boolean t) { 
@@ -35,9 +39,12 @@ public abstract class BasicToggleable extends BasicElement implements IToggleabl
         toggled = t;
         if(toggled){ onToggleOn(); }
         else{ onToggleOff(); }
+        
+        for(IEventable e : toggleHandlers){ e.onEvent(); }
     }
 
-    public final void onToggleOn() { for(IActivateable t : toggleables){ t.onStart(); } }
-    public final void onToggleOff() { for(IActivateable t : toggleables){ t.onStop(); } }
+    public final void onToggleOn() { for(IEventable e : toggleOnHandlers){ e.onEvent(); } }
+    public final void onToggleOff() { for(IEventable e : toggleOffHandlers){ e.onEvent(); } }
+    
     public final boolean isToggled() { return toggled; }
 }

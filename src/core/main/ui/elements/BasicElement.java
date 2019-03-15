@@ -2,7 +2,7 @@
 package core.main.ui.elements;
 
 import core.main.structs.Vector;
-import core.main.ui.active.IActivateable;
+import core.main.ui.active.IEventable;
 import java.util.ArrayList;
 import core.main.ui.active.IUpdateable;
 import java.awt.Color;
@@ -29,26 +29,31 @@ public abstract class BasicElement implements IElement{
     }
     
     private String name;
-    private ArrayList<IActivateable> clickables, hoverables;
-    private ArrayList<IUpdateable> updateables;
+    private final ArrayList<IUpdateable> updateHandlers;
+    private final ArrayList<IEventable> mousePressHandlers, mouseReleaseHandlers, 
+            hoverStartHandlers, hoverEndHandlers;
     
     public BasicElement(){
-        clickables = new ArrayList<>();
-        hoverables = new ArrayList<>();
-        updateables = new ArrayList<>();
+        updateHandlers = new ArrayList<>();
+        mousePressHandlers = new ArrayList<>();
+        mouseReleaseHandlers = new ArrayList<>();
+        hoverStartHandlers = new ArrayList<>();
+        hoverEndHandlers = new ArrayList<>();
     }
     
-    public final void addClickHandler(IActivateable clickable){ clickables.add(clickable); }
-    public final void addHoverHandler(IActivateable hoverable){ hoverables.add(hoverable); }
-    public final void addUpdateHandler(IUpdateable updateable){ updateables.add(updateable); }
+    public void addUpdateHandler(IUpdateable updateable){ updateHandlers.add(updateable); }
+    public void addMousePressHandler(IEventable eventable){ mousePressHandlers.add(eventable); }
+    public void addMouseReleaseHandler(IEventable eventable){ mouseReleaseHandlers.add(eventable); }
+    public void addHoverStartHandler(IEventable eventable){ hoverStartHandlers.add(eventable); }
+    public void addHoverEndHandler(IEventable eventable){ hoverEndHandlers.add(eventable); }
     
-    public final void onHoverStart(){ for(IActivateable h : hoverables){ h.onStart(); } }
-    public final void onHoverEnd(){ for(IActivateable h : hoverables){ h.onStop(); } }
-    public final void onMousePress(){ for(IActivateable c : clickables){ c.onStart(); } }
-    public final void onMouseRelease(){ for(IActivateable c : clickables){ c.onStop(); } }
+    public final void onMousePress(){ for(IEventable e : mousePressHandlers){ e.onEvent(); } }
+    public final void onMouseRelease(){ for(IEventable e : mouseReleaseHandlers){ e.onEvent(); } }
+    public final void onHoverStart(){ for(IEventable e : hoverStartHandlers){ e.onEvent(); } }
+    public final void onHoverEnd(){ for(IEventable e : hoverEndHandlers){ e.onEvent(); } }
     
     public final void update(AffineTransform at){
-        for(IUpdateable u : updateables){ u.update(at); }
+        for(IUpdateable u : updateHandlers){ u.update(at); }
         containerUpdate(at);
     }
     protected void containerUpdate(AffineTransform at){}
@@ -60,7 +65,8 @@ public abstract class BasicElement implements IElement{
     public String getName(){ return name; }
     
     public boolean isHovered(Vector mPos){
-        if(clickables.isEmpty() && hoverables.isEmpty()){ return false; }
+        if(mousePressHandlers.isEmpty() && mouseReleaseHandlers.isEmpty() && 
+                hoverStartHandlers.isEmpty() && hoverEndHandlers.isEmpty()){ return false; }
         return mPos.greaterThan(new Vector()) && mPos.lessThan(getSize());
     }
 }
