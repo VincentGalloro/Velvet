@@ -6,6 +6,7 @@ import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.active.impl.DragObserver;
 import core.main.ui.active.impl.VerticalScroller;
+import core.main.ui.active.impl.WheelScroller;
 import core.main.ui.elements.BasicScrollable;
 import java.awt.BasicStroke;
 import java.awt.geom.AffineTransform;
@@ -22,6 +23,8 @@ public class VScrollElement extends BasicScrollable{
             DragObserver dragObserver = new DragObserver(vScroll);
             VerticalScroller scroller = new VerticalScroller(vScroll, mouse, dragObserver);
             vScroll.addUpdateHandler(scroller);
+            
+            vScroll.addMouseScrollHandler(new WheelScroller(vScroll, 0.05));
         }
     }
     
