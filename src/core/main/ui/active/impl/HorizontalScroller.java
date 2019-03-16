@@ -21,8 +21,7 @@ public class HorizontalScroller implements IUpdateable{
     public void update(AffineTransform at) {
         if(dragObserver.isDragging()){
             Vector mPos = mouse.getPos().inverseTransform(at);
-            double delta = (mPos.x - scrollable.getOffset()) / scrollable.getLength();
-            scrollable.setDelta(Math.min(Math.max(delta, 0), 1));
+            scrollable.setDelta((mPos.x - scrollable.getOffset()) / scrollable.getLength());
         }
     }
 }
