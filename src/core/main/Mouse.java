@@ -4,15 +4,18 @@ import core.main.structs.Vector;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 
-public class Mouse implements MouseListener, MouseMotionListener{
+public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener{
     
     public static final int LEFT = 0, RIGHT = 1, MIDDLE = 2;
     private final int[] BUTTON_CODES = {MouseEvent.BUTTON1, MouseEvent.BUTTON3, MouseEvent.BUTTON2};
     
     private final boolean[] buttons, buttonsPressed, buttonsLast, buttonsReleased;
     private final Vector pos;
+    private int deltaScroll, scrollAmount;
     
     public Mouse(){
         pos = new Vector();
@@ -28,6 +31,8 @@ public class Mouse implements MouseListener, MouseMotionListener{
             buttonsReleased[i] = buttonsLast[i] && !buttons[i];
             buttonsLast[i] = buttons[i]; 
         }
+        scrollAmount = deltaScroll;
+        deltaScroll = 0;
     }
     
     public boolean isDown(int b){ return buttons[b]; }
@@ -36,6 +41,8 @@ public class Mouse implements MouseListener, MouseMotionListener{
     
     public Vector getPos(){ return new Vector(pos); }
     public Vector getTransformedPos(AffineTransform at){ return pos.transform(at); }
+    
+    public int getScrollAmount(){ return scrollAmount; }
     
     public void mousePressed(MouseEvent e) {
         for(int i = 0; i < BUTTON_CODES.length; i++){
@@ -59,5 +66,8 @@ public class Mouse implements MouseListener, MouseMotionListener{
     public void mouseClicked(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
-    
+
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        deltaScroll += e.getWheelRotation();
+    }
 }

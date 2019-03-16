@@ -35,6 +35,7 @@ public class Main extends Canvas implements Runnable{
         mouse = new Mouse();
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
+        addMouseWheelListener(mouse);
         
         level.setKeyboard(keyboard);
         level.setMouse(mouse);
