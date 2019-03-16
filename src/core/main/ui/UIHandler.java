@@ -35,6 +35,10 @@ public class UIHandler {
             currentHover.onMousePress();
         }
         
+        if(mouse.getScrollAmount() != 0 && currentHover != null){
+            currentHover.onMouseScroll(mouse.getScrollAmount());
+        }
+        
         root.update(new AffineTransform());
     }
     
