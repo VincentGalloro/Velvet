@@ -5,13 +5,15 @@ import java.awt.event.KeyListener;
 
 public class Keyboard implements KeyListener{
     
-    private boolean[] keys, keysLast, keysPressed, keysReleased;
+    private final boolean[] keys, keysLast, keysPressed, keysReleased;
+    private String deltaText, textTyped;
     
     public Keyboard(){
         keys = new boolean[256];
         keysLast = new boolean[256];
         keysPressed = new boolean[256];
         keysReleased = new boolean[256];
+        deltaText = "";
     }
     
     public void update(){
@@ -20,18 +22,24 @@ public class Keyboard implements KeyListener{
             keysReleased[i] = !keys[i] && keysLast[i];
             keysLast[i] = keys[i];
         }
+        textTyped = deltaText;
+        deltaText = "";
     }
     
     public boolean isDown(Key k){ return keys[k.code]; }
     public boolean isPressed(Key k){ return keysPressed[k.code]; }
     public boolean isReleased(Key k){ return keysReleased[k.code]; }
     
-    public void keyTyped(KeyEvent e) {}
+    public String getTextTyped(){ return textTyped; }
+    
+    public void keyTyped(KeyEvent e) {
+        deltaText += e.getKeyChar();
+    }
     public void keyPressed(KeyEvent e) {
-        keys[e.getKeyCode()] = true;
+        if(e.getKeyCode() < 256){ keys[e.getKeyCode()] = true; }
     }
     public void keyReleased(KeyEvent e) {
-        keys[e.getKeyCode()] = false;
+        if(e.getKeyCode() < 256){ keys[e.getKeyCode()] = false; }
     }
     
 }

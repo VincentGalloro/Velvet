@@ -3,6 +3,7 @@ package core.main;
 import core.main.structs.Vector;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.Stroke;
@@ -23,7 +24,7 @@ public class VGraphics {
     public void save(){ saves.add(g.getTransform()); }
     public void reset(){ g.setTransform(saves.remove(saves.size()-1)); }
     
-    public Graphics2D getGraphics(){ return g; }
+    public FontMetrics getFontMetrics(){ return g.getFontMetrics(); }
     
     public void translate(Vector v){ g.translate(v.x, v.y); }
     public void scale(double d){ g.scale(d, d); }
