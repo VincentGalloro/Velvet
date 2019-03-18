@@ -3,6 +3,7 @@ package core.main.ui.elements.impl;
 import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicTextable;
+import java.awt.geom.AffineTransform;
 
 public class LabelElement extends BasicTextable{
 
@@ -10,14 +11,20 @@ public class LabelElement extends BasicTextable{
         public Builder() { super(new LabelElement()); }
     }
     
+    public boolean supportsNewline() { return false; }
+    
     public Vector getSize() { 
         return new Vector(fontMetrics.stringWidth(text), fontMetrics.getAscent()+fontMetrics.getDescent()); 
     }
     
-    public void render(VGraphics g) {
-        g.setColor(color);
-        g.setFont(font);
-        fontMetrics = g.getGraphics().getFontMetrics();
+    public AffineTransform getCharTransform(int charIndex) {
+        AffineTransform at = new AffineTransform();
+        at.translate(fontMetrics.stringWidth(text.substring(0, charIndex)), fontMetrics.getAscent());
+        return at;
+    }
+    
+    public void onRender(VGraphics g) {
+        super.onRender(g);
         g.drawString(text, new Vector(0, fontMetrics.getAscent()));
     }
 }
