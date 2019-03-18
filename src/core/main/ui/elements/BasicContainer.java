@@ -44,7 +44,7 @@ public abstract class BasicContainer extends BasicElement implements IContainer{
         return super.getHover(mPos);
     }
     
-    public void render(VGraphics g) {
+    public void onRender(VGraphics g) {
         if(element != null){
             g.save();
             g.transform(getTransform());

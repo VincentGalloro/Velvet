@@ -54,7 +54,7 @@ public abstract class BasicListContainer extends BasicElement implements IListCo
         return super.getHover(mPos);
     }
     
-    public final void render(VGraphics g) {
+    public final void onRender(VGraphics g) {
         for(int i = 0; i < elements.size(); i++){
             g.save();
             g.transform(getTransform(i));

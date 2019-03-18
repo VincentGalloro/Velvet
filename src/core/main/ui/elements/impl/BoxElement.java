@@ -50,13 +50,13 @@ public class BoxElement extends BasicContainer implements IBoxable{
     
     public AffineTransform getTransform(){ return new AffineTransform(); }
 
-    public void render(VGraphics g) {
+    public void onRender(VGraphics g) {
         Vector size = getSize();
         if(fill != null){
             g.setColor(fill);
             g.fill(new Rectangle2D.Double(0, 0, size.x, size.y));
         }
-        super.render(g);
+        super.onRender(g);
         if(outline != null){
             g.setColor(outline);
             g.setStroke(new BasicStroke(thickness));

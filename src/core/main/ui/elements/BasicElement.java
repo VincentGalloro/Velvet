@@ -1,8 +1,10 @@
 
 package core.main.ui.elements;
 
+import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.active.IEventable;
+import core.main.ui.active.IRenderable;
 import core.main.ui.active.IScrollEventable;
 import java.util.ArrayList;
 import core.main.ui.active.IUpdateable;
@@ -31,12 +33,14 @@ public abstract class BasicElement implements IElement{
     
     private String name;
     private final ArrayList<IUpdateable> updateHandlers;
+    private final ArrayList<IRenderable> renderHandlers;
     private final ArrayList<IEventable> mousePressHandlers, mouseReleaseHandlers, 
             hoverStartHandlers, hoverEndHandlers;
     private final ArrayList<IScrollEventable> mouseScrollHandlers;
     
     public BasicElement(){
         updateHandlers = new ArrayList<>();
+        renderHandlers = new ArrayList<>();
         mousePressHandlers = new ArrayList<>();
         mouseReleaseHandlers = new ArrayList<>();
         hoverStartHandlers = new ArrayList<>();
@@ -45,6 +49,7 @@ public abstract class BasicElement implements IElement{
     }
     
     public void addUpdateHandler(IUpdateable updateable){ updateHandlers.add(updateable); }  
+    public void addRenderHandler(IRenderable rendereable){ renderHandlers.add(rendereable); }  
     public void addMousePressHandler(IEventable eventable){ mousePressHandlers.add(eventable); }
     public void addMouseReleaseHandler(IEventable eventable){ mouseReleaseHandlers.add(eventable); }
     public void addMouseScrollHandler(IScrollEventable eventable){ mouseScrollHandlers.add(eventable); }  
@@ -75,4 +80,11 @@ public abstract class BasicElement implements IElement{
                 mouseScrollHandlers.isEmpty()){ return false; }
         return mPos.greaterThan(new Vector()) && mPos.lessThan(getSize());
     }
+    
+    public final void render(VGraphics g){
+        onRender(g);
+        for(IRenderable r : renderHandlers){ r.render(g); }
+    }
+    
+    public abstract void onRender(VGraphics g);
 }

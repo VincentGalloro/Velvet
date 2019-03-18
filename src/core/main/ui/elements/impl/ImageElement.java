@@ -40,7 +40,7 @@ public class ImageElement extends BasicElement implements IImageable{
     }
     public BufferedImage getImage(){ return image; }
 
-    public void render(VGraphics g) {
+    public void onRender(VGraphics g) {
         g.drawImage(image, new Vector());
     }
 }

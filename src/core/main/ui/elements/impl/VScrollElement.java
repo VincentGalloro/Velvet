@@ -41,12 +41,12 @@ public class VScrollElement extends BasicScrollable{
         return at;
     }
     
-    public void render(VGraphics g){
+    public void onRender(VGraphics g){
         g.setColor(color);
         g.setStroke(new BasicStroke(thickness));
         Vector eSize = element.getSize();
         g.draw(new Line2D.Double(eSize.x/2, eSize.y/2, eSize.x/2, length + eSize.y/2));
         
-        super.render(g);
+        super.onRender(g);
     }
 }
