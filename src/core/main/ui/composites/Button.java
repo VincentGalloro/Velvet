@@ -92,8 +92,10 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
     public Vector getSize() { return box.getSize(); }
     public String getText() { return text.getText(); }
     public Color getTextColor() { return text.getTextColor(); }
+    public boolean supportsNewline(){ return text.supportsNewline(); }
+    public AffineTransform getCharTransform(int charIndex) { return text.getCharTransform(charIndex); }
     
-    public void render(VGraphics g) {
+    public void onRender(VGraphics g) {
         box.render(g);
     }
 }
