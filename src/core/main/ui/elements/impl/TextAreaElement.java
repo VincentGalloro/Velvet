@@ -62,6 +62,7 @@ public class TextAreaElement extends BasicTextable{
         ArrayList<Integer> breakpoints = getBreakpoints();
         int index = breakpoints.size()-1;
         while(index>0 && charIndex < breakpoints.get(index)){ index--; }
+        if(index>0 && charIndex == text.length()){ index--; }
         
         AffineTransform at = new AffineTransform();
         at.translate(fontMetrics.stringWidth(text.substring(breakpoints.get(index), charIndex)), getYOffs(index));
