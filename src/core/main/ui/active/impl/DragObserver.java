@@ -13,7 +13,7 @@ public class DragObserver{
     }
     
     private class DragSetter implements IEventable{
-        private boolean target;
+        private final boolean target;
         
         public DragSetter(boolean target){ this.target = target; }
         
