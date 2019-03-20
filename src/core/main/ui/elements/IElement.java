@@ -17,12 +17,16 @@ public interface IElement extends IUpdateable, IRenderable{
     public void addMouseScrollHandler(IScrollEventable eventable);
     public void addHoverStartHandler(IEventable eventable);
     public void addHoverEndHandler(IEventable eventable);
+    public void addFocusStartHandler(IEventable eventable);
+    public void addFocusEndHandler(IEventable eventable);
     
     public void onMousePress();
     public void onMouseRelease();
     public void onMouseScroll(int amount);
     public void onHoverStart();
     public void onHoverEnd();
+    public void onFocusStart();
+    public void onFocusEnd();
     
     public void update(AffineTransform at);
     

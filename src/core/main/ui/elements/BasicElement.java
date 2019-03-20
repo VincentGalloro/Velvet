@@ -35,7 +35,7 @@ public abstract class BasicElement implements IElement{
     private final ArrayList<IUpdateable> updateHandlers;
     private final ArrayList<IRenderable> renderHandlers;
     private final ArrayList<IEventable> mousePressHandlers, mouseReleaseHandlers, 
-            hoverStartHandlers, hoverEndHandlers;
+            hoverStartHandlers, hoverEndHandlers, focusStartHandlers, focusEndHandlers;
     private final ArrayList<IScrollEventable> mouseScrollHandlers;
     
     public BasicElement(){
@@ -45,22 +45,28 @@ public abstract class BasicElement implements IElement{
         mouseReleaseHandlers = new ArrayList<>();
         hoverStartHandlers = new ArrayList<>();
         hoverEndHandlers = new ArrayList<>();
+        focusStartHandlers = new ArrayList<>();
+        focusEndHandlers = new ArrayList<>();
         mouseScrollHandlers = new ArrayList<>();
     }
     
-    public void addUpdateHandler(IUpdateable updateable){ updateHandlers.add(updateable); }  
-    public void addRenderHandler(IRenderable rendereable){ renderHandlers.add(rendereable); }  
-    public void addMousePressHandler(IEventable eventable){ mousePressHandlers.add(eventable); }
-    public void addMouseReleaseHandler(IEventable eventable){ mouseReleaseHandlers.add(eventable); }
-    public void addMouseScrollHandler(IScrollEventable eventable){ mouseScrollHandlers.add(eventable); }  
-    public void addHoverStartHandler(IEventable eventable){ hoverStartHandlers.add(eventable); }
-    public void addHoverEndHandler(IEventable eventable){ hoverEndHandlers.add(eventable); }
+    public final void addUpdateHandler(IUpdateable updateable){ updateHandlers.add(updateable); }  
+    public final void addRenderHandler(IRenderable rendereable){ renderHandlers.add(rendereable); }  
+    public final void addMousePressHandler(IEventable eventable){ mousePressHandlers.add(eventable); }
+    public final void addMouseReleaseHandler(IEventable eventable){ mouseReleaseHandlers.add(eventable); }
+    public final void addMouseScrollHandler(IScrollEventable eventable){ mouseScrollHandlers.add(eventable); }  
+    public final void addHoverStartHandler(IEventable eventable){ hoverStartHandlers.add(eventable); }
+    public final void addHoverEndHandler(IEventable eventable){ hoverEndHandlers.add(eventable); }
+    public final void addFocusStartHandler(IEventable eventable){ focusStartHandlers.add(eventable); }
+    public final void addFocusEndHandler(IEventable eventable){ focusEndHandlers.add(eventable); }
     
     public final void onMousePress(){ for(IEventable e : mousePressHandlers){ e.onEvent(); } }
     public final void onMouseRelease(){ for(IEventable e : mouseReleaseHandlers){ e.onEvent(); } }
     public final void onMouseScroll(int amount){ for(IScrollEventable e : mouseScrollHandlers){ e.onScroll(amount); } }
     public final void onHoverStart(){ for(IEventable e : hoverStartHandlers){ e.onEvent(); } }
     public final void onHoverEnd(){ for(IEventable e : hoverEndHandlers){ e.onEvent(); } }
+    public final void onFocusStart(){ for(IEventable e : focusStartHandlers){ e.onEvent(); } }
+    public final void onFocusEnd(){ for(IEventable e : focusEndHandlers){ e.onEvent(); } }
     
     public final void update(AffineTransform at){
         for(IUpdateable u : updateHandlers){ u.update(at); }
@@ -72,13 +78,17 @@ public abstract class BasicElement implements IElement{
         if(isHovered(mPos)){ return this; }
         return null;
     }
-    public String getName(){ return name; }
+    public final String getName(){ return name; }
     
-    public boolean isHovered(Vector mPos){
-        if(mousePressHandlers.isEmpty() && mouseReleaseHandlers.isEmpty() && 
-                hoverStartHandlers.isEmpty() && hoverEndHandlers.isEmpty() &&
-                mouseScrollHandlers.isEmpty()){ return false; }
+    public final boolean isHovered(Vector mPos){
+        if(!hasInteractHandlers()){ return false; }
         return mPos.greaterThan(new Vector()) && mPos.lessThan(getSize());
+    }
+    public final boolean hasInteractHandlers(){
+        return !(mousePressHandlers.isEmpty() && mouseReleaseHandlers.isEmpty() && 
+                hoverStartHandlers.isEmpty() && hoverEndHandlers.isEmpty() &&
+                focusStartHandlers.isEmpty() && focusEndHandlers.isEmpty() && 
+                mouseScrollHandlers.isEmpty());
     }
     
     public final void render(VGraphics g){
