@@ -9,7 +9,7 @@ import java.io.File;
 public class UIHandler {
     
     private Mouse mouse;
-    private IElement root, currentHover;
+    private IElement root, currentHover, currentFocus;
     
     public UIHandler(Mouse mouse){
         this.mouse = mouse;
@@ -31,8 +31,16 @@ public class UIHandler {
             if(currentHover != null){ currentHover.onHoverStart(); }
         }
         
-        if(mouse.isPressed(Mouse.LEFT) && currentHover != null){
-            currentHover.onMousePress();
+        if(mouse.isPressed(Mouse.LEFT)){
+            if(currentHover != null){
+                currentHover.onMousePress();
+            }
+            
+            if(currentHover != currentFocus){
+                if(currentFocus != null){ currentFocus.onFocusEnd(); }
+                currentFocus = currentHover;
+                if(currentFocus != null){ currentFocus.onFocusStart(); }
+            }
         }
         
         if(mouse.getScrollAmount() != 0 && currentHover != null){
