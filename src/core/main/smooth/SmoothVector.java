@@ -16,6 +16,11 @@ public class SmoothVector {
         this.motionFactory = motionFactory;
     }
     
+    public SmoothVector(MotionFactory motionFactory){
+        this.motionFactory = motionFactory;
+        this.smooth = new Vector();
+    }
+    
     public void setMotionFactory(MotionFactory motionFactory){
         this.motionFactory = motionFactory;
     }
