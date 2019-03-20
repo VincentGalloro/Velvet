@@ -5,7 +5,7 @@ import core.main.VGraphics;
 import core.main.structs.Vector;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.stream.Stream;
 
 public abstract class BasicListContainer extends BasicElement implements IListContainer{
 
@@ -41,7 +41,7 @@ public abstract class BasicListContainer extends BasicElement implements IListCo
     }
     
     public final int elementCount() { return elements.size(); }
-    public final Iterator<IElement> getElements() { return elements.iterator(); }
+    public final Stream<IElement> getElements() { return elements.stream(); }
     
     public final IElement getElement(int index){ return elements.get(index); }
     public final IElement removeElement(int index){ return elements.remove(index); }
