@@ -9,7 +9,7 @@ public enum Key {
     RIGHT(KeyEvent.VK_RIGHT),
     SPACE(KeyEvent.VK_SPACE);
     
-    int code;
+    public int code;
     
     Key(int code){
         this.code = code;
