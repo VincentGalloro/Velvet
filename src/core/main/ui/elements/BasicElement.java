@@ -92,8 +92,9 @@ public abstract class BasicElement implements IElement{
     }
     
     public final void render(VGraphics g){
+        for(IRenderable r : renderHandlers){ r.preRender(g); }
         onRender(g);
-        for(IRenderable r : renderHandlers){ r.render(g); }
+        for(IRenderable r : renderHandlers){ r.postRender(g); }
     }
     
     public abstract void onRender(VGraphics g);

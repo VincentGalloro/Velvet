@@ -8,7 +8,7 @@ import core.main.ui.active.IScrollEventable;
 import core.main.ui.active.IUpdateable;
 import java.awt.geom.AffineTransform;
 
-public interface IElement extends IUpdateable, IRenderable{
+public interface IElement extends IUpdateable{
     
     public void addUpdateHandler(IUpdateable updateable);
     public void addRenderHandler(IRenderable rendereable);
