@@ -9,6 +9,7 @@ import core.main.ui.active.IColorGetterAdapter;
 import core.main.ui.active.IColorSetterAdapter;
 import core.main.ui.active.IEventable;
 import core.main.ui.active.impl.ColorTransition;
+import core.main.ui.active.impl.OffsetTransition;
 import core.main.ui.active.impl.SmoothColorAdapter;
 import core.main.ui.elements.BasicToggleable;
 import core.main.ui.elements.ElementBuilder;
@@ -114,6 +115,13 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
                     textColorAdapter.setColor(colorData.getAdapter(false, toggle.isToggled()).getColor());
                 }
             });
+            
+            
+            OffsetTransition ot = new OffsetTransition();
+            toggle.addUpdateHandler(ot);
+            toggle.addRenderHandler(ot);
+            toggle.addHoverStartHandler(ot.new Event(new Vector(-1, -5)));
+            toggle.addHoverEndHandler(ot.new Event(new Vector()));
         }
         
         public void handleString(String field, String value) {

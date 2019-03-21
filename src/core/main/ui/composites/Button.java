@@ -6,6 +6,7 @@ import core.main.smooth.motion.Motion;
 import core.main.structs.Vector;
 import core.main.ui.active.IColorAdapter;
 import core.main.ui.active.impl.ColorTransition;
+import core.main.ui.active.impl.OffsetTransition;
 import core.main.ui.active.impl.SmoothColorAdapter;
 import core.main.ui.elements.BasicElement;
 import core.main.ui.elements.ElementBuilder;
@@ -57,6 +58,12 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
             button.addHoverStartHandler(new ColorTransition(colorAdapter, new Color(200, 200, 200)));
             button.addHoverEndHandler(new ColorTransition(colorAdapter, Color.BLACK));
             button.addMousePressHandler(new ColorTransition(colorAdapter.getSmoothSetterAdapter(), new Color(0, 255, 0)));
+            
+            OffsetTransition ot = new OffsetTransition();
+            button.addUpdateHandler(ot);
+            button.addRenderHandler(ot);
+            button.addHoverStartHandler(ot.new Event(new Vector(-1, -5)));
+            button.addHoverEndHandler(ot.new Event(new Vector()));
         }
         
         public void handleString(String field, String value) {
