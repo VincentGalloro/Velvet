@@ -1,6 +1,6 @@
 package core.main.ui.elements;
 
-import core.main.ui.active.adapters.impl.BoxOutlineAdapter;
+import core.main.ui.active.IColorAdapter;
 import java.awt.Color;
 
 public interface IBoxable extends IElement{
@@ -9,5 +9,5 @@ public interface IBoxable extends IElement{
     public void setFillColor(Color f);
     public void setThickness(float t);
 
-    public BoxOutlineAdapter getOutlineColorAdapter();
+    public IColorAdapter getOutlineColorAdapter();
 }
