@@ -1,18 +1,23 @@
 package core.main.ui.active.impl;
 
+import core.main.ui.active.IColorGetterAdapter;
 import core.main.ui.active.IEventable;
-import core.main.ui.active.adapters.IColorAdapter;
+import core.main.ui.active.IColorSetterAdapter;
 import java.awt.Color;
 
 public class ColorTransition implements IEventable{
 
-    private final IColorAdapter colorAdapter;
-    private final Color color;
+    private final IColorSetterAdapter colorSetterAdapter;
+    private final IColorGetterAdapter colorGetterAdapter;
     
-    public ColorTransition(IColorAdapter colorAdapter, Color color){
-        this.colorAdapter = colorAdapter;
-        this.color = color;
+    public ColorTransition(IColorSetterAdapter colorSetterAdapter, IColorGetterAdapter colorGetterAdapter){
+        this.colorGetterAdapter = colorGetterAdapter;
+        this.colorSetterAdapter = colorSetterAdapter;
     }
     
-    public void onEvent() { colorAdapter.setColor(color); }
+    public ColorTransition(IColorSetterAdapter colorSetterAdapter, Color c){
+        this(colorSetterAdapter, new IColorGetterAdapter(){ public Color getColor(){ return c; } } );
+    }
+    
+    public void onEvent() { colorSetterAdapter.setColor(colorGetterAdapter.getColor()); }
 }
