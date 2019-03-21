@@ -91,7 +91,8 @@ public class TextEntry implements IUpdateable, IRenderable{
         cursorPos.update();
     }
     
-    public void render(VGraphics g){
+    public void preRender(VGraphics g) {}
+    public void postRender(VGraphics g){
         if(renderCursor && focusObserver.isFocussed()){
             g.save();
             g.translate(cursorPos.getSmooth());
