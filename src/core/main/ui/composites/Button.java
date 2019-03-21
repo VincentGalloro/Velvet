@@ -4,11 +4,9 @@ import core.main.VGraphics;
 import core.main.smooth.SmoothColor;
 import core.main.smooth.motion.Motion;
 import core.main.structs.Vector;
-import core.main.ui.active.adapters.impl.BoxOutlineAdapter;
+import core.main.ui.active.IColorAdapter;
 import core.main.ui.active.impl.ColorTransition;
-import core.main.ui.active.adapters.impl.SmoothColorAdapter;
-import core.main.ui.active.adapters.impl.SmoothSetterAdapter;
-import core.main.ui.active.adapters.impl.TextColorAdapter;
+import core.main.ui.active.impl.SmoothColorAdapter;
 import core.main.ui.elements.BasicElement;
 import core.main.ui.elements.ElementBuilder;
 import core.main.ui.elements.IBoxable;
@@ -58,7 +56,7 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
             button.addUpdateHandler(colorAdapter);
             button.addHoverStartHandler(new ColorTransition(colorAdapter, new Color(200, 200, 200)));
             button.addHoverEndHandler(new ColorTransition(colorAdapter, Color.BLACK));
-            button.addMousePressHandler(new ColorTransition(new SmoothSetterAdapter(colorAdapter), new Color(0, 255, 0)));
+            button.addMousePressHandler(new ColorTransition(colorAdapter.getSmoothSetterAdapter(), new Color(0, 255, 0)));
         }
         
         public void handleString(String field, String value) {
@@ -87,8 +85,8 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
     
     public void containerUpdate(AffineTransform at){ box.update(at); }
     
-    public BoxOutlineAdapter getOutlineColorAdapter() { return box.getOutlineColorAdapter(); }
-    public TextColorAdapter getTextColorAdapter() { return text.getTextColorAdapter(); }
+    public IColorAdapter getOutlineColorAdapter() { return box.getOutlineColorAdapter(); }
+    public IColorAdapter getTextColorAdapter() { return text.getTextColorAdapter(); }
     public Vector getSize() { return box.getSize(); }
     public String getText() { return text.getText(); }
     public Color getTextColor() { return text.getTextColor(); }
