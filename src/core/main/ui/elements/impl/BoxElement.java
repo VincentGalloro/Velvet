@@ -2,7 +2,6 @@ package core.main.ui.elements.impl;
 
 import core.main.VGraphics;
 import core.main.structs.Vector;
-import core.main.ui.active.IColorAdapter;
 import core.main.ui.elements.BasicContainer;
 import core.main.ui.elements.IBoxable;
 import java.awt.BasicStroke;
@@ -41,14 +40,8 @@ public class BoxElement extends BasicContainer implements IBoxable{
     public void setFillColor(Color f){ fill = f; }
     public void setThickness(float t){ thickness = t; }
     
-    public IColorAdapter getOutlineColorAdapter(){ 
-        return new IColorAdapter(){
-            public Color getColor(){ return getOutlineColor(); }
-            public void setColor(Color c){ setOutlineColor(c); }
-        };
-    }
-    
     public Color getOutlineColor(){ return outline; }
+    public Color getFillColor(){ return fill; }
     
     public Vector getSize() {
         if(element == null){ return new Vector(); }
