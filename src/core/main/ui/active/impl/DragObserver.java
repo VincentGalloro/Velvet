@@ -1,6 +1,5 @@
 package core.main.ui.active.impl;
 
-import core.main.ui.active.IEventable;
 import core.main.ui.elements.IElement;
 
 public class DragObserver{
@@ -8,16 +7,8 @@ public class DragObserver{
     private boolean dragging;
     
     public DragObserver(IElement target){
-        target.addMousePressHandler(new DragSetter(true));
-        target.addMouseReleaseHandler(new DragSetter(false));
-    }
-    
-    private class DragSetter implements IEventable{
-        private final boolean target;
-        
-        public DragSetter(boolean target){ this.target = target; }
-        
-        public void onEvent(){ dragging = target; }
+        target.addMousePressHandler(() -> { dragging = true; });
+        target.addMouseReleaseHandler(() -> { dragging = false; });
     }
     
     public boolean isDragging(){ return dragging; }

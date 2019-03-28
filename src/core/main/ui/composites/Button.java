@@ -4,10 +4,7 @@ import core.main.VGraphics;
 import core.main.smooth.SmoothColor;
 import core.main.smooth.motion.Motion;
 import core.main.structs.Vector;
-import core.main.ui.active.IColorAdapter;
-import core.main.ui.active.impl.ColorTransition;
 import core.main.ui.active.impl.OffsetTransition;
-import core.main.ui.active.impl.SmoothColorAdapter;
 import core.main.ui.elements.BasicElement;
 import core.main.ui.elements.ElementBuilder;
 import core.main.ui.elements.IBoxable;
@@ -23,7 +20,7 @@ import java.awt.Color;
 import java.awt.geom.AffineTransform;
 
 public class Button extends BasicElement implements IBoxable, ITextable, IPaddable, ISizeable{
-
+    
     public static class Builder extends BasicElement.Builder{
 
         private final Button button;
@@ -52,18 +49,18 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
             
             SmoothColor smoothColor = new SmoothColor(Color.BLACK);
             smoothColor.setMotionFactory(Motion.linear(20));
-            SmoothColorAdapter colorAdapter = new SmoothColorAdapter(button.text.getTextColorAdapter(), smoothColor);
             
-            button.addUpdateHandler(colorAdapter);
-            button.addHoverStartHandler(new ColorTransition(colorAdapter, new Color(200, 200, 200)));
-            button.addHoverEndHandler(new ColorTransition(colorAdapter, Color.BLACK));
-            button.addMousePressHandler(new ColorTransition(colorAdapter.getSmoothSetterAdapter(), new Color(0, 255, 0)));
+            button.addUpdateHandler(at -> smoothColor.update());
+            button.addUpdateHandler(at -> button.setTextColor(smoothColor.getSmooth()));
+            button.addHoverStartHandler(() -> smoothColor.setColor(new Color(200, 200, 200)));
+            button.addHoverEndHandler(() -> smoothColor.setColor(Color.BLACK));
+            button.addMousePressHandler(() -> smoothColor.setSmooth(new Color(0, 255, 0)));
             
             OffsetTransition ot = new OffsetTransition();
             button.addUpdateHandler(ot);
             button.addRenderHandler(ot);
-            button.addHoverStartHandler(ot.new Event(new Vector(-1, -5)));
-            button.addHoverEndHandler(ot.new Event(new Vector()));
+            button.addHoverStartHandler(() -> ot.setOffset(new Vector(-1, -5)));
+            button.addHoverEndHandler(() -> ot.setOffset(new Vector()));
         }
         
         public void handleString(String field, String value) {
@@ -92,8 +89,8 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
     
     public void containerUpdate(AffineTransform at){ box.update(at); }
     
-    public IColorAdapter getOutlineColorAdapter() { return box.getOutlineColorAdapter(); }
-    public IColorAdapter getTextColorAdapter() { return text.getTextColorAdapter(); }
+    public Color getOutlineColor(){ return box.getOutlineColor(); }
+    public Color getFillColor(){ return box.getFillColor(); }
     public Vector getSize() { return box.getSize(); }
     public String getText() { return text.getText(); }
     public Color getTextColor() { return text.getTextColor(); }

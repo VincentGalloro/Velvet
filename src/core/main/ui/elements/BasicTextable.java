@@ -1,7 +1,6 @@
 package core.main.ui.elements;
 
 import core.main.VGraphics;
-import core.main.ui.active.IColorAdapter;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
@@ -41,12 +40,6 @@ public abstract class BasicTextable extends BasicElement implements ITextable{
     public final void setText(String t){ text = t; }
     public final void setTextColor(Color c){ color = c; }
     
-    public final IColorAdapter getTextColorAdapter(){ 
-        return new IColorAdapter(){
-            public Color getColor(){ return getTextColor(); }
-            public void setColor(Color c){ setTextColor(c); }
-        };
-    }
     public final String getText() { return text; } 
     public final Color getTextColor() { return color; }
     

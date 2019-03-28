@@ -4,13 +4,7 @@ import core.main.VGraphics;
 import core.main.smooth.SmoothColor;
 import core.main.smooth.motion.Motion;
 import core.main.structs.Vector;
-import core.main.ui.active.IColorAdapter;
-import core.main.ui.active.IColorGetterAdapter;
-import core.main.ui.active.IColorSetterAdapter;
-import core.main.ui.active.IEventable;
-import core.main.ui.active.impl.ColorTransition;
 import core.main.ui.active.impl.OffsetTransition;
-import core.main.ui.active.impl.SmoothColorAdapter;
 import core.main.ui.elements.BasicToggleable;
 import core.main.ui.elements.ElementBuilder;
 import core.main.ui.elements.IBoxable;
@@ -24,49 +18,21 @@ import core.main.ui.elements.impl.PaddingElement;
 import core.main.ui.elements.impl.LabelElement;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
+import java.util.function.Consumer;
 
 public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPaddable, ISizeable{
-
-    private static class ColorData{
-        
-        private Color[] data;
-        
-        public ColorData(){
-            data = new Color[4];
-            
-            //default colors:
-            data[0] = Color.BLACK;
-            data[1] = new Color(200, 200, 200);
-            data[2] = Color.GREEN;
-            data[3] = new Color(200, 255, 200);
-        }
-        
-        private int toInd(boolean hover, boolean toggled){
-            return (hover ? 1 : 0) + (toggled ? 2 : 0);
-        }
-        
-        public IColorGetterAdapter getAdapter(boolean hover, boolean toggled){
-            return new IColorGetterAdapter(){
-                public Color getColor(){ return data[toInd(hover, toggled)]; }
-            };
-        }
-        
-        public void setColor(boolean hover, boolean toggled, Color c){
-            data[toInd(hover, toggled)] = c;
-        }
-    }
     
     public static class Builder extends BasicToggleable.Builder{
 
         private final Toggle toggle;
         private final ElementBuilder boxBuilder, textBuilder, padBuilder, sizeBuilder;
-        private final ColorData colorData;
+        //private final ColorData outlineData, fillData, textData;
         
         public Builder() {
             super(new Toggle());
             toggle = (Toggle)get();
             
-            colorData = new ColorData();
+            //colorData = new ColorData();
             
             boxBuilder = new BoxElement.Builder();
             textBuilder = new LabelElement.Builder();
@@ -85,43 +51,41 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
             toggle.setPadding(5);
             toggle.setSize(new Vector(200, 40));
             
-            SmoothColor smoothColor = new SmoothColor(Color.BLACK);
-            smoothColor.setMotionFactory(Motion.linear(20));
-            SmoothColorAdapter textColorAdapter = new SmoothColorAdapter(toggle.text.getTextColorAdapter(), smoothColor);
+            SmoothColor smoothTextColor = new SmoothColor(Color.BLACK);
+            smoothTextColor.setMotionFactory(Motion.linear(20));
+            SmoothColor smoothFillColor = new SmoothColor(Color.WHITE);
+            smoothFillColor.setMotionFactory(Motion.linear(20));
             
-            toggle.addUpdateHandler(textColorAdapter);
-            toggle.addMousePressHandler(new IEventable(){
-                public void onEvent(){ toggle.toggle(); }
-            });
+            toggle.addUpdateHandler(at -> smoothTextColor.update());
+            toggle.addUpdateHandler(at -> toggle.setTextColor(smoothTextColor.getSmooth()));
             
-            IColorSetterAdapter multi = new IColorSetterAdapter(){
-                public void setColor(Color c){
-                    toggle.box.getOutlineColorAdapter().setColor(c);
-                    textColorAdapter.setColor(c);
-                    textColorAdapter.getSmoothSetterAdapter().setColor(c);
-                }
+            toggle.addUpdateHandler(at -> smoothFillColor.update());
+            toggle.addUpdateHandler(at -> toggle.setFillColor(smoothFillColor.getSmooth()));
+            
+            toggle.addMousePressHandler(() -> toggle.toggle());
+            
+            Consumer<Color> multiText = c -> {
+                toggle.setOutlineColor(c);
+                smoothTextColor.overrideColor(c);
             };
             
-            toggle.addToggleOnHandler(new ColorTransition(multi, colorData.getAdapter(false, true)));
-            toggle.addToggleOffHandler(new ColorTransition(multi, colorData.getAdapter(false, false)));
+            /*toggle.addToggleOnHandler(() -> multiText.accept(colorData.getColor(false, true, false)));
+            toggle.addToggleOffHandler(() -> multiText.accept(colorData.getColor(false, false, false)));
             
-            toggle.addHoverStartHandler(new IEventable(){
-                public void onEvent(){
-                    textColorAdapter.setColor(colorData.getAdapter(true, toggle.isToggled()).getColor());
-                }
-            });
-            toggle.addHoverEndHandler(new IEventable(){
-                public void onEvent(){
-                    textColorAdapter.setColor(colorData.getAdapter(false, toggle.isToggled()).getColor());
-                }
-            });
+            toggle.addToggleOnHandler(() -> smoothFillColor.overrideColor(colorData.getColor(false, true, true)));
+            toggle.addToggleOffHandler(() -> smoothFillColor.overrideColor(colorData.getColor(false, false, true)));
             
+            toggle.addHoverStartHandler(() -> smoothTextColor.setColor(colorData.getColor(true, toggle.isToggled(), false)));
+            toggle.addHoverEndHandler(() -> smoothTextColor.setColor(colorData.getColor(false, toggle.isToggled(), false)));
+            
+            toggle.addHoverStartHandler(() -> smoothFillColor.setColor(colorData.getColor(true, toggle.isToggled(), true)));
+            toggle.addHoverEndHandler(() -> smoothFillColor.setColor(colorData.getColor(false, toggle.isToggled(), true)));*/
             
             OffsetTransition ot = new OffsetTransition();
             toggle.addUpdateHandler(ot);
             toggle.addRenderHandler(ot);
-            toggle.addHoverStartHandler(ot.new Event(new Vector(-1, -5)));
-            toggle.addHoverEndHandler(ot.new Event(new Vector()));
+            toggle.addHoverStartHandler(() -> ot.setOffset(new Vector(-1, -5)));
+            toggle.addHoverEndHandler(() -> ot.setOffset(new Vector()));
         }
         
         public void handleString(String field, String value) {
@@ -130,11 +94,6 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
             textBuilder.handleString(field, value);
             padBuilder.handleString(field, value);
             sizeBuilder.handleString(field, value);
-            if(field.equals("toggle color")){ colorData.setColor(false, true, toColor(value)); }
-            if(field.equals("hover toggle color") || field.equals("toggle hover color")){ 
-                colorData.setColor(true, true, toColor(value)); 
-            }
-            if(field.equals("hover color")){ colorData.setColor(true, false, toColor(value)); }
         }
     }
     
@@ -155,8 +114,8 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
     
     public void containerUpdate(AffineTransform at){ box.update(at); }
     
-    public IColorAdapter getOutlineColorAdapter() { return box.getOutlineColorAdapter(); }
-    public IColorAdapter getTextColorAdapter() { return text.getTextColorAdapter(); }
+    public Color getOutlineColor(){ return box.getOutlineColor(); }
+    public Color getFillColor(){ return box.getFillColor(); }
     public Vector getSize() { return box.getSize(); }
     public String getText() { return text.getText(); }
     public Color getTextColor() { return text.getTextColor(); }
