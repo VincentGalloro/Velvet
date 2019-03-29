@@ -20,14 +20,18 @@ public class TextEntry implements IUpdateable, IRenderable{
     private final Keyboard keyboard;
     private final ITextable textable;
     private final FocusObserver focusObserver;
-    private SmoothVector cursorPos;
+    private final SmoothVector cursorPos;
     private int cursorIndex, cursorFlash;
     private boolean renderCursor;
     
     public TextEntry(Keyboard keyboard, ITextable textable){
         this.keyboard = keyboard;
+        
         this.textable = textable;
         this.focusObserver = new FocusObserver(textable);
+        this.textable.addUpdateHandler(this);
+        this.textable.addPostRenderHandler(this);
+        
         setCursor(true);
         cursorPos = new SmoothVector(Motion.swish(8));
     }
@@ -91,8 +95,7 @@ public class TextEntry implements IUpdateable, IRenderable{
         cursorPos.update();
     }
     
-    public void preRender(VGraphics g) {}
-    public void postRender(VGraphics g){
+    public void render(VGraphics g){
         if(renderCursor && focusObserver.isFocussed()){
             g.save();
             g.translate(cursorPos.getSmooth());

@@ -4,11 +4,11 @@ import core.main.VGraphics;
 import core.main.smooth.SmoothVector;
 import core.main.smooth.motion.Motion;
 import core.main.structs.Vector;
-import core.main.ui.active.IRenderable;
 import core.main.ui.active.IUpdateable;
+import core.main.ui.elements.IElement;
 import java.awt.geom.AffineTransform;
 
-public class OffsetTransition implements IUpdateable, IRenderable{
+public class OffsetTransition implements IUpdateable{
 
     private SmoothVector pos;
     
@@ -16,9 +16,13 @@ public class OffsetTransition implements IUpdateable, IRenderable{
         pos = new SmoothVector(new Vector(), Motion.swish(15));
     }
     
-    public void setOffset(Vector offset){
-        pos.setPos(offset);
+    public void apply(IElement target){
+        target.addUpdateHandler(this);
+        target.addPreRenderHandler(this::preRender);
+        target.addPostRenderHandler(this::postRender);
     }
+    
+    public void setOffset(Vector offset){ pos.setPos(offset); }
     
     public void update(AffineTransform at) {
         pos.update();
