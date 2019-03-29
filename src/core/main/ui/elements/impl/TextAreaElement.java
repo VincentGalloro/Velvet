@@ -15,6 +15,8 @@ public class TextAreaElement extends BasicTextable{
         public Builder() { 
             super(new TextAreaElement()); 
             textArea = (TextAreaElement)get();
+            
+            textArea.addPostRenderHandler(textArea::postRender);
         }
         
         public void handleString(String field, String value) {
@@ -73,7 +75,7 @@ public class TextAreaElement extends BasicTextable{
         return fontMetrics.getAscent() + (fontMetrics.getHeight() + sep)*row;
     }
     
-    public void onRender(VGraphics g) {
+    public void postRender(VGraphics g) {
         super.onRender(g);
         ArrayList<Integer> breakPoints = getBreakpoints();
         for(int i = 0; i < breakPoints.size()-1; i++){

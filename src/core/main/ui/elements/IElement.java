@@ -8,10 +8,11 @@ import core.main.ui.active.IScrollEventable;
 import core.main.ui.active.IUpdateable;
 import java.awt.geom.AffineTransform;
 
-public interface IElement extends IUpdateable{
+public interface IElement{
     
     public void addUpdateHandler(IUpdateable updateable);
-    public void addRenderHandler(IRenderable rendereable);
+    public void addPreRenderHandler(IRenderable rendereable);
+    public void addPostRenderHandler(IRenderable rendereable);
     public void addMousePressHandler(IEventable eventable);
     public void addMouseReleaseHandler(IEventable eventable);
     public void addMouseScrollHandler(IScrollEventable eventable);

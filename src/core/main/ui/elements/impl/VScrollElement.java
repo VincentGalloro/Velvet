@@ -20,6 +20,8 @@ public class VScrollElement extends BasicScrollable{
             super(new VScrollElement()); 
             VScrollElement vScroll = (VScrollElement)get();
             
+            vScroll.addPreRenderHandler(vScroll::preRender);
+            
             DragObserver dragObserver = new DragObserver(vScroll);
             VerticalScroller scroller = new VerticalScroller(vScroll, mouse, dragObserver);
             vScroll.addUpdateHandler(scroller);
@@ -41,12 +43,10 @@ public class VScrollElement extends BasicScrollable{
         return at;
     }
     
-    public void onRender(VGraphics g){
+    public void preRender(VGraphics g){
         g.setColor(color);
         g.setStroke(new BasicStroke(thickness));
         Vector eSize = element.getSize();
         g.draw(new Line2D.Double(eSize.x/2, eSize.y/2, eSize.x/2, length + eSize.y/2));
-        
-        super.onRender(g);
     }
 }

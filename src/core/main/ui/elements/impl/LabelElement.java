@@ -8,7 +8,15 @@ import java.awt.geom.AffineTransform;
 public class LabelElement extends BasicTextable{
 
     public static class Builder extends BasicTextable.Builder{
-        public Builder() { super(new LabelElement()); }
+        
+        private LabelElement label;
+        
+        public Builder() { 
+            super(new LabelElement()); 
+            label = (LabelElement)get();
+            
+            label.addPostRenderHandler(label::postRender);
+        }
     }
     
     public boolean supportsNewline() { return false; }
@@ -23,7 +31,7 @@ public class LabelElement extends BasicTextable{
         return at;
     }
     
-    public void onRender(VGraphics g) {
+    public void postRender(VGraphics g) {
         super.onRender(g);
         g.drawString(text, new Vector(0, fontMetrics.getAscent()));
     }

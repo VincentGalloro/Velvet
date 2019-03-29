@@ -14,6 +14,9 @@ public abstract class BasicContainer extends BasicElement implements IContainer{
         public Builder(BasicContainer container) {
             super(container);
             this.container = container;
+            
+            container.addUpdateHandler(container::childUpdate);
+            container.addPostRenderHandler(container::childRender);
         }
         
         public void handleString(String field, String value) {
@@ -26,7 +29,7 @@ public abstract class BasicContainer extends BasicElement implements IContainer{
     
     public final void setElement(IElement e) { element = e; }
     
-    protected final void containerUpdate(AffineTransform at){
+    protected final void childUpdate(AffineTransform at){
         if(element != null){
             AffineTransform nat = new AffineTransform(at);
             nat.concatenate(getTransform());
@@ -44,7 +47,7 @@ public abstract class BasicContainer extends BasicElement implements IContainer{
         return super.getHover(mPos);
     }
     
-    public void onRender(VGraphics g) {
+    protected final void childRender(VGraphics g) {
         if(element != null){
             g.save();
             g.transform(getTransform());

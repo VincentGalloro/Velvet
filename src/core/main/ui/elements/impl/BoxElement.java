@@ -18,6 +18,9 @@ public class BoxElement extends BasicContainer implements IBoxable{
         public Builder() {
             super(new BoxElement());
             box = (BoxElement)get();
+            
+            box.addPreRenderHandler(box::preRender);
+            box.addPostRenderHandler(box::postRender);
         }
         
         public void handleString(String field, String value) {
@@ -50,13 +53,16 @@ public class BoxElement extends BasicContainer implements IBoxable{
     
     public AffineTransform getTransform(){ return new AffineTransform(); }
 
-    public void onRender(VGraphics g) {
+    public void preRender(VGraphics g) {
         Vector size = getSize();
         if(fill != null){
             g.setColor(fill);
             g.fill(new Rectangle2D.Double(0, 0, size.x, size.y));
         }
-        super.onRender(g);
+    }    
+    
+    public void postRender(VGraphics g){
+        Vector size = getSize();
         if(outline != null){
             g.setColor(outline);
             g.setStroke(new BasicStroke(thickness));

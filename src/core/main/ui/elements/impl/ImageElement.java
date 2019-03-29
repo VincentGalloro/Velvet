@@ -18,6 +18,8 @@ public class ImageElement extends BasicElement implements IImageable{
         public Builder() {
             super(new ImageElement());
             image = (ImageElement)get();
+            
+            image.addPostRenderHandler(image::postRender);
         }
         
         public void handleString(String field, String value) {
@@ -40,7 +42,7 @@ public class ImageElement extends BasicElement implements IImageable{
     }
     public BufferedImage getImage(){ return image; }
 
-    public void onRender(VGraphics g) {
+    public void postRender(VGraphics g) {
         g.drawImage(image, new Vector());
     }
 }

@@ -16,6 +16,9 @@ public abstract class BasicListContainer extends BasicElement implements IListCo
         public Builder(BasicListContainer listContainer) {
             super(listContainer);
             this.listContainer = listContainer;
+            
+            listContainer.addUpdateHandler(listContainer::childUpdate);
+            listContainer.addPostRenderHandler(listContainer::childRender);
         }
         
         public void handleString(String field, String value) {
@@ -32,7 +35,7 @@ public abstract class BasicListContainer extends BasicElement implements IListCo
     
     public final void addElement(IElement e) { elements.add(e); }
 
-    protected final void containerUpdate(AffineTransform at){
+    protected final void childUpdate(AffineTransform at){
         for(int i = 0; i < elements.size(); i++){
             AffineTransform nat = new AffineTransform(at);
             nat.concatenate(getTransform(i));
@@ -54,7 +57,7 @@ public abstract class BasicListContainer extends BasicElement implements IListCo
         return super.getHover(mPos);
     }
     
-    public final void onRender(VGraphics g) {
+    protected final void childRender(VGraphics g) {
         for(int i = 0; i < elements.size(); i++){
             g.save();
             g.transform(getTransform(i));

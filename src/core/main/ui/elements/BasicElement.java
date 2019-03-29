@@ -33,14 +33,15 @@ public abstract class BasicElement implements IElement{
     
     private String name;
     private final ArrayList<IUpdateable> updateHandlers;
-    private final ArrayList<IRenderable> renderHandlers;
+    private final ArrayList<IRenderable> preRenderHandlers, postRenderHandlers;
     private final ArrayList<IEventable> mousePressHandlers, mouseReleaseHandlers, 
             hoverStartHandlers, hoverEndHandlers, focusStartHandlers, focusEndHandlers;
     private final ArrayList<IScrollEventable> mouseScrollHandlers;
     
     public BasicElement(){
         updateHandlers = new ArrayList<>();
-        renderHandlers = new ArrayList<>();
+        preRenderHandlers = new ArrayList<>();
+        postRenderHandlers = new ArrayList<>();
         mousePressHandlers = new ArrayList<>();
         mouseReleaseHandlers = new ArrayList<>();
         hoverStartHandlers = new ArrayList<>();
@@ -51,7 +52,8 @@ public abstract class BasicElement implements IElement{
     }
     
     public final void addUpdateHandler(IUpdateable updateable){ updateHandlers.add(updateable); }  
-    public final void addRenderHandler(IRenderable rendereable){ renderHandlers.add(rendereable); }  
+    public final void addPreRenderHandler(IRenderable rendereable){ preRenderHandlers.add(rendereable); }  
+    public final void addPostRenderHandler(IRenderable rendereable){ postRenderHandlers.add(rendereable); }  
     public final void addMousePressHandler(IEventable eventable){ mousePressHandlers.add(eventable); }
     public final void addMouseReleaseHandler(IEventable eventable){ mouseReleaseHandlers.add(eventable); }
     public final void addMouseScrollHandler(IScrollEventable eventable){ mouseScrollHandlers.add(eventable); }  
@@ -70,9 +72,7 @@ public abstract class BasicElement implements IElement{
     
     public final void update(AffineTransform at){
         for(IUpdateable u : updateHandlers){ u.update(at); }
-        containerUpdate(at);
     }
-    protected void containerUpdate(AffineTransform at){}
     
     public IElement getHover(Vector mPos){
         if(isHovered(mPos)){ return this; }
@@ -92,10 +92,7 @@ public abstract class BasicElement implements IElement{
     }
     
     public final void render(VGraphics g){
-        for(IRenderable r : renderHandlers){ r.preRender(g); }
-        onRender(g);
-        for(IRenderable r : renderHandlers){ r.postRender(g); }
+        for(IRenderable r : preRenderHandlers){ r.render(g); }
+        for(IRenderable r : postRenderHandlers){ r.render(g); }
     }
-    
-    public abstract void onRender(VGraphics g);
 }

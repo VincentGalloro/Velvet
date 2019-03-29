@@ -20,6 +20,8 @@ public class HScrollElement extends BasicScrollable{
             super(new HScrollElement()); 
             HScrollElement hScroll = (HScrollElement)get();
             
+            hScroll.addPreRenderHandler(hScroll::preRender);
+            
             DragObserver dragObserver = new DragObserver(hScroll);
             HorizontalScroller scroller = new HorizontalScroller(hScroll, mouse, dragObserver);
             hScroll.addUpdateHandler(scroller);
@@ -41,12 +43,10 @@ public class HScrollElement extends BasicScrollable{
         return at;
     }
     
-    public void onRender(VGraphics g){
+    public void preRender(VGraphics g){
         g.setColor(color);
         g.setStroke(new BasicStroke(thickness));
         Vector eSize = element.getSize();
         g.draw(new Line2D.Double(eSize.x/2, eSize.y/2, length + eSize.x/2, eSize.y/2));
-        
-        super.onRender(g);
     }
 }
