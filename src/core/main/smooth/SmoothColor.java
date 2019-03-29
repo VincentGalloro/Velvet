@@ -14,6 +14,8 @@ public class SmoothColor {
         this.smooth = color;
     }
     
+    public SmoothColor(){}
+    
     public void setMotionFactory(MotionFactory motionFactory){
         this.motionFactory = motionFactory;
     }
