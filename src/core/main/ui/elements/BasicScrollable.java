@@ -2,6 +2,7 @@
 package core.main.ui.elements;
 
 import core.main.structs.Vector;
+import core.main.ui.active.impl.ZoomTransition;
 import core.main.ui.elements.impl.BoxElement;
 import core.main.ui.elements.impl.CenteredElement;
 import java.awt.Color;
@@ -15,13 +16,6 @@ public abstract class BasicScrollable extends BasicContainer implements IScrolla
         public Builder(BasicScrollable scrollable) {
             super(scrollable);
             this.scrollable = scrollable;
-            
-            BoxElement box = new BoxElement();
-            ISizeable size = new CenteredElement();
-            size.setSize(new Vector(16));
-            box.setElement(size);
-            
-            scrollable.setElement(box);
         }
         
         public void handleString(String field, String value) {
@@ -41,6 +35,21 @@ public abstract class BasicScrollable extends BasicContainer implements IScrolla
         color = Color.BLACK;
         length = 100;
         thickness = 2;
+                    
+        BoxElement box = new BoxElement();
+        box.setFillColor(Color.WHITE);
+        ISizeable size = new CenteredElement();
+        size.setSize(new Vector(16));
+        box.setElement(size);
+
+        setElement(box);
+        
+        ZoomTransition zt = new ZoomTransition(() -> element==null ? new Vector() : element.getSize());
+        addUpdateHandler(zt);
+        addPreChildRenderHandler(zt::preRender);
+        addPostChildRenderHandler(zt::postRender);
+        addHoverStartHandler(() -> zt.setScale(1.2));
+        addHoverEndHandler(() -> zt.setScale(1));
     }
 
     public final void setDelta(double d) { delta = Math.min(Math.max(d, 0), 1); }
