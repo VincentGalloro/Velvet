@@ -32,7 +32,10 @@ public class SmoothColor {
     
     private void createMotion(){
         if(motionFactory != null){
-            motionColor = new MotionColor(smooth, color, motionFactory.create());
+            if(color == null || smooth == null){ motionColor = null; }
+            else{
+                motionColor = new MotionColor(smooth, color, motionFactory.create());
+            }
         }
     }
     
