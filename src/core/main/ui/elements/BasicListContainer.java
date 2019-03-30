@@ -16,9 +16,6 @@ public abstract class BasicListContainer extends BasicElement implements IListCo
         public Builder(BasicListContainer listContainer) {
             super(listContainer);
             this.listContainer = listContainer;
-            
-            listContainer.addUpdateHandler(listContainer::childUpdate);
-            listContainer.addPostRenderHandler(listContainer::childRender);
         }
         
         public void handleString(String field, String value) {
@@ -31,6 +28,9 @@ public abstract class BasicListContainer extends BasicElement implements IListCo
     
     public BasicListContainer(){
         elements = new ArrayList<>();
+        
+        addUpdateHandler(this::childUpdate);
+        addPostRenderHandler(this::childRender);
     }
     
     public final void addElement(IElement e) { elements.add(e); }
