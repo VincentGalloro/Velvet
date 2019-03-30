@@ -1,6 +1,5 @@
 package core.main.ui.composites;
 
-import core.main.VGraphics;
 import core.main.smooth.SmoothColor;
 import core.main.smooth.motion.Motion;
 import core.main.structs.Vector;
@@ -10,6 +9,7 @@ import core.main.ui.elements.*;
 import core.main.ui.elements.impl.*;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -18,6 +18,7 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
     private static class ColorController implements IUpdateable{
         
         private SmoothColor color;
+        private Runnable lastHoverCall;
         
         public ColorController(Color c){
             color = new SmoothColor(c);
@@ -25,11 +26,17 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
         }
         
         public void bind(IElement source, Supplier<ColorProfile.CHCProfile> profile, Consumer<Color> target){
-            source.addHoverStartHandler(() -> { if(profile.get().hoverColor != null){ color.setColor(profile.get().hoverColor); } });
-            source.addHoverEndHandler(() -> { if(profile.get().color != null){ color.setColor(profile.get().color); } });
+            Runnable hoverStart = () -> { color.setColor(profile.get().hoverColor); };
+            Runnable hoverEnd = () -> { color.setColor(profile.get().color); };
+            source.addHoverStartHandler(() -> {hoverStart.run(); lastHoverCall = hoverStart; });
+            source.addHoverEndHandler(() -> {hoverEnd.run(); lastHoverCall = hoverEnd; });
             source.addMousePressHandler(() -> { if(profile.get().clickColor != null){ color.setSmooth(profile.get().clickColor); } });
             source.addUpdateHandler(this);
             source.addUpdateHandler(at -> target.accept(color.getSmooth()));
+        }
+        
+        public void onProfileSwap(){
+            lastHoverCall.run();
         }
 
         public void update(AffineTransform at) {
@@ -114,9 +121,13 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
             ColorController boxFillCC = new ColorController(Color.WHITE);
             ColorController textCC = new ColorController(Color.BLACK);
             
-            boxOutlineCC.bind(button, () -> button.colorProfile.boxOutlineProfile, c -> button.setOutlineColor(c));
-            boxFillCC.bind(button, () -> button.colorProfile.boxFillProfile, c -> button.setFillColor(c));
-            textCC.bind(button, () -> button.colorProfile.textProfile, c -> button.setTextColor(c));
+            button.colorControllers.add(boxOutlineCC);
+            button.colorControllers.add(boxFillCC);
+            button.colorControllers.add(textCC);
+            
+            boxOutlineCC.bind(button, ()->button.getColorProfile().getBoxOutlineProfile(), c -> button.setOutlineColor(c));
+            boxFillCC.bind(button, ()->button.getColorProfile().getBoxFillProfile(), c -> button.setFillColor(c));
+            textCC.bind(button, ()->button.getColorProfile().getTextProfile(), c -> button.setTextColor(c));
             
             button.colorProfile = new ColorProfile();
             
@@ -136,7 +147,7 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
             textBuilder.handleString(field, value);
             padBuilder.handleString(field, value);
             sizeBuilder.handleString(field, value);
-            if(field.endsWith("color")){ button.colorProfile.handleString(field, toColor(value)); }
+            if(field.endsWith(" color")){ button.colorProfile.handleString(field, toColor(value)); }
         }
     }
     
@@ -145,8 +156,11 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
     private IPaddable padding;
     private ISizeable sizing;
     private ColorProfile colorProfile;
+    private ArrayList<ColorController> colorControllers;
     
-    private Button(){}
+    private Button(){
+        colorControllers = new ArrayList<>();
+    }
     
     public void setOutlineColor(Color o) { box.setOutlineColor(o); }
     public void setFillColor(Color f) { box.setFillColor(f); }
@@ -155,7 +169,10 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
     public void setTextColor(Color c) { text.setTextColor(c); }
     public void setPadding(double p) { padding.setPadding(p); }
     public void setSize(Vector s) { sizing.setSize(s); }
-    public void setColorProfile(ColorProfile colorProfile) { this.colorProfile = colorProfile; }
+    public void setColorProfile(ColorProfile colorProfile) { 
+        this.colorProfile = colorProfile; 
+        for(ColorController cc : colorControllers){ cc.onProfileSwap(); }
+    }
     
     public void containerUpdate(AffineTransform at){ box.update(at); }
     
