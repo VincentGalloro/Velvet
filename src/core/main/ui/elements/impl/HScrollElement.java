@@ -15,19 +15,17 @@ import java.awt.geom.Line2D;
 public class HScrollElement extends BasicScrollable{
 
     public static class Builder extends BasicScrollable.Builder{
-        
-        public Builder(Mouse mouse) { 
-            super(new HScrollElement()); 
-            HScrollElement hScroll = (HScrollElement)get();
-            
-            hScroll.addPreRenderHandler(hScroll::preRender);
-            
-            DragObserver dragObserver = new DragObserver(hScroll);
-            HorizontalScroller scroller = new HorizontalScroller(hScroll, mouse, dragObserver);
-            hScroll.addUpdateHandler(scroller);
-            
-            hScroll.addMouseScrollHandler(new WheelScroller(hScroll, 0.05, true));
-        }
+        public Builder(Mouse mouse) { super(new HScrollElement(mouse)); }
+    }
+    
+    public HScrollElement(Mouse mouse){
+        addPreRenderHandler(this::preRender);
+
+        DragObserver dragObserver = new DragObserver(this);
+        HorizontalScroller scroller = new HorizontalScroller(this, mouse, dragObserver);
+        addUpdateHandler(scroller);
+
+        addMouseScrollHandler(new WheelScroller(this, 0.05, true));
     }
     
     public Vector getSize() {

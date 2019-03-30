@@ -18,8 +18,6 @@ public class ImageElement extends BasicElement implements IImageable{
         public Builder() {
             super(new ImageElement());
             image = (ImageElement)get();
-            
-            image.addPostRenderHandler(image::postRender);
         }
         
         public void handleString(String field, String value) {
@@ -33,6 +31,10 @@ public class ImageElement extends BasicElement implements IImageable{
     }
     
     private BufferedImage image;
+    
+    public ImageElement(){
+        addPostRenderHandler(this::postRender);
+    }
     
     public void setImage(BufferedImage i){ image = i; }
     

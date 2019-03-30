@@ -18,9 +18,6 @@ public class BoxElement extends BasicContainer implements IBoxable{
         public Builder() {
             super(new BoxElement());
             box = (BoxElement)get();
-            
-            box.addPreRenderHandler(box::preRender);
-            box.addPostRenderHandler(box::postRender);
         }
         
         public void handleString(String field, String value) {
@@ -37,6 +34,9 @@ public class BoxElement extends BasicContainer implements IBoxable{
     public BoxElement(){
         outline = Color.BLACK;
         thickness = 2;
+        
+        addPreRenderHandler(this::preRender);
+        addPostRenderHandler(this::postRender);
     }
     
     public void setOutlineColor(Color o){ outline = o; }

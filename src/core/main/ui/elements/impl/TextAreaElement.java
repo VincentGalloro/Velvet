@@ -15,8 +15,6 @@ public class TextAreaElement extends BasicTextable{
         public Builder() { 
             super(new TextAreaElement()); 
             textArea = (TextAreaElement)get();
-            
-            textArea.addPostRenderHandler(textArea::postRender);
         }
         
         public void handleString(String field, String value) {
@@ -30,6 +28,8 @@ public class TextAreaElement extends BasicTextable{
     
     public TextAreaElement(){
         width = 200;
+        
+        addPostRenderHandler(this::postRender);
     }
     
     public boolean supportsNewline(){ return true; }

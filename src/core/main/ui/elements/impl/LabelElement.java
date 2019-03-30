@@ -8,15 +8,11 @@ import java.awt.geom.AffineTransform;
 public class LabelElement extends BasicTextable{
 
     public static class Builder extends BasicTextable.Builder{
-        
-        private LabelElement label;
-        
-        public Builder() { 
-            super(new LabelElement()); 
-            label = (LabelElement)get();
-            
-            label.addPostRenderHandler(label::postRender);
-        }
+        public Builder() { super(new LabelElement()); }
+    }
+    
+    public LabelElement(){
+        addPostRenderHandler(this::postRender);
     }
     
     public boolean supportsNewline() { return false; }
