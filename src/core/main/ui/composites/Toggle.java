@@ -1,5 +1,6 @@
 package core.main.ui.composites;
 
+import core.main.structs.GridDirection;
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicToggleable;
 import core.main.ui.elements.ElementBuilder;
@@ -84,6 +85,7 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
     public void setText(String t) { button.setText(t); }
     public void setTextColor(Color c) { button.setTextColor(c); }
     public void setPadding(double p) { button.setPadding(p); }
+    public void setPadding(double p, GridDirection dir) { button.setPadding(p, dir); }
     public void setSize(Vector s) { button.setSize(s); }
     
     public void containerUpdate(AffineTransform at){ button.update(at); }

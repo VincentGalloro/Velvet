@@ -2,6 +2,7 @@ package core.main.ui.composites;
 
 import core.main.smooth.SmoothColor;
 import core.main.smooth.motion.Motion;
+import core.main.structs.GridDirection;
 import core.main.structs.Vector;
 import core.main.ui.active.IUpdateable;
 import core.main.ui.active.impl.OffsetTransition;
@@ -168,6 +169,7 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
     public void setText(String t) { text.setText(t); }
     public void setTextColor(Color c) { text.setTextColor(c); }
     public void setPadding(double p) { padding.setPadding(p); }
+    public void setPadding(double p, GridDirection dir) { padding.setPadding(p, dir); }
     public void setSize(Vector s) { sizing.setSize(s); }
     public void setColorProfile(ColorProfile colorProfile) { 
         this.colorProfile = colorProfile; 
