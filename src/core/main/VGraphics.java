@@ -2,6 +2,7 @@ package core.main;
 
 import core.main.structs.Vector;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -14,9 +15,12 @@ import java.util.ArrayList;
 public class VGraphics {
 
     private Graphics2D g;
+    private ArrayList<Graphics2D> graphicsStack;
     private ArrayList<AffineTransform> saves;
     
     public VGraphics(Graphics2D g){
+        graphicsStack = new ArrayList<>();
+        graphicsStack.add(g);
         this.g = g;
         saves = new ArrayList<>();
     }
@@ -24,7 +28,16 @@ public class VGraphics {
     public void save(){ saves.add(g.getTransform()); }
     public void reset(){ g.setTransform(saves.remove(saves.size()-1)); }
     
+    public AffineTransform getTransform(){ return saves.get(saves.size()-1); }
+    
+    public void subGraphics(Graphics2D g){ graphicsStack.add(g); this.g = g; }
+    public void resetGraphics(){ 
+        graphicsStack.remove(graphicsStack.size()-1);
+        this.g = graphicsStack.get(graphicsStack.size()-1); 
+    }
+    
     public FontMetrics getFontMetrics(){ return g.getFontMetrics(); }
+    public Composite getComposite(){ return g.getComposite(); }
     
     public void translate(Vector v){ g.translate(v.x, v.y); }
     public void scale(double d){ g.scale(d, d); }
@@ -33,6 +46,7 @@ public class VGraphics {
     public void rotate(double a, Vector p){ g.rotate(a, p.x, p.y); }
     public void transform(AffineTransform at){ g.transform(at); }
     
+    public void setComposite(Composite c){ g.setComposite(c); }
     public void setStroke(Stroke s){ g.setStroke(s); }
     public void setColor(Color c){ g.setColor(c); }
     public void setFont(Font f){ g.setFont(f); }
