@@ -4,6 +4,7 @@ package core.main.ui.elements;
 import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.active.IRenderable;
+import core.main.ui.active.impl.WindowedView;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
@@ -20,10 +21,11 @@ public abstract class BasicContainer extends BasicElement implements IContainer{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
-            //TODO
+            if(field.equals("strict")){ container.setStrict(Boolean.parseBoolean(value)); }
         }
     }
     
+    private WindowedView windowedView;
     private final ArrayList<IRenderable> preChildRenderHandlers, postChildRenderHandlers;
     protected IElement element;
     
@@ -38,6 +40,25 @@ public abstract class BasicContainer extends BasicElement implements IContainer{
     public void addPreChildRenderHandler(IRenderable rendereable){ preChildRenderHandlers.add(rendereable); }
     public void addPostChildRenderHandler(IRenderable rendereable){ postChildRenderHandlers.add(rendereable); }
     
+    public void removePreChildRenderHandler(IRenderable rendereable){ preChildRenderHandlers.remove(rendereable); }
+    public void removePostChildRenderHandler(IRenderable rendereable){ postChildRenderHandlers.remove(rendereable); }
+    
+    public void setStrict(boolean strict){
+        if(strict){
+            if(windowedView == null){
+                windowedView = new WindowedView();
+                windowedView.apply(this);
+            }
+        }
+        else{
+            if(windowedView != null){
+                windowedView.detach();
+                windowedView = null;
+            }
+        }
+    }
+    public boolean isStrict(){ return windowedView != null; }
+    
     public final void setElement(IElement e) { element = e; }
     
     protected final void childUpdate(AffineTransform at){
@@ -51,7 +72,7 @@ public abstract class BasicContainer extends BasicElement implements IContainer{
     public final IElement getElement() { return element; }
     
     public final IElement getHover(Vector mPos){
-        if(element != null){ 
+        if(element != null && (!isStrict() || isHovered(mPos))){ 
             IElement cHover = element.getHover(mPos.inverseTransform(getTransform())); 
             if(cHover != null){ return cHover; }
         }

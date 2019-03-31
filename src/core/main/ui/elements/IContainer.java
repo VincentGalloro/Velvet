@@ -9,6 +9,12 @@ public interface IContainer extends IElement{
     public void addPreChildRenderHandler(IRenderable rendereable);
     public void addPostChildRenderHandler(IRenderable rendereable);
     
+    public void removePreChildRenderHandler(IRenderable rendereable);
+    public void removePostChildRenderHandler(IRenderable rendereable);
+    
+    public void setStrict(boolean strict);
+    public boolean isStrict();
+    
     public void setElement(IElement e);
     
     public IElement getElement();
