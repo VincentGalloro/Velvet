@@ -25,7 +25,9 @@ public class ImageElement extends BasicElement implements IImageable{
             if(field.equals("path")){ 
                 try {
                     image.image = ImageIO.read(new File(value));
-                } catch (IOException ex) {}
+                } catch (IOException ex) {
+                    System.out.println("COULD NOT FIND IMAGE: "+value);
+                }
             }
         }
     }
