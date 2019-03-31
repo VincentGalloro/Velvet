@@ -39,9 +39,12 @@ public class TextAreaElement extends BasicTextable{
         points.add(0);
         int last = 0, length = 1;
         while(last+length < text.length()){
+            Integer whitespaceMarker=null;
             while(last+length < text.length() && text.charAt(last+length-1) != '\n' && fontMetrics.stringWidth(text.substring(last, last+length+1)) <= width){ 
+                if(text.charAt(last+length) == ' '){ whitespaceMarker = length; }
                 length++; 
             }
+            if(whitespaceMarker != null && last+length < text.length()){ length = whitespaceMarker; }
             last += length;
             points.add(last);
             length = 1;
