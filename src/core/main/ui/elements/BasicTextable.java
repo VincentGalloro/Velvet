@@ -5,6 +5,9 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public abstract class BasicTextable extends BasicElement implements ITextable{
     
@@ -19,18 +22,26 @@ public abstract class BasicTextable extends BasicElement implements ITextable{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
+            if(field.equals("path")){
+                try {
+                    textable.text = new Scanner(new File(value)).useDelimiter("\\Z").next();
+                } catch (FileNotFoundException ex) {
+                    System.out.println("COULD NOT FIND TEXT FILE: "+value);
+                }
+            }
             if(field.equals("text")){ textable.text = value; }
             if(field.equals("text color")){ textable.color = toColor(value); }
+            if(field.equals("font size")){ textable.font = textable.font.deriveFont(Float.parseFloat(value)); }
         }
     }
-        
-    protected static final Font font = new Font("Arial", Font.PLAIN, 24);
     
+    protected Font font;
     protected String text;
     protected FontMetrics fontMetrics;
     protected Color color;
     
     public BasicTextable(){
+        font = new Font("Arial", Font.PLAIN, 24);;
         Canvas c = new Canvas();
         fontMetrics = c.getFontMetrics(font);
         text = "";
