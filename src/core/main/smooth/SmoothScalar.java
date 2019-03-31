@@ -2,8 +2,6 @@
 package core.main.smooth;
 
 import core.main.smooth.motion.MotionFactory;
-import core.main.smooth.motion.SmoothMotion;
-import core.main.structs.Vector;
 
 public class SmoothScalar {
     
@@ -29,6 +27,12 @@ public class SmoothScalar {
     public void setValue(double value){ 
         this.value = value;
         motionScalar = new MotionScalar(smoothValue, value, motionFactory.create());
+    }
+    
+    public void override(double value){
+        this.value = value;
+        this.smoothValue = value;
+        motionScalar=null;
     }
     
     public void update(){

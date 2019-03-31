@@ -29,6 +29,11 @@ public class SmoothVector {
         this.pos = pos; 
         motionVector = new MotionVector(smooth, new Vector(pos), motionFactory.create());
     }
+    public void overridePos(Vector pos){
+        this.pos = pos;
+        this.smooth = new Vector(pos);
+        motionVector = null;
+    }
     
     public void update(){
         if(motionVector != null){
