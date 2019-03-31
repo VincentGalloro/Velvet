@@ -6,6 +6,10 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class Main extends Canvas implements Runnable{  
@@ -29,6 +33,14 @@ public class Main extends Canvas implements Runnable{
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
+        
+        BufferedImage icon;
+        try {
+            icon = ImageIO.read(new File("Velvet_Icon.png"));
+            frame.setIconImage(icon);
+        } catch (IOException ex) {
+            System.err.println("Could not find Velvet Logo :(");
+        }
         
         keyboard = new Keyboard();
         addKeyListener(keyboard); 
