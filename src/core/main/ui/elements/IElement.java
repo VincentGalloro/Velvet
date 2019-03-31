@@ -21,6 +21,17 @@ public interface IElement{
     public void addFocusStartHandler(IEventable eventable);
     public void addFocusEndHandler(IEventable eventable);
     
+    public void removeUpdateHandler(IUpdateable updateable);
+    public void removePreRenderHandler(IRenderable rendereable);
+    public void removePostRenderHandler(IRenderable rendereable);
+    public void removeMousePressHandler(IEventable eventable);
+    public void removeMouseReleaseHandler(IEventable eventable);
+    public void removeMouseScrollHandler(IScrollEventable eventable);
+    public void removeHoverStartHandler(IEventable eventable);
+    public void removeHoverEndHandler(IEventable eventable);
+    public void removeFocusStartHandler(IEventable eventable);
+    public void removeFocusEndHandler(IEventable eventable);
+    
     public void onMousePress();
     public void onMouseRelease();
     public void onMouseScroll(int amount);

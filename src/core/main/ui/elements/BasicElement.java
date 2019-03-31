@@ -62,6 +62,17 @@ public abstract class BasicElement implements IElement{
     public final void addFocusStartHandler(IEventable eventable){ focusStartHandlers.add(eventable); }
     public final void addFocusEndHandler(IEventable eventable){ focusEndHandlers.add(eventable); }
     
+    public final void removeUpdateHandler(IUpdateable updateable){ updateHandlers.remove(updateable); } 
+    public final void removePreRenderHandler(IRenderable rendereable){ preRenderHandlers.remove(rendereable); } 
+    public final void removePostRenderHandler(IRenderable rendereable){ postRenderHandlers.remove(rendereable); } 
+    public final void removeMousePressHandler(IEventable eventable){ mousePressHandlers.remove(eventable); } 
+    public final void removeMouseReleaseHandler(IEventable eventable){ mouseReleaseHandlers.remove(eventable); } 
+    public final void removeMouseScrollHandler(IScrollEventable eventable){ mouseScrollHandlers.remove(eventable); } 
+    public final void removeHoverStartHandler(IEventable eventable){ hoverStartHandlers.remove(eventable); } 
+    public final void removeHoverEndHandler(IEventable eventable){ hoverEndHandlers.remove(eventable); } 
+    public final void removeFocusStartHandler(IEventable eventable){ focusStartHandlers.remove(eventable); } 
+    public final void removeFocusEndHandler(IEventable eventable){ focusEndHandlers.remove(eventable); }
+    
     public final void onMousePress(){ for(IEventable e : mousePressHandlers){ e.onEvent(); } }
     public final void onMouseRelease(){ for(IEventable e : mouseReleaseHandlers){ e.onEvent(); } }
     public final void onMouseScroll(int amount){ for(IScrollEventable e : mouseScrollHandlers){ e.onScroll(amount); } }
@@ -75,13 +86,12 @@ public abstract class BasicElement implements IElement{
     }
     
     public IElement getHover(Vector mPos){
-        if(isHovered(mPos)){ return this; }
+        if(hasInteractHandlers() && isHovered(mPos)){ return this; }
         return null;
     }
     public final String getName(){ return name; }
     
     public final boolean isHovered(Vector mPos){
-        if(!hasInteractHandlers()){ return false; }
         return mPos.greaterThan(new Vector()) && mPos.lessThan(getSize());
     }
     public final boolean hasInteractHandlers(){
