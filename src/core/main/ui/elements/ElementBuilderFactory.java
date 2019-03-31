@@ -15,9 +15,9 @@ import core.main.ui.elements.impl.LabelElement;
 import core.main.ui.elements.impl.TextAreaElement;
 import core.main.ui.elements.impl.VScrollElement;
 
-public class ElementBuilderFactory {
+public class ElementBuilderFactory implements IElementBuilderFactory{
 
-    public static ElementBuilder fromString(String s, Mouse mouse){
+    public ElementBuilder fromString(String s, Mouse mouse){
         //base elements
         if(s.equals("box")){ return new BoxElement.Builder(); }
         if(s.equals("column")){ return new ColumnElement.Builder(); }

@@ -5,6 +5,7 @@ import core.main.ui.elements.ElementBuilder;
 import core.main.ui.elements.ElementBuilderFactory;
 import core.main.ui.elements.IContainer;
 import core.main.ui.elements.IElement;
+import core.main.ui.elements.IElementBuilderFactory;
 import core.main.ui.elements.IListContainer;
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class UIController{
 
@@ -22,12 +24,12 @@ public class UIController{
         
         private static Pattern argPattern = Pattern.compile("([^,=]+)=([^,]+)");
         
-        private static IElement createElement(String line, Mouse mouse){
+        private static IElement createElement(String line, Mouse mouse, IElementBuilderFactory ebf){
             String[] tokens = line.split(":", 2);
             if(tokens.length == 1){
                 tokens = new String[]{tokens[0], ""};
             }
-            ElementBuilder eb = ElementBuilderFactory.fromString(tokens[0], mouse);
+            ElementBuilder eb = ebf.fromString(tokens[0], mouse);
             if(eb == null){
                 System.err.println("NOT A VALID ELEMENT: "+tokens[0]);
                 return null;
@@ -45,18 +47,18 @@ public class UIController{
             return indent;
         }
         
-        public static UIController fromFile(File f, Mouse mouse){
+        public static UIController fromFile(File f, Mouse mouse, IElementBuilderFactory ebf){
             UIController controller = new UIController();
             ArrayList<IElement> chain = new ArrayList<>();
             try {
                 BufferedReader br = new BufferedReader(new FileReader(f));
-                controller.root = createElement(br.readLine(), mouse);
+                controller.root = createElement(br.readLine(), mouse, ebf);
                 chain.add(controller.getRoot());
                 String line;
                 while((line = br.readLine()) != null){
                     int indent = getIndent(line);
                     if(indent >= line.length()){ continue; }
-                    IElement e = createElement(line.substring(indent), mouse);
+                    IElement e = createElement(line.substring(indent), mouse, ebf);
                     if(e == null){ continue; }
                     
                     if(indent >= chain.size()){ chain.add(e); }
@@ -67,8 +69,15 @@ public class UIController{
                     
                     controller.addElement(e);
                 }
-            } catch (FileNotFoundException ex) {} catch (IOException ex) {}
+            } catch (FileNotFoundException ex) {
+                System.err.println("UI FILE DOES NOT EXIST: "+f.getName());
+                return null;
+            } catch (IOException ex) {}
             return controller;
+        }
+        
+        public static UIController fromFile(File f, Mouse mouse){
+            return fromFile(f, mouse, new ElementBuilderFactory());
         }
     }
     
@@ -81,7 +90,8 @@ public class UIController{
     
     public IElement getRoot(){ return root; }
     public IElement getElement(String name){ return elements.get(name); }
-    
+    public Stream<IElement> getNamedElements(){ return elements.values().stream(); }
+            
     public void addElement(IElement e){ elements.put(e.getName(), e); }
     
 }
