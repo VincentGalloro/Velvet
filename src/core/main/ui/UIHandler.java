@@ -2,28 +2,28 @@ package core.main.ui;
 
 import core.main.Mouse;
 import core.main.VGraphics;
-import core.main.ui.elements.ElementBuilderFactory;
+import core.main.ui.elements.ElementFactory;
 import core.main.ui.elements.IElement;
-import core.main.ui.elements.IElementBuilderFactory;
 import java.awt.geom.AffineTransform;
 import java.io.File;
+import core.main.ui.elements.IElementFactory;
 
 public class UIHandler {
     
-    private IElementBuilderFactory elementBuilderFactory;
+    private IElementFactory elementFactory;
     private Mouse mouse;
     private IElement root, currentHover, currentFocus;
     
     public UIHandler(Mouse mouse){
         this.mouse = mouse;
-        this.elementBuilderFactory = new ElementBuilderFactory();
+        this.elementFactory = new ElementFactory();
     }
     
     public void setRoot(IElement root){ this.root = root; }
     public void setRoot(UIController uiController){ this.root = uiController.getRoot(); }
   
-    public void setElementBuilderFactory(IElementBuilderFactory ebf){
-        this.elementBuilderFactory = ebf;
+    public void setElementBuilderFactory(IElementFactory elementFactory){
+        this.elementFactory = elementFactory;
     }
     
     public void update(){
@@ -58,7 +58,7 @@ public class UIHandler {
     }
     
     public UIController loadController(File file){
-        return UIController.Factory.fromFile(file, mouse, elementBuilderFactory);
+        return UIController.Factory.fromFile(file, mouse, elementFactory);
     }
     public UIController loadController(String fName){
         return loadController(new File(fName));

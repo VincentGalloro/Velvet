@@ -1,11 +1,9 @@
 package core.main.ui;
 
 import core.main.Mouse;
-import core.main.ui.elements.ElementBuilder;
-import core.main.ui.elements.ElementBuilderFactory;
+import core.main.ui.elements.ElementFactory;
 import core.main.ui.elements.IContainer;
 import core.main.ui.elements.IElement;
-import core.main.ui.elements.IElementBuilderFactory;
 import core.main.ui.elements.IListContainer;
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,6 +15,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import core.main.ui.elements.IElementFactory;
+import core.main.ui.elements.IElementBuilder;
 
 public class UIController{
 
@@ -24,21 +24,22 @@ public class UIController{
         
         private static Pattern argPattern = Pattern.compile("([^,=]+)=([^,]+)");
         
-        private static IElement createElement(String line, Mouse mouse, IElementBuilderFactory ebf){
+        private static IElement createElement(String line, Mouse mouse, IElementFactory ebf){
             String[] tokens = line.split(":", 2);
             if(tokens.length == 1){
                 tokens = new String[]{tokens[0], ""};
             }
-            ElementBuilder eb = ebf.fromString(tokens[0], mouse);
-            if(eb == null){
+            IElement element = ebf.fromString(tokens[0], mouse);
+            if(element == null){
                 System.err.println("NOT A VALID ELEMENT: "+tokens[0]);
                 return null;
             }
+            IElementBuilder eb = element.getBuilder();
             Matcher matches = argPattern.matcher(tokens[1]);
             while(matches.find()){
                 eb.handleString(matches.group(1).trim(), matches.group(2).trim());
             }
-            return eb.get();
+            return element;
         }
         
         private static int getIndent(String line){
@@ -47,7 +48,7 @@ public class UIController{
             return indent;
         }
         
-        public static UIController fromFile(File f, Mouse mouse, IElementBuilderFactory ebf){
+        public static UIController fromFile(File f, Mouse mouse, IElementFactory ebf){
             UIController controller = new UIController();
             ArrayList<IElement> chain = new ArrayList<>();
             try {
@@ -77,7 +78,7 @@ public class UIController{
         }
         
         public static UIController fromFile(File f, Mouse mouse){
-            return fromFile(f, mouse, new ElementBuilderFactory());
+            return fromFile(f, mouse, new ElementFactory());
         }
     }
     
