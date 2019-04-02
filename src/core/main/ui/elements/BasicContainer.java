@@ -4,46 +4,44 @@ package core.main.ui.elements;
 import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.active.IRenderable;
+import core.main.ui.active.ITransformable;
 import core.main.ui.active.impl.WindowedView;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 public abstract class BasicContainer extends BasicElement implements IContainer{
 
-    public static abstract class Builder extends BasicElement.Builder{
-        
-        private final BasicContainer container;
-        
-        public Builder(BasicContainer container) {
-            super(container);
-            this.container = container;
-        }
+    public class Builder extends BasicElement.Builder{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
-            if(field.equals("strict")){ container.setStrict(Boolean.parseBoolean(value)); }
+            if(field.equals("strict")){ setStrict(Boolean.parseBoolean(value)); }
         }
     }
     
     private WindowedView windowedView;
     private final ArrayList<IRenderable> preChildRenderHandlers, postChildRenderHandlers;
+    private final ArrayList<ITransformable> transformHandlers;
     protected IElement element;
     
     public BasicContainer(){
         this.preChildRenderHandlers = new ArrayList<>();
         this.postChildRenderHandlers = new ArrayList<>();
+        this.transformHandlers = new ArrayList<>();
         
         addUpdateHandler(this::childUpdate);
         addPostRenderHandler(this::childRender);
     }
     
-    public void addPreChildRenderHandler(IRenderable rendereable){ preChildRenderHandlers.add(rendereable); }
-    public void addPostChildRenderHandler(IRenderable rendereable){ postChildRenderHandlers.add(rendereable); }
+    public final void addPreChildRenderHandler(IRenderable rendereable){ preChildRenderHandlers.add(rendereable); }
+    public final void addPostChildRenderHandler(IRenderable rendereable){ postChildRenderHandlers.add(rendereable); }
+    public final void addTransformHandler(ITransformable transformable){ transformHandlers.add(transformable); }
     
-    public void removePreChildRenderHandler(IRenderable rendereable){ preChildRenderHandlers.remove(rendereable); }
-    public void removePostChildRenderHandler(IRenderable rendereable){ postChildRenderHandlers.remove(rendereable); }
+    public final void removePreChildRenderHandler(IRenderable rendereable){ preChildRenderHandlers.remove(rendereable); }
+    public final void removePostChildRenderHandler(IRenderable rendereable){ postChildRenderHandlers.remove(rendereable); }
+    public final void removeTransformHandler(ITransformable transformable){ transformHandlers.remove(transformable); }
     
-    public void setStrict(boolean strict){
+    public final void setStrict(boolean strict){
         if(strict){
             if(windowedView == null){
                 windowedView = new WindowedView();
@@ -57,7 +55,7 @@ public abstract class BasicContainer extends BasicElement implements IContainer{
             }
         }
     }
-    public boolean isStrict(){ return windowedView != null; }
+    public final boolean isStrict(){ return windowedView != null; }
     
     public final void setElement(IElement e) { element = e; }
     
@@ -77,6 +75,14 @@ public abstract class BasicContainer extends BasicElement implements IContainer{
             if(cHover != null){ return cHover; }
         }
         return super.getHover(mPos);
+    }
+    
+    public final AffineTransform getTransform(){
+        AffineTransform at = new AffineTransform();
+        for(ITransformable t : transformHandlers){
+            at.concatenate(t.getTransform());
+        }
+        return at;
     }
     
     protected final void childRender(VGraphics g) {

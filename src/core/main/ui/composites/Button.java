@@ -90,56 +90,15 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
         }
     }
     
-    public static class Builder extends BasicElement.Builder{
+    public class Builder extends BasicElement.Builder{
 
-        private final Button button;
-        private final ElementBuilder boxBuilder, textBuilder, padBuilder, sizeBuilder;
+        private final IElementBuilder boxBuilder, textBuilder, padBuilder, sizeBuilder;
         
         public Builder() {
-            super(new Button());
-            button = (Button)get();
-            
-            boxBuilder = new BoxElement.Builder();
-            textBuilder = new LabelElement.Builder();
-            padBuilder = new PaddingElement.Builder();
-            sizeBuilder = new CenteredElement.Builder();
-            
-            button.box = (IBoxable)boxBuilder.get();
-            button.text = (ITextable)textBuilder.get();
-            button.padding = (IPaddable)padBuilder.get();
-            button.sizing = (ISizeable)sizeBuilder.get();
-            
-            button.addPostRenderHandler(button.box::render);
-            
-            ((IContainer)button.box).setElement(button.sizing);
-            ((IContainer)button.sizing).setElement(button.padding);
-            ((IContainer)button.padding).setElement(button.text);
-            
-            button.setPadding(5);
-            button.setSize(new Vector(200, 40));
-            
-            ColorController boxOutlineCC = new ColorController(Color.BLACK);
-            ColorController boxFillCC = new ColorController(Color.WHITE);
-            ColorController textCC = new ColorController(Color.BLACK);
-            
-            button.colorControllers.add(boxOutlineCC);
-            button.colorControllers.add(boxFillCC);
-            button.colorControllers.add(textCC);
-            
-            boxOutlineCC.bind(button, ()->button.getColorProfile().getBoxOutlineProfile(), c -> button.setOutlineColor(c));
-            boxFillCC.bind(button, ()->button.getColorProfile().getBoxFillProfile(), c -> button.setFillColor(c));
-            textCC.bind(button, ()->button.getColorProfile().getTextProfile(), c -> button.setTextColor(c));
-            
-            button.colorProfile = new ColorProfile();
-            
-            button.colorProfile.textProfile.color = Color.BLACK;
-            button.colorProfile.textProfile.hoverColor = new Color(200, 200, 200);
-            button.colorProfile.textProfile.clickColor = Color.GREEN;
-            
-            OffsetTransition ot = new OffsetTransition();
-            ot.apply(button);
-            button.addHoverStartHandler(() -> ot.setOffset(new Vector(-1, -5)));
-            button.addHoverEndHandler(() -> ot.setOffset(new Vector()));
+            boxBuilder = box.new Builder();
+            textBuilder = text.new Builder();
+            padBuilder = padding.new Builder();
+            sizeBuilder = sizing.new Builder();
         }
         
         public void handleString(String field, String value) {
@@ -148,20 +107,59 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
             textBuilder.handleString(field, value);
             padBuilder.handleString(field, value);
             sizeBuilder.handleString(field, value);
-            if(field.endsWith(" color")){ button.colorProfile.handleString(field, toColor(value)); }
+            if(field.endsWith(" color")){ colorProfile.handleString(field, toColor(value)); }
         }
     }
     
-    private IBoxable box;
-    private ITextable text;
-    private IPaddable padding;
-    private ISizeable sizing;
+    private final BoxElement box;
+    private final LabelElement text;
+    private final PaddingElement padding;
+    private final CenteredElement sizing;
     private ColorProfile colorProfile;
-    private ArrayList<ColorController> colorControllers;
+    private final ArrayList<ColorController> colorControllers;
     
-    private Button(){
+    public Button(){
         colorControllers = new ArrayList<>();
+        
+        box = new BoxElement();
+        text = new LabelElement();
+        padding = new PaddingElement();
+        sizing = new CenteredElement();
+
+        addPostRenderHandler(box::render);
+
+        box.setElement(sizing);
+        sizing.setElement(padding);
+        padding.setElement(text);
+
+        setPadding(5);
+        setSize(new Vector(200, 40));
+
+        ColorController boxOutlineCC = new ColorController(Color.BLACK);
+        ColorController boxFillCC = new ColorController(Color.WHITE);
+        ColorController textCC = new ColorController(Color.BLACK);
+
+        colorControllers.add(boxOutlineCC);
+        colorControllers.add(boxFillCC);
+        colorControllers.add(textCC);
+
+        boxOutlineCC.bind(this, ()->getColorProfile().getBoxOutlineProfile(), c -> setOutlineColor(c));
+        boxFillCC.bind(this, ()->getColorProfile().getBoxFillProfile(), c -> setFillColor(c));
+        textCC.bind(this, ()->getColorProfile().getTextProfile(), c -> setTextColor(c));
+
+        colorProfile = new ColorProfile();
+
+        colorProfile.textProfile.color = Color.BLACK;
+        colorProfile.textProfile.hoverColor = new Color(200, 200, 200);
+        colorProfile.textProfile.clickColor = Color.GREEN;
+
+        OffsetTransition ot = new OffsetTransition();
+        ot.apply(this);
+        addHoverStartHandler(() -> ot.setOffset(new Vector(-1, -5)));
+        addHoverEndHandler(() -> ot.setOffset(new Vector()));
     }
+    
+    public IElementBuilder getBuilder(){ return new Builder(); }
     
     public void setOutlineColor(Color o) { box.setOutlineColor(o); }
     public void setFillColor(Color f) { box.setFillColor(f); }

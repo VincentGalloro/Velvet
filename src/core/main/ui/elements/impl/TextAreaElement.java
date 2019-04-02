@@ -3,24 +3,18 @@ package core.main.ui.elements.impl;
 import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicTextable;
+import core.main.ui.elements.IElementBuilder;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 public class TextAreaElement extends BasicTextable{
 
-    public static class Builder extends BasicTextable.Builder{
-        
-        private TextAreaElement textArea;
-        
-        public Builder() { 
-            super(new TextAreaElement()); 
-            textArea = (TextAreaElement)get();
-        }
+    public class Builder extends BasicTextable.Builder{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
-            if(field.equals("text width")){ textArea.width = Double.parseDouble(value); }
-            if(field.equals("line sep")){ textArea.sep = Double.parseDouble(value); }
+            if(field.equals("text width")){ width = Double.parseDouble(value); }
+            if(field.equals("line sep")){ sep = Double.parseDouble(value); }
         }
     }
     
@@ -31,6 +25,8 @@ public class TextAreaElement extends BasicTextable{
         
         addPostRenderHandler(this::postRender);
     }
+    
+    public IElementBuilder getBuilder(){ return new Builder(); }
     
     public boolean supportsNewline(){ return true; }
     
@@ -79,7 +75,6 @@ public class TextAreaElement extends BasicTextable{
     }
     
     public void postRender(VGraphics g) {
-        super.onRender(g);
         ArrayList<Integer> breakPoints = getBreakpoints();
         for(int i = 0; i < breakPoints.size()-1; i++){
             g.drawString(text.substring(breakPoints.get(i), breakPoints.get(i+1)), new Vector(0, getYOffs(i)));

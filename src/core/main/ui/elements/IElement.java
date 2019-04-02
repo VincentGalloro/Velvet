@@ -10,6 +10,8 @@ import java.awt.geom.AffineTransform;
 
 public interface IElement{
     
+    public IElementBuilder getBuilder();
+    
     public void addUpdateHandler(IUpdateable updateable);
     public void addPreRenderHandler(IRenderable rendereable);
     public void addPostRenderHandler(IRenderable rendereable);

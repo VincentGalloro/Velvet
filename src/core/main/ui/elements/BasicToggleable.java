@@ -5,14 +5,7 @@ import java.util.ArrayList;
 
 public abstract class BasicToggleable extends BasicElement implements IToggleable{
 
-    public static abstract class Builder extends BasicElement.Builder{
-        
-        private final BasicToggleable toggleable;
-        
-        public Builder(BasicToggleable toggleable) {
-            super(toggleable);
-            this.toggleable = toggleable;
-        }
+    public class Builder extends BasicElement.Builder{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
@@ -21,7 +14,7 @@ public abstract class BasicToggleable extends BasicElement implements IToggleabl
     }
 
     protected boolean toggled;
-    private ArrayList<IEventable> toggleHandlers, toggleOnHandlers, toggleOffHandlers;
+    private final ArrayList<IEventable> toggleHandlers, toggleOnHandlers, toggleOffHandlers;
     
     public BasicToggleable(){
         toggleHandlers = new ArrayList<>();

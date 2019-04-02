@@ -3,13 +3,13 @@ package core.main.ui.composites;
 import core.main.structs.GridDirection;
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicToggleable;
-import core.main.ui.elements.ElementBuilder;
 import core.main.ui.elements.IBoxable;
 import core.main.ui.elements.IPaddable;
 import core.main.ui.elements.ISizeable;
 import core.main.ui.elements.ITextable;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
+import core.main.ui.elements.IElementBuilder;
 
 public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPaddable, ISizeable{
     
@@ -28,56 +28,55 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
         }
     }
     
-    public static class Builder extends BasicToggleable.Builder{
-
-        private final Toggle toggle;
-        private final ElementBuilder buttonBuilder;
+    public class Builder extends BasicToggleable.Builder{
+        
+        private final IElementBuilder buttonBuilder;
         
         public Builder() {
-            super(new Toggle());
-            toggle = (Toggle)get();
-            
-            buttonBuilder = new Button.Builder();
-            toggle.button = (Button)buttonBuilder.get();
-            
-            toggle.colorProfile = new ColorProfile();
-            toggle.colorProfile.colorProfile = toggle.button.getColorProfile();
-                    
-            toggle.colorProfile.toggleColorProfile.getTextProfile().setColor(Color.GREEN);
-            toggle.colorProfile.toggleColorProfile.getTextProfile().setHoverColor(new Color(200, 255, 200));
-            toggle.colorProfile.toggleColorProfile.getTextProfile().setClickColor(Color.GREEN);
-            toggle.colorProfile.colorProfile.getTextProfile().setClickColor(Color.BLACK);
-            
-            toggle.colorProfile.colorProfile.getBoxOutlineProfile().setClickColor(Color.BLACK);
-            toggle.colorProfile.toggleColorProfile.getBoxOutlineProfile().setClickColor(Color.GREEN);
-            toggle.colorProfile.colorProfile.getBoxOutlineProfile().setColor(null);
-            toggle.colorProfile.toggleColorProfile.getBoxOutlineProfile().setColor(null);
-            
-            toggle.addPostRenderHandler(toggle.button::render);
-            toggle.addUpdateHandler(toggle.button::update);
-            toggle.addHoverStartHandler(toggle.button::onHoverStart);
-            toggle.addHoverEndHandler(toggle.button::onHoverEnd);
-            
-            toggle.addMousePressHandler(toggle::toggle);
-            toggle.addToggleHandler(toggle.button::onMousePress);
-            
-            toggle.addToggleOnHandler(() -> toggle.button.setColorProfile(toggle.colorProfile.toggleColorProfile));
-            toggle.addToggleOffHandler(() -> toggle.button.setColorProfile(toggle.colorProfile.colorProfile));
+            buttonBuilder = button.new Builder();
         }
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
             buttonBuilder.handleString(field, value);
-            if(field.equals("text")){ toggle.addToggleOffHandler(() -> toggle.setText(value)); }
-            if(field.equals("toggle text")){ toggle.addToggleOnHandler(() -> toggle.setText(value)); }
-            if(field.endsWith(" color")){ toggle.colorProfile.handleString(field, toColor(value)); }
+            if(field.equals("text")){ addToggleOffHandler(() -> setText(value)); }
+            if(field.equals("toggle text")){ addToggleOnHandler(() -> setText(value)); }
+            if(field.endsWith(" color")){ colorProfile.handleString(field, toColor(value)); }
         }
     }
     
     private ColorProfile colorProfile;
-    private Button button;
+    private final Button button;
     
-    private Toggle(){}
+    public Toggle(){
+        button = new Button();
+        
+        colorProfile = new ColorProfile();
+        colorProfile.colorProfile = button.getColorProfile();
+
+        colorProfile.toggleColorProfile.getTextProfile().setColor(Color.GREEN);
+        colorProfile.toggleColorProfile.getTextProfile().setHoverColor(new Color(200, 255, 200));
+        colorProfile.toggleColorProfile.getTextProfile().setClickColor(Color.GREEN);
+        colorProfile.colorProfile.getTextProfile().setClickColor(Color.BLACK);
+
+        colorProfile.colorProfile.getBoxOutlineProfile().setClickColor(Color.BLACK);
+        colorProfile.toggleColorProfile.getBoxOutlineProfile().setClickColor(Color.GREEN);
+        colorProfile.colorProfile.getBoxOutlineProfile().setColor(null);
+        colorProfile.toggleColorProfile.getBoxOutlineProfile().setColor(null);
+
+        addPostRenderHandler(button::render);
+        addUpdateHandler(button::update);
+        addHoverStartHandler(button::onHoverStart);
+        addHoverEndHandler(button::onHoverEnd);
+
+        addMousePressHandler(this::toggle);
+        addToggleHandler(button::onMousePress);
+
+        addToggleOnHandler(() -> button.setColorProfile(colorProfile.toggleColorProfile));
+        addToggleOffHandler(() -> button.setColorProfile(colorProfile.colorProfile));
+    }
+    
+    public IElementBuilder getBuilder(){ return new Builder(); }
     
     public void setOutlineColor(Color o) { button.setOutlineColor(o); }
     public void setFillColor(Color f) { button.setFillColor(f); }

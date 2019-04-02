@@ -9,21 +9,14 @@ import java.awt.Color;
 
 public abstract class BasicScrollable extends BasicContainer implements IScrollable{
 
-    public static abstract class Builder extends BasicContainer.Builder{
-        
-        private final BasicScrollable scrollable;
-        
-        public Builder(BasicScrollable scrollable) {
-            super(scrollable);
-            this.scrollable = scrollable;
-        }
+    public class Builder extends BasicContainer.Builder{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
-            if(field.equals("length")){ scrollable.length = Double.parseDouble(value); }
-            if(field.equals("bar color")){ scrollable.color = toColor(value); }
-            if(field.equals("bar thickness")){ scrollable.thickness = Float.parseFloat(value); }
-            if(field.equals("delta")){ scrollable.delta = Double.parseDouble(value); }
+            if(field.equals("length")){ length = Double.parseDouble(value); }
+            if(field.equals("bar color")){ color = toColor(value); }
+            if(field.equals("bar thickness")){ thickness = Float.parseFloat(value); }
+            if(field.equals("delta")){ delta = Double.parseDouble(value); }
         }
     }
     

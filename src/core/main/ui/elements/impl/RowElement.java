@@ -2,14 +2,13 @@ package core.main.ui.elements.impl;
 
 import core.main.structs.Vector;
 import core.main.ui.elements.IElement;
+import core.main.ui.elements.IElementBuilder;
 import core.main.ui.elements.SeriesListContainer;
 import java.awt.geom.AffineTransform;
 
 public class RowElement extends SeriesListContainer{
             
-    public static class Builder extends SeriesListContainer.Builder{
-        public Builder() { super(new RowElement()); }
-    }
+    public IElementBuilder getBuilder(){ return new Builder(); }
     
     public Vector getSize() {
         Vector size = new Vector();

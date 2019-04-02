@@ -8,22 +8,17 @@ import core.main.ui.active.IRenderable;
 import core.main.ui.active.IScrollEventable;
 import java.util.ArrayList;
 import core.main.ui.active.IUpdateable;
+import core.main.ui.elements.impl.BoxElement;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 
 public abstract class BasicElement implements IElement{
 
-    public static abstract class Builder implements ElementBuilder{
-
-        private final BasicElement element;
-        
-        public Builder(BasicElement element){ this.element = element; }
+    public class Builder implements IElementBuilder{
         
         public void handleString(String field, String value) {
-            if(field.equals("name")){ element.name = value; }
+            if(field.equals("name")){ name = value; }
         }
-
-        public final IElement get() { return element; }
         
         public final Color toColor(String s){
             String[] tokens = s.split(" ");

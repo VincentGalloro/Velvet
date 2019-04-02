@@ -2,15 +2,18 @@ package core.main.ui.elements.impl;
 
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicSizeable;
+import core.main.ui.elements.IElementBuilder;
 import java.awt.geom.AffineTransform;
 
-public class ScaleElement  extends BasicSizeable{
+public class ScaleElement extends BasicSizeable{
     
-    public static class Builder extends BasicSizeable.Builder{
-        public Builder() { super(new ScaleElement()); }
+    public ScaleElement(){
+        addTransformHandler(this::transform);
     }
     
-    public AffineTransform getTransform(){        
+    public IElementBuilder getBuilder(){ return new Builder(); }
+    
+    private AffineTransform transform(){        
         AffineTransform at = new AffineTransform();
         Vector eSize = element.getSize();
 

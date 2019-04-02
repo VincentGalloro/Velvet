@@ -9,14 +9,7 @@ import java.util.stream.Stream;
 
 public abstract class BasicListContainer extends BasicElement implements IListContainer{
 
-    public static abstract class Builder extends BasicElement.Builder{
-        
-        private final BasicListContainer listContainer;
-        
-        public Builder(BasicListContainer listContainer) {
-            super(listContainer);
-            this.listContainer = listContainer;
-        }
+    public class Builder extends BasicElement.Builder{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);

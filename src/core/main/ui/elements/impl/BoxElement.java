@@ -4,27 +4,20 @@ import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicContainer;
 import core.main.ui.elements.IBoxable;
+import core.main.ui.elements.IElementBuilder;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 public class BoxElement extends BasicContainer implements IBoxable{
     
-    public static class Builder extends BasicContainer.Builder{
-
-        private final BoxElement box;
-                
-        public Builder() {
-            super(new BoxElement());
-            box = (BoxElement)get();
-        }
+    public class Builder extends BasicContainer.Builder{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
-            if(field.equals("outline color")){ box.outline = toColor(value); }
-            if(field.equals("fill color")){ box.fill = toColor(value); }
-            if(field.equals("outline thickness")){ box.thickness = Float.parseFloat(value); }
+            if(field.equals("outline color")){ outline = toColor(value); }
+            if(field.equals("fill color")){ fill = toColor(value); }
+            if(field.equals("outline thickness")){ thickness = Float.parseFloat(value); }
         }
     }
     
@@ -39,6 +32,8 @@ public class BoxElement extends BasicContainer implements IBoxable{
         addPostRenderHandler(this::postRender);
     }
     
+    public IElementBuilder getBuilder(){ return new Builder(); }
+    
     public void setOutlineColor(Color o){ outline = o; }
     public void setFillColor(Color f){ fill = f; }
     public void setThickness(float t){ thickness = t; }
@@ -50,10 +45,8 @@ public class BoxElement extends BasicContainer implements IBoxable{
         if(element == null){ return new Vector(); }
         return element.getSize();
     }
-    
-    public AffineTransform getTransform(){ return new AffineTransform(); }
 
-    public void preRender(VGraphics g) {
+    private void preRender(VGraphics g) {
         Vector size = getSize();
         if(fill != null){
             g.setColor(fill);
@@ -61,7 +54,7 @@ public class BoxElement extends BasicContainer implements IBoxable{
         }
     }    
     
-    public void postRender(VGraphics g){
+    private void postRender(VGraphics g){
         Vector size = getSize();
         if(outline != null){
             g.setColor(outline);

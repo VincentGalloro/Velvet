@@ -1,8 +1,7 @@
 
 package core.main.ui.elements;
 
-public interface ElementBuilder {
+public interface IElementBuilder {
     
     public abstract void handleString(String field, String value);
-    public abstract IElement get();
 }

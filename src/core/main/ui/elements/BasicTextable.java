@@ -11,27 +11,20 @@ import java.util.Scanner;
 
 public abstract class BasicTextable extends BasicElement implements ITextable{
     
-    public static class Builder extends BasicElement.Builder{
-
-        private final BasicTextable textable;
-                
-        public Builder(BasicTextable textable) {
-            super(textable);
-            this.textable = (BasicTextable)get();
-        }
+    public class Builder extends BasicElement.Builder{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
             if(field.equals("path")){
                 try {
-                    textable.text = new Scanner(new File(value)).useDelimiter("\\Z").next();
+                    text = new Scanner(new File(value)).useDelimiter("\\Z").next();
                 } catch (FileNotFoundException ex) {
                     System.out.println("COULD NOT FIND TEXT FILE: "+value);
                 }
             }
-            if(field.equals("text")){ textable.text = value; }
-            if(field.equals("text color")){ textable.color = toColor(value); }
-            if(field.equals("font size")){ textable.font = textable.font.deriveFont(Float.parseFloat(value)); }
+            if(field.equals("text")){ text = value; }
+            if(field.equals("text color")){ color = toColor(value); }
+            if(field.equals("font size")){ font = font.deriveFont(Float.parseFloat(value)); }
         }
     }
     
@@ -46,6 +39,8 @@ public abstract class BasicTextable extends BasicElement implements ITextable{
         fontMetrics = c.getFontMetrics(font);
         text = "";
         color = Color.BLACK;
+        
+        addPostRenderHandler(this::setupRender);
     }
     
     public final void setText(String t){ text = t; }
@@ -54,7 +49,7 @@ public abstract class BasicTextable extends BasicElement implements ITextable{
     public final String getText() { return text; } 
     public final Color getTextColor() { return color; }
     
-    public void onRender(VGraphics g){
+    private final void setupRender(VGraphics g){
         g.setColor(color);
         g.setFont(font);
         fontMetrics = g.getFontMetrics();

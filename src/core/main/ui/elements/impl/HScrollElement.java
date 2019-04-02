@@ -8,17 +8,15 @@ import core.main.ui.active.impl.DragObserver;
 import core.main.ui.active.impl.HorizontalScroller;
 import core.main.ui.active.impl.WheelScroller;
 import core.main.ui.elements.BasicScrollable;
+import core.main.ui.elements.IElementBuilder;
 import java.awt.BasicStroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 
 public class HScrollElement extends BasicScrollable{
-
-    public static class Builder extends BasicScrollable.Builder{
-        public Builder(Mouse mouse) { super(new HScrollElement(mouse)); }
-    }
     
     public HScrollElement(Mouse mouse){
+        addTransformHandler(this::transform);
         addPreRenderHandler(this::preRender);
 
         DragObserver dragObserver = new DragObserver(this);
@@ -28,6 +26,8 @@ public class HScrollElement extends BasicScrollable{
         addMouseScrollHandler(new WheelScroller(this, 0.05, true));
     }
     
+    public IElementBuilder getBuilder(){ return new Builder(); }
+    
     public Vector getSize() {
         if(element == null){
             return new Vector(length, 0);
@@ -35,13 +35,13 @@ public class HScrollElement extends BasicScrollable{
         return new Vector(length + element.getSize().x, element.getSize().y);
     }
 
-    public AffineTransform getTransform() {
+    private AffineTransform transform() {
         AffineTransform at = new AffineTransform();
         at.translate(length * delta, 0);
         return at;
     }
     
-    public void preRender(VGraphics g){
+    private void preRender(VGraphics g){
         g.setColor(color);
         g.setStroke(new BasicStroke(thickness));
         Vector eSize = element.getSize();

@@ -3,17 +3,16 @@ package core.main.ui.elements.impl;
 import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.elements.BasicTextable;
+import core.main.ui.elements.IElementBuilder;
 import java.awt.geom.AffineTransform;
 
 public class LabelElement extends BasicTextable{
 
-    public static class Builder extends BasicTextable.Builder{
-        public Builder() { super(new LabelElement()); }
-    }
-    
     public LabelElement(){
         addPostRenderHandler(this::postRender);
     }
+    
+    public IElementBuilder getBuilder(){ return new Builder(); }
     
     public boolean supportsNewline() { return false; }
     
@@ -28,7 +27,6 @@ public class LabelElement extends BasicTextable{
     }
     
     public void postRender(VGraphics g) {
-        super.onRender(g);
         g.drawString(text, new Vector(0, fontMetrics.getAscent()));
     }
 }
