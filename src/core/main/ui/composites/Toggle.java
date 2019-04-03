@@ -33,7 +33,7 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
         private final IElementBuilder buttonBuilder;
         
         public Builder() {
-            buttonBuilder = button.new Builder();
+            buttonBuilder = button.getBuilder();
         }
         
         public void handleString(String field, String value) {
@@ -80,7 +80,8 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
     
     public void setOutlineColor(Color o) { button.setOutlineColor(o); }
     public void setFillColor(Color f) { button.setFillColor(f); }
-    public void setThickness(float t) { button.setThickness(t); }
+    public void setOutlineThickness(float t) { button.setOutlineThickness(t); }
+    public void setRounding(Double d){ button.setRounding(d); }
     public void setText(String t) { button.setText(t); }
     public void setTextColor(Color c) { button.setTextColor(c); }
     public void setPadding(double p) { button.setPadding(p); }

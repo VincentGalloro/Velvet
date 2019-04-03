@@ -95,10 +95,10 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
         private final IElementBuilder boxBuilder, textBuilder, padBuilder, sizeBuilder;
         
         public Builder() {
-            boxBuilder = box.new Builder();
-            textBuilder = text.new Builder();
-            padBuilder = padding.new Builder();
-            sizeBuilder = sizing.new Builder();
+            boxBuilder = box.getBuilder();
+            textBuilder = text.getBuilder();
+            padBuilder = padding.getBuilder();
+            sizeBuilder = sizing.getBuilder();
         }
         
         public void handleString(String field, String value) {
@@ -126,6 +126,7 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
         padding = new PaddingElement();
         sizing = new CenteredElement();
 
+        addUpdateHandler(box::update);
         addPostRenderHandler(box::render);
 
         box.setElement(sizing);
@@ -163,7 +164,8 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
     
     public void setOutlineColor(Color o) { box.setOutlineColor(o); }
     public void setFillColor(Color f) { box.setFillColor(f); }
-    public void setThickness(float t) { box.setThickness(t); }
+    public void setOutlineThickness(float t) { box.setOutlineThickness(t); }
+    public void setRounding(Double d){ box.setRounding(d); }
     public void setText(String t) { text.setText(t); }
     public void setTextColor(Color c) { text.setTextColor(c); }
     public void setPadding(double p) { padding.setPadding(p); }
@@ -173,8 +175,6 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
         this.colorProfile = colorProfile; 
         for(ColorController cc : colorControllers){ cc.onProfileSwap(); }
     }
-    
-    public void containerUpdate(AffineTransform at){ box.update(at); }
     
     public Color getOutlineColor(){ return box.getOutlineColor(); }
     public Color getFillColor(){ return box.getFillColor(); }
