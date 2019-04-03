@@ -10,4 +10,7 @@ Velvet is a java Framework / Library for faster application development. Velvet'
 Velvet also contains utility objects such as 2D Vectors, Direction and GridDirection objects, Sprite and Spritesheet objects, and more. A Smooth package which contains SmoothMotion, SmoothColors, and other SmoothTransitions. Velvet also contains some Game Development packages for Entities and Handlers
 \
 \
-Documentation coming soon!
+The Interactive Documentation program is now live! Simply run the jar file inside the VelvetDocumentation folder for an interactive documentation / tutorial of Velvet's functionality. Some parts of the documentation are still under construction
+\
+\
+![alt text](Velvet_Documentation_Preview.png)
