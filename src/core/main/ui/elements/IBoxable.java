@@ -6,7 +6,8 @@ public interface IBoxable extends IElement{
     
     public void setOutlineColor(Color o);
     public void setFillColor(Color f);
-    public void setThickness(float t);
+    public void setOutlineThickness(float t);
+    public void setRounding(Double d);
     
     public Color getOutlineColor();
     public Color getFillColor();

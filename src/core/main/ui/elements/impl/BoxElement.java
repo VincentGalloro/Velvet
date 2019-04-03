@@ -2,12 +2,15 @@ package core.main.ui.elements.impl;
 
 import core.main.VGraphics;
 import core.main.structs.Vector;
+import core.main.ui.active.IRenderable;
 import core.main.ui.elements.BasicContainer;
 import core.main.ui.elements.IBoxable;
 import core.main.ui.elements.IElementBuilder;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 public class BoxElement extends BasicContainer implements IBoxable{
     
@@ -18,25 +21,37 @@ public class BoxElement extends BasicContainer implements IBoxable{
             if(field.equals("outline color")){ outline = toColor(value); }
             if(field.equals("fill color")){ fill = toColor(value); }
             if(field.equals("outline thickness")){ thickness = Float.parseFloat(value); }
+            if(field.equals("rounding")){ rounding = Double.parseDouble(value); }
+        }
+        
+        //temporary setting - current only used by scroll column
+        public void preRenderOutline(){
+            removePostRenderHandler(outlineRender);
+            addPreRenderHandler(outlineRender);
         }
     }
     
+    private final IRenderable fillRender, outlineRender;
     private Color outline, fill;
     private float thickness;
+    private Double rounding;
     
     public BoxElement(){
         outline = Color.BLACK;
         thickness = 2;
         
-        addPreRenderHandler(this::preRender);
-        addPostRenderHandler(this::postRender);
+        fillRender = this::fillRender;
+        outlineRender = this::outlineRender;
+        addPreRenderHandler(fillRender);
+        addPostRenderHandler(outlineRender);
     }
     
     public IElementBuilder getBuilder(){ return new Builder(); }
     
     public void setOutlineColor(Color o){ outline = o; }
     public void setFillColor(Color f){ fill = f; }
-    public void setThickness(float t){ thickness = t; }
+    public void setOutlineThickness(float t){ thickness = t; }
+    public void setRounding(Double r){ rounding = r; }
     
     public Color getOutlineColor(){ return outline; }
     public Color getFillColor(){ return fill; }
@@ -45,21 +60,26 @@ public class BoxElement extends BasicContainer implements IBoxable{
         if(element == null){ return new Vector(); }
         return element.getSize();
     }
-
-    private void preRender(VGraphics g) {
+    
+    private Shape getShape(){
         Vector size = getSize();
+        if(rounding==null){ return new Rectangle2D.Double(0, 0, size.x, size.y); }
+        return new RoundRectangle2D.Double(0, 0, size.x, size.y, rounding, rounding);
+    }
+
+    private void fillRender(VGraphics g) {
         if(fill != null){
             g.setColor(fill);
-            g.fill(new Rectangle2D.Double(0, 0, size.x, size.y));
+            g.fill(getShape());
         }
     }    
     
-    private void postRender(VGraphics g){
-        Vector size = getSize();
+    private void outlineRender(VGraphics g){
         if(outline != null){
             g.setColor(outline);
             g.setStroke(new BasicStroke(thickness));
-            g.draw(new Rectangle2D.Double(0, 0, size.x, size.y));
+            g.draw(getShape());
+            g.resetStroke();
         }
     }   
 }
