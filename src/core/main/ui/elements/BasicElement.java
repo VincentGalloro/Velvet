@@ -8,7 +8,6 @@ import core.main.ui.active.IRenderable;
 import core.main.ui.active.IScrollEventable;
 import java.util.ArrayList;
 import core.main.ui.active.IUpdateable;
-import core.main.ui.elements.impl.BoxElement;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 
@@ -23,6 +22,11 @@ public abstract class BasicElement implements IElement{
         public final Color toColor(String s){
             String[] tokens = s.split(" ");
             return new Color(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
+        }
+        
+        public final Vector toVector(String s){
+            String[] tokens = s.split(" ");
+            return new Vector(Double.parseDouble(tokens[0]), Double.parseDouble(tokens[1])); 
         }
     }
     

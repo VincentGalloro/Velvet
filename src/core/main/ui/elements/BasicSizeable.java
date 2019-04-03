@@ -3,16 +3,13 @@ package core.main.ui.elements;
 
 import core.main.structs.Vector;
 
-public abstract class BasicSizeable extends BasicContainer implements ISizeable{
+public class BasicSizeable extends BasicContainer implements ISizeable{
     
     public class Builder extends BasicContainer.Builder{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
-            if(field.equals("size")){
-                String[] tokens = value.split(" ");
-                size = new Vector(Double.parseDouble(tokens[0]), Double.parseDouble(tokens[1])); 
-            }
+            if(field.equals("size")){ setSize(toVector(value)); }
         }
     }
     
@@ -21,6 +18,8 @@ public abstract class BasicSizeable extends BasicContainer implements ISizeable{
     public BasicSizeable(){
         size = new Vector();
     }
+    
+    public IElementBuilder getBuilder(){ return new Builder(); }
     
     public final void setSize(Vector s){ size = s; }
     
