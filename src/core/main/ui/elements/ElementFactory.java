@@ -6,14 +6,15 @@ import core.main.ui.composites.Toggle;
 import core.main.ui.elements.impl.BoxElement;
 import core.main.ui.elements.impl.CenteredElement;
 import core.main.ui.elements.impl.ColumnElement;
-import core.main.ui.elements.impl.HScrollElement;
+import core.main.ui.composites.HScrollElement;
+import core.main.ui.composites.supercomposites.ScrollColumn;
 import core.main.ui.elements.impl.ImageElement;
 import core.main.ui.elements.impl.PaddingElement;
 import core.main.ui.elements.impl.RowElement;
 import core.main.ui.elements.impl.ScaleElement;
 import core.main.ui.elements.impl.LabelElement;
 import core.main.ui.elements.impl.TextAreaElement;
-import core.main.ui.elements.impl.VScrollElement;
+import core.main.ui.composites.VScrollElement;
 
 public class ElementFactory implements IElementFactory{
 
@@ -34,6 +35,7 @@ public class ElementFactory implements IElementFactory{
         //composites
         if(s.equals("button")){ return new Button(); }
         if(s.equals("toggle")){ return new Toggle(); }
+        if(s.equals("scroll column")){ return new ScrollColumn(mouse); }
         
         return null;
     }
