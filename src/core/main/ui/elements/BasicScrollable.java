@@ -1,15 +1,59 @@
 
 package core.main.ui.elements;
 
-import core.main.structs.Vector;
-import core.main.ui.active.impl.ZoomTransition;
-import core.main.ui.elements.impl.BoxElement;
-import core.main.ui.elements.impl.CenteredElement;
+import core.main.VGraphics;
+import core.main.ui.active.IDeltable;
+import core.main.ui.active.IScrollEventable;
+import core.main.ui.active.IUpdateable;
+import core.main.ui.active.impl.DragObserver;
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.function.Function;
 
-public abstract class BasicScrollable extends BasicContainer implements IScrollable{
+public abstract class BasicScrollable extends BasicElement implements IScrollable{
 
-    public class Builder extends BasicContainer.Builder{
+    public class MouseScroller implements IUpdateable{
+        
+        private final Function<AffineTransform, Double> offsetGen;
+        private final DragObserver dragObserver;
+
+        public MouseScroller(Function<AffineTransform, Double> offsetGen){
+            this.offsetGen = offsetGen;
+            this.dragObserver = new DragObserver(BasicScrollable.this);
+        }
+
+        public void update(AffineTransform at) {
+            if(dragObserver.isDragging()){
+                double offset = offsetGen.apply(at) - (length*(1-getScrollablePercentage()))/2;
+                double length = getLength() * getScrollablePercentage();
+                if(length > 0){
+                    setDelta(offset / length);
+                }
+            }
+        }
+    }
+
+    public class WheelScroller implements IScrollEventable{
+
+        private double scrollFactor;
+
+        public WheelScroller(double scrollFactor){
+            this.scrollFactor = scrollFactor;
+        }
+
+        public WheelScroller(double scrollFactor, boolean inverted){
+            this(scrollFactor * (inverted ? -1 : 1));
+        }
+
+        public void onScroll(int amount) {
+            setDelta(delta + amount*scrollFactor);
+        }
+    }
+    
+    public class Builder extends BasicElement.Builder{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
@@ -17,41 +61,42 @@ public abstract class BasicScrollable extends BasicContainer implements IScrolla
             if(field.equals("bar color")){ color = toColor(value); }
             if(field.equals("bar thickness")){ thickness = Float.parseFloat(value); }
             if(field.equals("delta")){ delta = Double.parseDouble(value); }
+            if(field.equals("scrollable percentage")){ setScrollablePercentage(Double.parseDouble(value)); }
         }
     }
     
+    private final ArrayList<IDeltable> deltaHandlers;
     protected Color color;
     protected double length, delta;
     protected float thickness;
     
     public BasicScrollable(){
+        this.deltaHandlers = new ArrayList<>();
+        
         color = Color.BLACK;
         length = 100;
         thickness = 2;
-                    
-        BoxElement box = new BoxElement();
-        box.setFillColor(Color.WHITE);
-        ISizeable size = new CenteredElement();
-        size.setSize(new Vector(16));
-        box.setElement(size);
-
-        setElement(box);
         
-        ZoomTransition zt = new ZoomTransition(() -> element==null ? new Vector() : element.getSize());
-        addUpdateHandler(zt);
-        addPreChildRenderHandler(zt::preRender);
-        addPostChildRenderHandler(zt::postRender);
-        addHoverStartHandler(() -> zt.setScale(1.2));
-        addHoverEndHandler(() -> zt.setScale(1));
+        addPostRenderHandler(this::renderLine);
     }
+    
+    public final void addDeltaHandler(IDeltable deltaHandler){ this.deltaHandlers.add(deltaHandler); }
 
-    public final void setDelta(double d) { delta = Math.min(Math.max(d, 0), 1); }
-
+    public final void setDelta(double d) { 
+        delta = Math.min(Math.max(d, 0), 1); 
+        for(IDeltable deltaHandler : deltaHandlers){ deltaHandler.onDelta(delta); }
+    }
+    public final void setLength(double l){ length = l; }
+    
     public final double getDelta() { return delta; }
     public final double getLength(){ return length; }
     
-    public final double getOffset(){
-        if(element == null){ return 0; }
-        return element.getSize().x/2;
+    protected abstract Line2D.Double getLine();
+    
+    public void renderLine(VGraphics g){
+        g.setColor(color);
+        g.setStroke(new BasicStroke(thickness));
+        g.draw(getLine());
+        g.resetStroke();
     }
 }
