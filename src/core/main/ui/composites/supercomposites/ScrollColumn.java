@@ -64,14 +64,14 @@ public class ScrollColumn extends BasicElement implements IScrollable, IBoxable,
         PaddingElement pe = new PaddingElement();
         pe.setPadding(5);
         
-        box.setElement(pe);
-        pe.setElement(row);
+        box.setElement(row);
         row.addElement(colSize);
         colSize.setElement(column);
-        row.addElement(scroll);
+        row.addElement(pe);
+        pe.setElement(scroll);
         
         colSize.setStrict(true);
-        setSize(new Vector(600, 660));
+        setSize(new Vector(600, 670));
         row.setSeperation(5);
         
         box.new Builder().preRenderOutline();
@@ -94,7 +94,7 @@ public class ScrollColumn extends BasicElement implements IScrollable, IBoxable,
         return super.getHover(mPos);
     }
     
-    public void setSize(Vector s){ colSize.setSize(s); scroll.setLength(s.y); }
+    public void setSize(Vector s){ colSize.setSize(s); scroll.setLength(s.y-10); }
     public Vector getSize() { return box.getSize(); }
     public AffineTransform getTransform(int index) { 
         AffineTransform at = box.getTransform();

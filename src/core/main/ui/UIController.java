@@ -85,7 +85,7 @@ public class UIController{
     private IElement root;
     private HashMap<String, IElement> elements;
     
-    public UIController(){
+    private UIController(){
         elements = new HashMap<>();
     }
     
