@@ -1,0 +1,17 @@
+padding: left padding=20, top padding=5
+ row: sep=30
+  column: sep=20
+   scale: size=140 80
+    image: path=ui/logo.png
+   button: name=basics, text=The Basics, size=260 50
+   padding: top padding=20
+   centered: size=260 20
+    label: text=Velvet for Designers
+   button: name=ui package, text=The UI Package, size=260 50
+   button: name=vs intro, text=Intro to Velvet Script, size=260 50
+   padding: top padding=20
+   centered: size=260 20
+    label: text=Velvet for Developers
+   button: text=Using Velvet's Objects, size=260 50
+  padding: name=primary panel, top padding=100
+  padding: name=secondary panel, left padding=50, top padding=10

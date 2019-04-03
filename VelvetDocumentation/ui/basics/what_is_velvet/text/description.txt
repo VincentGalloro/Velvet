@@ -1,0 +1,1 @@
+        Velvet is a collection of modules, utilities, tools, pre-made objects, data structures, and a nice UI package. My goal was to create a bunch useful objects and packages that are general enough to be used across a range of projects. My two main focusses were the UI package, and the helper/utility objects

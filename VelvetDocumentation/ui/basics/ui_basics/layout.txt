@@ -1,0 +1,3 @@
+column: sep=40
+ padding
+ text area: path=ui/basics/ui_basics/text/overview.txt, text width=600, font size=19, text color=50 50 50, line sep=5

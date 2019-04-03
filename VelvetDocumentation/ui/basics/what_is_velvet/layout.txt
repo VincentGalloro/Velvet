@@ -1,0 +1,6 @@
+column: sep=40
+ scale: size=600 140
+  image: path=ui/logo.png
+ text area: path=ui/basics/what_is_velvet/text/intro.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ text area: path=ui/basics/what_is_velvet/text/description.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ text area: path=ui/basics/what_is_velvet/text/footer.txt, text width=600, font size=19, text color=50 50 50, line sep=5
