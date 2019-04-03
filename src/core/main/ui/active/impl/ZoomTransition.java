@@ -19,6 +19,9 @@ public class ZoomTransition implements IUpdateable{
         this.sizeGen = sizeGen;
         scale = new SmoothScalar(1, Motion.swish(15));
     }
+    public ZoomTransition(Vector size){
+        this(() -> size);
+    }
     
     public void apply(IElement target){
         target.addUpdateHandler(this);

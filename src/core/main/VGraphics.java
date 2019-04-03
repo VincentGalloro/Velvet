@@ -1,6 +1,7 @@
 package core.main;
 
 import core.main.structs.Vector;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Font;
@@ -48,6 +49,7 @@ public class VGraphics {
     
     public void setComposite(Composite c){ g.setComposite(c); }
     public void setStroke(Stroke s){ g.setStroke(s); }
+    public void resetStroke(){ g.setStroke(new BasicStroke(1)); }
     public void setColor(Color c){ g.setColor(c); }
     public void setFont(Font f){ g.setFont(f); }
     

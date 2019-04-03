@@ -48,7 +48,7 @@ public class WindowedView {
         Vector targetSize = target.getSize().ceil();
         //if size does not match, we must resize the buffer image
         if(image == null || !targetSize.equals(imageSize)){
-            System.out.println("ADJ");
+            if((int)targetSize.x <= 0 || (int)targetSize.y <= 0){ image=null; return; }
             image = new BufferedImage((int)targetSize.x, (int)targetSize.y, BufferedImage.TYPE_INT_ARGB);
             imageSize = new Vector(targetSize);
             imageData = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
@@ -66,6 +66,7 @@ public class WindowedView {
     }
 
     private void postRender(VGraphics g) {
+        if(image==null){ return; }
         //reset the graphics object back to the container's graphics
         g.resetGraphics();
         //grab the transform

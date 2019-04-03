@@ -11,7 +11,7 @@ import core.main.ui.elements.IElementFactory;
 public class UIHandler {
     
     private IElementFactory elementFactory;
-    private Mouse mouse;
+    private final Mouse mouse;
     private IElement root, currentHover, currentFocus;
     
     public UIHandler(Mouse mouse){

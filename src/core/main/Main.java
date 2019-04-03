@@ -25,14 +25,20 @@ public class Main extends Canvas implements Runnable{
     public Main(Velvet level, String name){
         this.level = level;
         
+        Dimension d = new Dimension(level.getSize().x, level.getSize().y);
+        
         frame = new JFrame(name);
-        frame.setPreferredSize(new Dimension(level.getSize().x, level.getSize().y));
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	frame.setResizable(false);
+
+	setPreferredSize(d);
+	setMaximumSize(d);
+	setMinimumSize(d);
+        
 	frame.add(this);
         frame.pack();
-	frame.setVisible(true);
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
+        frame.setVisible(true);
+	frame.setLocationRelativeTo(null);
         
         BufferedImage icon;
         try {
