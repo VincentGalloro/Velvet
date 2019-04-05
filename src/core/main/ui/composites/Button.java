@@ -29,6 +29,7 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
         public void bind(IElement source, Supplier<ColorProfile.CHCProfile> profile, Consumer<Color> target){
             Runnable hoverStart = () -> { color.setColor(profile.get().hoverColor); };
             Runnable hoverEnd = () -> { color.setColor(profile.get().color); };
+            lastHoverCall = hoverEnd;
             source.addHoverStartHandler(() -> {hoverStart.run(); lastHoverCall = hoverStart; });
             source.addHoverEndHandler(() -> {hoverEnd.run(); lastHoverCall = hoverEnd; });
             source.addMousePressHandler(() -> { if(profile.get().clickColor != null){ color.setSmooth(profile.get().clickColor); } });
@@ -107,7 +108,10 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
             textBuilder.handleString(field, value);
             padBuilder.handleString(field, value);
             sizeBuilder.handleString(field, value);
-            if(field.endsWith(" color")){ colorProfile.handleString(field, toColor(value)); }
+            if(field.endsWith(" color")){ 
+                colorProfile.handleString(field, toColor(value)); 
+                setColorProfile(colorProfile);
+            }
         }
     }
     

@@ -41,7 +41,10 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
             buttonBuilder.handleString(field, value);
             if(field.equals("text")){ addToggleOffHandler(() -> setText(value)); }
             if(field.equals("toggle text")){ addToggleOnHandler(() -> setText(value)); }
-            if(field.endsWith(" color")){ colorProfile.handleString(field, toColor(value)); }
+            if(field.endsWith(" color")){ 
+                colorProfile.handleString(field, toColor(value)); 
+                button.setColorProfile(colorProfile.colorProfile);
+            }
         }
     }
     

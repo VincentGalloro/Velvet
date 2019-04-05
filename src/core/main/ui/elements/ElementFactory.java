@@ -6,7 +6,7 @@ import core.main.ui.composites.Toggle;
 import core.main.ui.elements.impl.BoxElement;
 import core.main.ui.elements.impl.CenteredElement;
 import core.main.ui.elements.impl.ColumnElement;
-import core.main.ui.composites.HScrollElement;
+import core.main.ui.composites.HScrollBar;
 import core.main.ui.composites.supercomposites.ScrollColumn;
 import core.main.ui.elements.impl.ImageElement;
 import core.main.ui.elements.impl.PaddingElement;
@@ -14,7 +14,7 @@ import core.main.ui.elements.impl.RowElement;
 import core.main.ui.elements.impl.ScaleElement;
 import core.main.ui.elements.impl.LabelElement;
 import core.main.ui.elements.impl.TextAreaElement;
-import core.main.ui.composites.VScrollElement;
+import core.main.ui.composites.VScrollBar;
 
 public class ElementFactory implements IElementFactory{
 
@@ -29,8 +29,8 @@ public class ElementFactory implements IElementFactory{
         if(s.equals("centered")){ return new CenteredElement(); }
         if(s.equals("label")){ return new LabelElement(); }
         if(s.equals("text area")){ return new TextAreaElement(); }
-        if(s.equals("hscrollbar")){ return new HScrollElement(mouse); }
-        if(s.equals("vscrollbar")){ return new VScrollElement(mouse); }
+        if(s.equals("hscrollbar")){ return new HScrollBar(mouse); }
+        if(s.equals("vscrollbar")){ return new VScrollBar(mouse); }
         
         //composites
         if(s.equals("button")){ return new Button(); }
