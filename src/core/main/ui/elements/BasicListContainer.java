@@ -3,6 +3,7 @@ package core.main.ui.elements;
 
 import core.main.VGraphics;
 import core.main.structs.Vector;
+import core.main.ui.active.IListTransformable;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.stream.Stream;
@@ -18,13 +19,20 @@ public abstract class BasicListContainer extends BasicElement implements IListCo
     }
     
     protected final ArrayList<IElement> elements;
+    private final ArrayList<IListTransformable> transformHandlers;
     
     public BasicListContainer(){
         elements = new ArrayList<>();
         
+        transformHandlers = new ArrayList<>();
+        
         addUpdateHandler(this::childUpdate);
         addPostRenderHandler(this::childRender);
     }
+    
+    public final void addTransformHandler(IListTransformable transformable){ transformHandlers.add(transformable); }
+    
+    public final void removeTransformHandler(IListTransformable transformable){ transformHandlers.remove(transformable); }
     
     public final void addElement(IElement e) { elements.add(e); }
 
@@ -34,6 +42,14 @@ public abstract class BasicListContainer extends BasicElement implements IListCo
             nat.concatenate(getTransform(i));
             elements.get(i).update(nat);
         }
+    }
+    
+    public final AffineTransform getTransform(int index){
+        AffineTransform at = new AffineTransform();
+        for(IListTransformable t : transformHandlers){
+            at.concatenate(t.getTransform(index));
+        }
+        return at;
     }
     
     public final int elementCount() { return elements.size(); }

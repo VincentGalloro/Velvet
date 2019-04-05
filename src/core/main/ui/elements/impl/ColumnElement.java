@@ -10,6 +10,10 @@ public class ColumnElement extends SeriesListContainer{
     
     public IElementBuilder getBuilder(){ return new Builder(); }
     
+    public ColumnElement(){
+        addTransformHandler(this::transform);
+    }
+    
     public Vector getSize() {
         Vector size = new Vector();
         for(IElement e : elements){
@@ -20,7 +24,7 @@ public class ColumnElement extends SeriesListContainer{
         return size;
     }
 
-    public AffineTransform getTransform(int index) {
+    private AffineTransform transform(int index) {
         AffineTransform at = new AffineTransform();
         for(int i = 0; i < index; i++){
             at.translate(0, elements.get(i).getSize().y + seperation);

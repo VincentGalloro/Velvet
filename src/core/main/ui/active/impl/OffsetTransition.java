@@ -48,10 +48,16 @@ public class OffsetTransition implements IUpdateable{
     public void update(AffineTransform at) {
         pos.update();
     }
+    
+    public AffineTransform getTransform(){
+        AffineTransform at = new AffineTransform();
+        at.translate(pos.getSmooth().x, pos.getSmooth().y);
+        return at;
+    }
 
     public void preRender(VGraphics g) {
         g.save();
-        g.translate(pos.getSmooth());
+        g.transform(getTransform());
     }
 
     public void postRender(VGraphics g) {
