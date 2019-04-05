@@ -1,0 +1,8 @@
+scroll column: sep=40, outline color=230 230 230, size=600 670
+ padding: top padding=20
+  text area: path=ui/setup/core/text/core_explained.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ centered: size=600 240
+  image: path=ui/core_code.png
+ text area: path=ui/setup/core/text/function_details.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ text area: path=ui/setup/core/text/keyboard_mouse_details.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ padding

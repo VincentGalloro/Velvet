@@ -1,0 +1,1 @@
+        The UI package is based around "Elements". These elements can be loosely categorized as Elements, ContainerElements, and ListContainerElements. Elements are objects which display actual content, such as images or text, containers can store other elements/containers within them, and list containers can store many elements in sequence. These are the core elements of Velvet:

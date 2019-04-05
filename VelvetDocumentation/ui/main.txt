@@ -12,6 +12,7 @@ padding: left padding=20, top padding=5
    padding: top padding=20
    centered: size=260 20
     label: text=Velvet for Developers
+   button: text=Setting Up A Project, size=260 50, name=setup
    button: text=Using Velvet's Objects, size=260 50
   padding: name=primary panel, top padding=100
   padding: name=secondary panel, left padding=50, top padding=10

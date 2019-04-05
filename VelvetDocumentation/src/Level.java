@@ -19,7 +19,7 @@ public class Level extends Velvet{
 
     public void init() {
         customElements = new CustomElements();
-        uiHandler = new UIHandler(mouse);
+        uiHandler = new UIHandler(mouse, keyboard);
         uiHandler.setElementBuilderFactory(customElements);
         
         UIController main = uiHandler.loadController("ui/main.txt");

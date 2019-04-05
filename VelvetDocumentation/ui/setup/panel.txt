@@ -1,0 +1,2 @@
+column: sep=40
+ button: name=core, text=Core Package, size=260 50
