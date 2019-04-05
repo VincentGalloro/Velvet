@@ -17,23 +17,24 @@ public class TextEntry implements IUpdateable, IRenderable{
 
     private static final int CURSOR_FLASH = 30;
     
-    private final Keyboard keyboard;
     private final ITextable textable;
     private final FocusObserver focusObserver;
     private final SmoothVector cursorPos;
     private int cursorIndex, cursorFlash;
     private boolean renderCursor;
     
-    public TextEntry(Keyboard keyboard, ITextable textable){
-        this.keyboard = keyboard;
-        
+    public TextEntry(ITextable textable){
         this.textable = textable;
-        this.focusObserver = new FocusObserver(textable);
         this.textable.addUpdateHandler(this);
         this.textable.addPostRenderHandler(this);
+        this.textable.addKeyPressedHandler(this::onKeyPressed);
+        this.textable.addCharTypedHandler(this::onCharTyped);
+        
+        this.focusObserver = new FocusObserver(textable);
         
         setCursor(true);
         cursorPos = new SmoothVector(Motion.swish(8));
+        onCursorMove();
     }
     
     private void setCursor(boolean b){
@@ -42,57 +43,54 @@ public class TextEntry implements IUpdateable, IRenderable{
     }
     
     public void update(AffineTransform at){
-        if(!focusObserver.isFocussed()){ 
-            setCursor(true);
-            return; 
-        }
-        
         cursorFlash--;
         if(cursorFlash <= 0){
             setCursor(!renderCursor);
         }
         
-        if(!keyboard.getTextTyped().isEmpty() || !keyboard.getPressedLog().isEmpty()){
-            setCursor(true);
-        }
-        
-        String text = textable.getText();
-        int lastCursorIndex = cursorIndex;
-        if(!keyboard.getTextTyped().isEmpty()){
-            for(char c : keyboard.getTextTyped().toCharArray()){
-                if(c == '\b'){ //backspace
-                    if(cursorIndex > 0){ 
-                        text = text.substring(0, cursorIndex-1) + text.substring(cursorIndex);
-                        cursorIndex--;
-                    }
-                }
-                else if(c == (char)0x7F){ //delete
-                    if(cursorIndex < text.length()){
-                        text = text.substring(0, cursorIndex) + text.substring(cursorIndex+1);
-                    }
-                }
-                else if(c == '\n'){ //enter
-                    if(textable.supportsNewline()){
-                        text = text.substring(0, cursorIndex) + c + text.substring(cursorIndex);
-                    }
-                    cursorIndex++;
-                }
-                else{
-                    text = text.substring(0, cursorIndex) + c + text.substring(cursorIndex);
-                    cursorIndex++;
-                }
-            }
-            textable.setText(text);
-        }
-        for(Integer i : keyboard.getPressedLog()){
-            if(i == Key.LEFT.code && cursorIndex > 0){ cursorIndex--; }
-            else if(i == Key.RIGHT.code && cursorIndex < text.length()){ cursorIndex++; }
-        }
-        
-        if(cursorIndex != lastCursorIndex || cursorPos.getPos()==null){
-            cursorPos.setPos(new Vector().transform(textable.getCharTransform(cursorIndex)));
-        }
         cursorPos.update();
+    }
+    
+    public void onCharTyped(int i){
+        setCursor(true);
+        
+        char c = (char)i;
+        String text = textable.getText();
+        if(c == '\b'){ //backspace
+            if(cursorIndex > 0){ 
+                text = text.substring(0, cursorIndex-1) + text.substring(cursorIndex);
+                cursorIndex--;
+            }
+        }
+        else if(c == (char)0x7F){ //delete
+            if(cursorIndex < text.length()){
+                text = text.substring(0, cursorIndex) + text.substring(cursorIndex+1);
+            }
+        }
+        else if(c == '\n'){ //enter
+            if(textable.supportsNewline()){
+                text = text.substring(0, cursorIndex) + c + text.substring(cursorIndex);
+            }
+            cursorIndex++;
+        }
+        else{
+            text = text.substring(0, cursorIndex) + c + text.substring(cursorIndex);
+            cursorIndex++;
+        }
+        
+        textable.setText(text);
+        onCursorMove();
+    }
+        
+    public void onKeyPressed(int i){
+        setCursor(true);
+        
+        if(i == Key.LEFT.code && cursorIndex > 0){ cursorIndex--; onCursorMove(); }
+        else if(i == Key.RIGHT.code && cursorIndex < textable.getText().length()){ cursorIndex++; onCursorMove(); }
+    }
+    
+    public void onCursorMove(){
+        cursorPos.setPos(new Vector().transform(textable.getCharTransform(cursorIndex)));
     }
     
     public void render(VGraphics g){

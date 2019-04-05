@@ -4,6 +4,7 @@ package core.main.ui.elements;
 import core.main.VGraphics;
 import core.main.structs.Vector;
 import core.main.ui.active.IEventable;
+import core.main.ui.active.IKeyEventable;
 import core.main.ui.active.IRenderable;
 import core.main.ui.active.IScrollEventable;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public abstract class BasicElement implements IElement{
     private final ArrayList<IRenderable> preRenderHandlers, postRenderHandlers;
     private final ArrayList<IEventable> mousePressHandlers, mouseReleaseHandlers, 
             hoverStartHandlers, hoverEndHandlers, focusStartHandlers, focusEndHandlers;
+    private final ArrayList<IKeyEventable> keyPressedHandlers, charTypedHandlers;
     private final ArrayList<IScrollEventable> mouseScrollHandlers;
     
     public BasicElement(){
@@ -43,6 +45,8 @@ public abstract class BasicElement implements IElement{
         postRenderHandlers = new ArrayList<>();
         mousePressHandlers = new ArrayList<>();
         mouseReleaseHandlers = new ArrayList<>();
+        keyPressedHandlers = new ArrayList<>();
+        charTypedHandlers = new ArrayList<>();
         hoverStartHandlers = new ArrayList<>();
         hoverEndHandlers = new ArrayList<>();
         focusStartHandlers = new ArrayList<>();
@@ -55,7 +59,9 @@ public abstract class BasicElement implements IElement{
     public final void addPostRenderHandler(IRenderable rendereable){ postRenderHandlers.add(rendereable); }  
     public final void addMousePressHandler(IEventable eventable){ mousePressHandlers.add(eventable); }
     public final void addMouseReleaseHandler(IEventable eventable){ mouseReleaseHandlers.add(eventable); }
-    public final void addMouseScrollHandler(IScrollEventable eventable){ mouseScrollHandlers.add(eventable); }  
+    public final void addMouseScrollHandler(IScrollEventable eventable){ mouseScrollHandlers.add(eventable); }
+    public final void addKeyPressedHandler(IKeyEventable eventable){ keyPressedHandlers.add(eventable); }
+    public final void addCharTypedHandler(IKeyEventable eventable){ charTypedHandlers.add(eventable); }
     public final void addHoverStartHandler(IEventable eventable){ hoverStartHandlers.add(eventable); }
     public final void addHoverEndHandler(IEventable eventable){ hoverEndHandlers.add(eventable); }
     public final void addFocusStartHandler(IEventable eventable){ focusStartHandlers.add(eventable); }
@@ -67,6 +73,8 @@ public abstract class BasicElement implements IElement{
     public final void removeMousePressHandler(IEventable eventable){ mousePressHandlers.remove(eventable); } 
     public final void removeMouseReleaseHandler(IEventable eventable){ mouseReleaseHandlers.remove(eventable); } 
     public final void removeMouseScrollHandler(IScrollEventable eventable){ mouseScrollHandlers.remove(eventable); } 
+    public final void removeKeyPressedHandler(IKeyEventable eventable){ keyPressedHandlers.remove(eventable); }
+    public final void removeCharTypedHandler(IKeyEventable eventable){ charTypedHandlers.remove(eventable); }
     public final void removeHoverStartHandler(IEventable eventable){ hoverStartHandlers.remove(eventable); } 
     public final void removeHoverEndHandler(IEventable eventable){ hoverEndHandlers.remove(eventable); } 
     public final void removeFocusStartHandler(IEventable eventable){ focusStartHandlers.remove(eventable); } 
@@ -75,6 +83,8 @@ public abstract class BasicElement implements IElement{
     public final void onMousePress(){ for(IEventable e : mousePressHandlers){ e.onEvent(); } }
     public final void onMouseRelease(){ for(IEventable e : mouseReleaseHandlers){ e.onEvent(); } }
     public final void onMouseScroll(int amount){ for(IScrollEventable e : mouseScrollHandlers){ e.onScroll(amount); } }
+    public final void onKeyPressed(int key){ for(IKeyEventable e : keyPressedHandlers){ e.onKey(key); } }
+    public final void onCharTyped(int code){ for(IKeyEventable e : charTypedHandlers){ e.onKey(code); } }
     public final void onHoverStart(){ for(IEventable e : hoverStartHandlers){ e.onEvent(); } }
     public final void onHoverEnd(){ for(IEventable e : hoverEndHandlers){ e.onEvent(); } }
     public final void onFocusStart(){ for(IEventable e : focusStartHandlers){ e.onEvent(); } }

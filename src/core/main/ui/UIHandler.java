@@ -1,5 +1,6 @@
 package core.main.ui;
 
+import core.main.Keyboard;
 import core.main.Mouse;
 import core.main.VGraphics;
 import core.main.ui.elements.ElementFactory;
@@ -12,10 +13,12 @@ public class UIHandler {
     
     private IElementFactory elementFactory;
     private final Mouse mouse;
+    private final Keyboard keyboard;
     private IElement root, currentHover, currentFocus;
     
-    public UIHandler(Mouse mouse){
+    public UIHandler(Mouse mouse, Keyboard keyboard){
         this.mouse = mouse;
+        this.keyboard = keyboard;
         this.elementFactory = new ElementFactory();
     }
     
@@ -52,6 +55,15 @@ public class UIHandler {
         
         if(mouse.getScrollAmount() != 0 && currentHover != null){
             currentHover.onMouseScroll(mouse.getScrollAmount());
+        }
+        
+        if(currentFocus != null){
+            for(char c : keyboard.getTextTyped().toCharArray()){
+                currentFocus.onCharTyped(c);
+            }
+            for(Integer i : keyboard.getPressedLog()){
+                currentFocus.onKeyPressed(i);
+            }
         }
         
         root.update(new AffineTransform());
