@@ -29,6 +29,7 @@ public class VGraphics {
     public void save(){ saves.add(g.getTransform()); }
     public void reset(){ g.setTransform(saves.remove(saves.size()-1)); }
     
+    public void setTransform(AffineTransform at){ g.setTransform(at); }
     public AffineTransform getTransform(){ return saves.get(saves.size()-1); }
     
     public void subGraphics(Graphics2D g){ graphicsStack.add(g); this.g = g; }

@@ -1,10 +1,12 @@
 package core.main.ui.elements;
 
 import core.main.VGraphics;
+import core.main.ui.active.impl.TextEntry;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -25,6 +27,12 @@ public abstract class BasicTextable extends BasicElement implements ITextable{
             if(field.equals("text")){ text = value; }
             if(field.equals("text color")){ color = toColor(value); }
             if(field.equals("font size")){ font = font.deriveFont(Float.parseFloat(value)); }
+            if(field.equals("style") && value.equals("bold")){ font = font.deriveFont(Font.BOLD); }
+            if(field.equals("add")){
+                if(value.equals("text entry")){
+                    TextEntry te = new TextEntry(BasicTextable.this);
+                }
+            }
         }
     }
     
@@ -52,6 +60,9 @@ public abstract class BasicTextable extends BasicElement implements ITextable{
     private final void setupRender(VGraphics g){
         g.setColor(color);
         g.setFont(font);
+        g.save();
+        g.setTransform(new AffineTransform());
         fontMetrics = g.getFontMetrics();
+        g.reset();
     }
 }
