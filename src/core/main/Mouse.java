@@ -11,9 +11,10 @@ import java.awt.geom.AffineTransform;
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener{
     
     public static final int LEFT = 0, RIGHT = 1, MIDDLE = 2;
+    
     private final int[] BUTTON_CODES = {MouseEvent.BUTTON1, MouseEvent.BUTTON3, MouseEvent.BUTTON2};
     
-    private final boolean[] buttons, buttonsPressed, buttonsLast, buttonsReleased;
+    private final boolean[] buttons, buttonsPressed, buttonsLive, buttonsReleased;
     private final Vector pos;
     private int deltaScroll, scrollAmount;
     
@@ -22,14 +23,15 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
         buttons = new boolean[BUTTON_CODES.length]; 
         buttonsPressed = new boolean[BUTTON_CODES.length];
         buttonsReleased = new boolean[BUTTON_CODES.length];
-        buttonsLast = new boolean[BUTTON_CODES.length];
+        buttonsLive = new boolean[BUTTON_CODES.length];
     }
     
     public void update(){
         for(int i = 0; i < BUTTON_CODES.length; i++){
-            buttonsPressed[i] = !buttonsLast[i] && buttons[i];
-            buttonsReleased[i] = buttonsLast[i] && !buttons[i];
-            buttonsLast[i] = buttons[i]; 
+            boolean b = buttonsLive[i]; 
+            buttonsPressed[i] = !buttons[i] && b;
+            buttonsReleased[i] = buttons[i] && !b;
+            buttons[i] = b;
         }
         scrollAmount = deltaScroll;
         deltaScroll = 0;
@@ -47,7 +49,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     public void mousePressed(MouseEvent e) {
         for(int i = 0; i < BUTTON_CODES.length; i++){
             if(e.getButton()== BUTTON_CODES[i]){
-                buttons[i] = true;
+                buttonsLive[i] = true;
                 break;
             }
         }
@@ -55,7 +57,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     public void mouseReleased(MouseEvent e) {
         for(int i = 0; i < BUTTON_CODES.length; i++){
             if(e.getButton()== BUTTON_CODES[i]){
-                buttons[i] = false;
+                buttonsLive[i] = false;
                 break;
             }
         }
