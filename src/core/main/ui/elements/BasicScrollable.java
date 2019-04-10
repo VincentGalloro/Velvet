@@ -80,7 +80,7 @@ public abstract class BasicScrollable extends BasicElement implements IScrollabl
         addPostRenderHandler(this::renderLine);
     }
     
-    public final void addDeltaHandler(IDeltable deltaHandler){ this.deltaHandlers.add(deltaHandler); }
+    public final void addDeltaHandler(IDeltable deltaHandler){ this.deltaHandlers.add(deltaHandler); deltaHandler.onDelta(delta); }
 
     public final void setDelta(double d) { 
         delta = Math.min(Math.max(d, 0), 1); 
