@@ -30,7 +30,7 @@ public class VGraphics {
     public void reset(){ g.setTransform(saves.remove(saves.size()-1)); }
     
     public void setTransform(AffineTransform at){ g.setTransform(at); }
-    public AffineTransform getTransform(){ return saves.get(saves.size()-1); }
+    public AffineTransform getTransform(){ return g.getTransform(); }
     
     public void subGraphics(Graphics2D g){ graphicsStack.add(g); this.g = g; }
     public void resetGraphics(){ 
