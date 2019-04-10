@@ -25,6 +25,7 @@ public class ElementFactory implements IElementFactory{
         if(s.equals("row")){ return new RowElement(); }
         if(s.equals("image")){ return new ImageElement(); }
         if(s.equals("padding")){ return new PaddingElement(); }
+        if(s.equals("size")){ return new BasicSizeable(); }
         if(s.equals("scale")){ return new ScaleElement(); }
         if(s.equals("centered")){ return new CenteredElement(); }
         if(s.equals("label")){ return new LabelElement(); }
