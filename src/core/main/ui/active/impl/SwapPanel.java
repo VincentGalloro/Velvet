@@ -45,13 +45,15 @@ public class SwapPanel {
     }
     
     public void load(IListContainer panel){
-        if(panel != null){ unload(); }
+        if(this.panel != null){ unload(); }
         
         this.panel = panel;
         parent.setElement(panel);
-        panel.getElements().forEach(e -> {
-            transitions.add(new IntroTransition(e));
-        });
+        if(this.panel != null){
+            this.panel.getElements().forEach(e -> {
+                transitions.add(new IntroTransition(e));
+            });
+        }
     }
     
     public void unload(){
