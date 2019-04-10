@@ -1,7 +1,7 @@
 scroll column: sep=40, outline color=230 230 230, size=600 670
  padding
- text area: path=ui/basics/ui_basics/text/overview.txt, text width=600, font size=19, line sep=5
- text area: path=ui/basics/ui_basics/text/elements.txt, text width=600, font size=19, line sep=5
+ text area: path=ui/basics/ui_package/text/overview.txt, text width=600, font size=19, line sep=5
+ text area: path=ui/basics/ui_package/text/elements.txt, text width=600, font size=19, line sep=5
  centered: size=600 30
   label: text=Elements, font size=28, style=bold
  padding: left padding=20

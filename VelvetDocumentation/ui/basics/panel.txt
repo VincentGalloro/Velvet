@@ -1,4 +1,4 @@
 column: sep=40
  button: name=what_is_velvet, text=What is Velvet?, size=260 50
- button: name=ui_basics, text=UI Basics, size=260 50
+ button: name=ui_package, text=The UI Package, size=260 50
  button: name=utilities, text=Utilities, size=260 50

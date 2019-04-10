@@ -1,0 +1,20 @@
+row: sep=40
+ column: sep=10
+  row: sep=10
+   centered: size=110 20
+    label: text=Red
+   hscrollbar: length=300, delta=0.2, name=red bar
+  row: sep=10
+   centered: size=110 20
+    label: text=Green
+   hscrollbar: length=300, delta=0.7, name=green bar
+  row: sep=10
+   centered: size=110 20
+    label: text=Blue
+   hscrollbar: length=300, delta=0.85, name=blue bar
+  row: sep=10
+   centered: size=110 20
+    label: text=Rounding
+   hscrollbar: length=300, delta=0.3, name=rounding bar
+ box: name=box
+  size: size=110 110

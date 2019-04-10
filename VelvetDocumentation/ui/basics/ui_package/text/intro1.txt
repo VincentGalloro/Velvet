@@ -1,0 +1,1 @@
+        The main goal of the UI package was to allow application prototypes to be put together as fast as possible. The UI Package contains all the standard UI elements, such as image boxes, text fields, buttons, scrollable columns, and more. 
