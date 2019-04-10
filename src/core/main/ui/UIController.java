@@ -65,7 +65,12 @@ public class UIController{
                     if(indent >= chain.size()){ chain.add(e); }
                     else{ chain.set(indent, e); }
                     
-                    if(chain.get(indent-1) instanceof IContainer){ ((IContainer)chain.get(indent-1)).setElement(e); }
+                    if(chain.get(indent-1) instanceof IContainer){ 
+                        if(((IContainer)chain.get(indent-1)).getElement() != null){
+                            System.err.println("Warning: overriding child of "+chain.get(indent-1)+" in "+f.getName());
+                        }
+                        ((IContainer)chain.get(indent-1)).setElement(e); 
+                    }
                     if(chain.get(indent-1) instanceof IListContainer){ ((IListContainer)chain.get(indent-1)).addElement(e); }
                     
                     controller.addElement(e);
