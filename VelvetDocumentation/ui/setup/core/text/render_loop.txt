@@ -1,0 +1,1 @@
+        The render loop is for redrawing the screen and is designed to run as frequently as possible. 

@@ -1,0 +1,27 @@
+padding: left padding=5
+ box: outline color=200 200 200
+  padding: top padding=20
+   column: sep=20
+    
+    centered: size=590 100
+     box: name=box, rounding = 10
+      size: size=500 80
+    
+    centered: size=590 50
+     row: sep=10
+      button: name=red, text=Red, size=130 40
+      button: name=yellow, text=Yellow, size=130 40
+      button: name=green, text=Green, size=130 40
+      button: name=blue, text=Blue, size=130 40
+    
+    row
+     centered: size=80 30
+      label: text=Slow
+     centered: size=430 30
+      hscrollbar: name=speed, length=420, delta=0.85
+     centered: size=80 30
+      label: text=Fast
+    
+    padding
+
+  

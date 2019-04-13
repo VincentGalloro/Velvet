@@ -1,1 +1,1 @@
-        All of Velvet's default UI elements come pre-built with smooth transitions, colors, and effects. As an example, the buttons in this program which glide updwards when hovered on, or the scrollable column 
+        These Velvet Script layout files can be dynamically loaded into Velvet at runtime. Multiple layout files can also be loaded and nested within eachother, allowing for complex layouts to be divded into multiple files. This also allows you to use the same layout across multiple pages

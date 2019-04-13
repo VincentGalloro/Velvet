@@ -1,0 +1,1 @@
+        People can also share interesting widgets they have created by sharing the Velvet Script text file. The element naming system allows layouts to be switched in and out without affecting the functionality of a program

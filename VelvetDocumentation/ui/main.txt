@@ -7,8 +7,8 @@ padding: left padding=20, top padding=5
    padding: top padding=20
    centered: size=260 20
     label: text=Velvet for Designers
-   button: name=ui package, text=UI [RENAME], size=260 50
-   button: name=vs intro, text=Intro to Velvet Script, size=260 50
+   button: name=ui package, text=The UI Package, size=260 50
+   button: name=velvet script, text=Using Velvet Script, size=260 50
    padding: top padding=20
    centered: size=260 20
     label: text=Velvet for Developers
@@ -16,3 +16,5 @@ padding: left padding=20, top padding=5
    button: text=Using Velvet's Objects, size=260 50
   padding: name=primary panel, top padding=100
   padding: name=secondary panel, left padding=50, top padding=10
+
+

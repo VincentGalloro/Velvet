@@ -1,1 +1,1 @@
-        Velvet Script is a quick and simple way to put together a UI design without having to touch any code.
+        Velvet Script is a quick and simple way to put together a UI design without having to touch any code. The entire skeleton of your UI can be constructed using basic keywords in any text editing software. The Velvet Script format is easy to understand and quick to modify

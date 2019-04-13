@@ -1,19 +1,18 @@
-scroll column: sep=40, outline color=230 230 230, size=600 670
+scroll column: sep=30, outline color=230 230 230, size=600 670
  padding
- text area: path=ui/basics/ui_package/text/intro1.txt, text width=600, font size=19, line sep=5
- text area: path=ui/basics/ui_package/text/intro2.txt, text width=600, font size=19, line sep=5
- 
- padding: left padding=20
-  row: sep=20
-   scale: size=340 80
-    image: path=ui/img/button_code.png
-   centered: size=200 80
-    button: text=I'm a button
+ text area: path=ui/basics/velvet_script/text/intro1.txt, text width=600, font size=19, line sep=5
 
- text area: path=ui/basics/ui_package/text/intro3.txt, text width=600, font size=19, line sep=5
+ column:
+  scale: size=600 350
+   image: path=ui/img/velvet_script.png
+  centered: size=600 20
+   box: outline color=200 200 200
+    padding: padding=5
+     label: text=Pictured: A portion of this documentation program written in Velvet Script, font size=16, line sep=5
 
- padding: left padding=10
-  color box
+ padding
+ text area: path=ui/basics/velvet_script/text/body1.txt, text width=600, font size=19, line sep=5
+ text area: path=ui/basics/velvet_script/text/body2.txt, text width=600, font size=19, line sep=5
 
  padding: padding=30
  

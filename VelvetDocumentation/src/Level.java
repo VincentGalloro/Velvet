@@ -45,7 +45,7 @@ public class Level extends Velvet{
                     
                     //temp debug code
                     //automatically open a certain panel by simulating button clicks
-                    if(innerB.getName().equals("ui_package")){
+                    if(innerB.getName().equals("core")){
                         innerB.onMousePress();
                         innerB.onMouseRelease();
                         b.onMousePress();
