@@ -1,0 +1,1 @@
+        If you are working on non-visual software, and need a quick and easy user interface to interact with your program, Velvet allows you to put together a basic visual application quickly. 
