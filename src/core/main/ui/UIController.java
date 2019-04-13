@@ -75,6 +75,8 @@ public class UIController{
                     
                     controller.addElement(e);
                 }
+                br.close();
+                
             } catch (FileNotFoundException ex) {
                 System.err.println("UI FILE DOES NOT EXIST: "+f.getName());
                 return null;
