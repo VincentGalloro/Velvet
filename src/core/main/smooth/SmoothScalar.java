@@ -1,6 +1,7 @@
 
 package core.main.smooth;
 
+import core.main.smooth.motion.Motion;
 import core.main.smooth.motion.MotionFactory;
 
 public class SmoothScalar {
@@ -14,11 +15,8 @@ public class SmoothScalar {
         this.smoothValue = value;
         this.motionFactory = motionFactory;
     }
-    
-    public SmoothScalar(MotionFactory motionFactory){
-        this.motionFactory = motionFactory;
-        this.smoothValue = 0;
-    }
+    public SmoothScalar(MotionFactory motionFactory){ this(0, motionFactory); }
+    public SmoothScalar(){ this(Motion.linear(60)); }
     
     public void setMotionFactory(MotionFactory motionFactory){
         this.motionFactory = motionFactory;

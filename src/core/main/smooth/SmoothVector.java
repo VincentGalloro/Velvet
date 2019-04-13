@@ -1,6 +1,7 @@
 
 package core.main.smooth;
 
+import core.main.smooth.motion.Motion;
 import core.main.smooth.motion.MotionFactory;
 import core.main.structs.Vector;
 
@@ -15,11 +16,8 @@ public class SmoothVector {
         this.smooth = new Vector(pos);
         this.motionFactory = motionFactory;
     }
-    
-    public SmoothVector(MotionFactory motionFactory){
-        this.motionFactory = motionFactory;
-        this.smooth = new Vector();
-    }
+    public SmoothVector(MotionFactory motionFactory){ this(null, motionFactory); }
+    public SmoothVector(){ this(Motion.linear(60)); }
     
     public void setMotionFactory(MotionFactory motionFactory){
         this.motionFactory = motionFactory;

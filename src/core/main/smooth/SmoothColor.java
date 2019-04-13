@@ -1,5 +1,6 @@
 package core.main.smooth;
 
+import core.main.smooth.motion.Motion;
 import core.main.smooth.motion.MotionFactory;
 import java.awt.Color;
 
@@ -9,12 +10,13 @@ public class SmoothColor {
     private MotionFactory motionFactory;
     private MotionColor motionColor;
     
-    public SmoothColor(Color color){
+    public SmoothColor(Color color, MotionFactory motionFactory){
         this.color = color;
-        this.smooth = color;
+        this.smooth = color==null ? Color.WHITE : color;
+        this.motionFactory = motionFactory;
     }
-    
-    public SmoothColor(){}
+    public SmoothColor(MotionFactory motionFactory){ this(null, motionFactory); }
+    public SmoothColor(){ this(Motion.linear(60)); }
     
     public void setMotionFactory(MotionFactory motionFactory){
         this.motionFactory = motionFactory;
