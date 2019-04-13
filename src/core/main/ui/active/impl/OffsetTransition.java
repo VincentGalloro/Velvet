@@ -10,10 +10,9 @@ import core.main.ui.active.IUpdateable;
 import core.main.ui.elements.IElement;
 import java.awt.geom.AffineTransform;
 
-public class OffsetTransition implements IUpdateable{
+public class OffsetTransition extends SmoothVector implements IUpdateable{
 
     private IElement target;
-    private SmoothVector pos;
     private final IRenderable preRender, postRender;
     
     public OffsetTransition(){
@@ -21,7 +20,7 @@ public class OffsetTransition implements IUpdateable{
     }
     
     public OffsetTransition(MotionFactory motion){
-        pos = new SmoothVector(new Vector(), motion);
+        super(new Vector(), motion);
         preRender = this::preRender;
         postRender = this::postRender;
     }
@@ -42,16 +41,13 @@ public class OffsetTransition implements IUpdateable{
         }
     }
     
-    public void setOffset(Vector offset){ pos.setPos(offset); }
-    public void overrideOffset(Vector offset){ pos.overridePos(offset); }
-    
     public void update(AffineTransform at) {
-        pos.update();
+        super.update();
     }
     
     public AffineTransform getTransform(){
         AffineTransform at = new AffineTransform();
-        at.translate(pos.getSmooth().x, pos.getSmooth().y);
+        at.translate(getSmooth().x, getSmooth().y);
         return at;
     }
 

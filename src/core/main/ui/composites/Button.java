@@ -22,8 +22,7 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
         private Runnable lastHoverCall;
         
         public ColorController(Color c){
-            color = new SmoothColor(c);
-            color.setMotionFactory(Motion.linear(15));
+            color = new SmoothColor(c, Motion.linear(15));
         }
         
         public void bind(IElement source, Supplier<ColorProfile.CHCProfile> profile, Consumer<Color> target){
@@ -160,8 +159,8 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
 
         OffsetTransition ot = new OffsetTransition();
         ot.apply(this);
-        addHoverStartHandler(() -> ot.setOffset(new Vector(-1, -5)));
-        addHoverEndHandler(() -> ot.setOffset(new Vector()));
+        addHoverStartHandler(() -> ot.setPos(new Vector(-1, -5)));
+        addHoverEndHandler(() -> ot.setPos(new Vector()));
     }
     
     public IElementBuilder getBuilder(){ return new Builder(); }

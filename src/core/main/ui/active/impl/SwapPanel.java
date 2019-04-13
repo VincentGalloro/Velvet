@@ -20,12 +20,12 @@ public class SwapPanel {
             
             offsetTransition = new OffsetTransition(Motion.swish(40));
             offsetTransition.apply(e);
-            offsetTransition.overrideOffset(new Vector(-100, 0));
+            offsetTransition.overridePos(new Vector(-100, 0));
         }
         
         public void activate(){
             alphaTransition.setAlpha(1);
-            offsetTransition.setOffset(new Vector());
+            offsetTransition.setPos(new Vector());
         }
         
         public void detach(){

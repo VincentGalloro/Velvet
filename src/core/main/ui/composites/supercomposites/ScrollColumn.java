@@ -20,7 +20,7 @@ public class ScrollColumn extends BasicScrollListContainer{
         addUpdateHandler(ot::update);
         seriesListContainer.addTransformHandler(i -> ot.getTransform());
         
-        scroll.addDeltaHandler(d -> ot.setOffset(new Vector(0,-d*(seriesListContainer.getSize().y-listSize.getSize().y))));
+        scroll.addDeltaHandler(d -> ot.setPos(new Vector(0,-d*(seriesListContainer.getSize().y-listSize.getSize().y))));
         addUpdateHandler(at -> scroll.setScrollablePercentage(1 - listSize.getSize().y/seriesListContainer.getSize().y));
     }
     
