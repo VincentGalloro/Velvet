@@ -1,6 +1,6 @@
 
-import core.main.ui.active.impl.SwapPanel;
 import core.main.VGraphics;
+import core.main.ui.active.impl.SwapPanel;
 import core.main.Velvet;
 import core.main.ui.UIController;
 import core.main.ui.UIHandler;
@@ -53,7 +53,7 @@ public class Level extends Velvet{
                     }
                 });
             }
-        });
+        }); 
     }
 
     public void update() {

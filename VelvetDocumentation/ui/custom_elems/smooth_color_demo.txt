@@ -9,10 +9,10 @@ padding: left padding=5
     
     centered: size=590 50
      row: sep=10
-      button: name=red, text=Red, size=130 40
-      button: name=yellow, text=Yellow, size=130 40
-      button: name=green, text=Green, size=130 40
-      button: name=blue, text=Blue, size=130 40
+      button: name=red, text=Red, size=130 40, outline color=255 0 0, text color=255 0 0, text hover color=255 200 200, text click color=255 0 0
+      button: name=yellow, text=Yellow, size=130 40, outline color=220 220 0, text color=220 220 0, text hover color=255 255 200, text click color=220 220 0
+      button: name=green, text=Green, size=130 40, outline color=0 255 0, text color=0 255 0, text hover color=200 255 200, text click color=0 255 0
+      button: name=blue, text=Blue, size=130 40, outline color=0 0 255, text color=0 0 255, text hover color=200 200 255, text click color=0 0 255
     
     row
      centered: size=80 30

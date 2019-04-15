@@ -1,0 +1,47 @@
+scroll column: sep=40, outline color=230 230 230, size=600 670
+
+ padding: top padding=20
+  text area: path=ui/setup/mkb/text/intro.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ text area: path=ui/setup/mkb/text/intro2.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ text area: path=ui/setup/mkb/text/intro3.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+
+ centered: size=600 28
+  label: text = Mouse, font size=28, style = bold
+
+ text area: path=ui/setup/mkb/text/mouse.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ text area: path=ui/setup/mkb/text/mouse2.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ centered: size=600 200
+  image: path=ui/img/mouse_code_1.png
+
+ text area: path=ui/setup/mkb/text/mouse3.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ centered: size=600 110
+  image: path=ui/img/mouse_code_2.png
+ text area: path=ui/setup/mkb/text/mouse4.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ centered: size=600 140
+  image: path=ui/img/mouse_code_3.png
+
+ centered: size=600 28
+  label: text = Keyboard, font size=28, style = bold
+
+ text area: path=ui/setup/mkb/text/keyboard.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ text area: path=ui/setup/mkb/text/keyboard2.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ centered: size=600 120
+  image: path=ui/img/keyboard_code_1.png
+ text area: path=ui/setup/mkb/text/keyboard3.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ text area: path=ui/setup/mkb/text/keyboard4.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+ centered: size=600 120
+  image: path=ui/img/keyboard_code_2.png
+ text area: path=ui/setup/mkb/text/keyboard5.txt, text width=600, font size=19, text color=50 50 50, line sep=5
+
+ padding
+
+
+
+
+
+
+
+
+
+
+

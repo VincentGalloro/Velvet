@@ -1,0 +1,1 @@
+        The Keyboard works just like the mouse. There are five functions that should be used to interact with the keyboard.

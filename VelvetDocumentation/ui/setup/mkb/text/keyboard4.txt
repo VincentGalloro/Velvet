@@ -1,0 +1,1 @@
+        The "getPressedLog" function returns a full ordered list of every key that was pressed in the last frame. This data is represented as an arraylist of integers, with each integer representing the key code of the KeyEvent (java.awt)

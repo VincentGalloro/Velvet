@@ -1,2 +1,3 @@
 column: sep=40
- button: name=core, text=Core Package, size=260 50
+ button: name=core, text=Core Functionality, size=260 50
+ button: name=mkb, text=Mouse & Keyboard, size=260 50

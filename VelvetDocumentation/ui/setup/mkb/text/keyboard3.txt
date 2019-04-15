@@ -1,0 +1,1 @@
+        An important thing to note is that these functions do not keep track of order within a single frame. If two keys are pressed on the same frame, the functions will return "true" for both keys with no way to tell teh order they were pressed. If the order of keypresses is needed precisely, then the "getPressedLog" and "getTextTyped" functions may be used

@@ -1,0 +1,1 @@
+        The mouse object contains 5 main functions. The "isDown", "isPressed", and "isReleased" functions are all fairly self-explanatory, when called they return a true/false based on the state of the mouse button provided. To call these functions you provide a mouse button as shown below

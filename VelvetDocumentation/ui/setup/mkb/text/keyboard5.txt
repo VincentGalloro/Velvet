@@ -1,0 +1,1 @@
+        The "getTextTyped" function works similairly to the getPressedLog function, however, the getTextTyped function returns a string object representing the actual characters that were typed. where the pressedLog function would return a "shift key" event followed by an "a" key event, the getTextTyped function would return an upper case "A" character
