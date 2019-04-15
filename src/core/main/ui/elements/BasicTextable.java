@@ -1,6 +1,8 @@
 package core.main.ui.elements;
 
 import core.main.VGraphics;
+import core.main.ui.active.IFontMetricsEventable;
+import core.main.ui.active.ITextEventable;
 import core.main.ui.active.impl.TextEntry;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -9,6 +11,7 @@ import java.awt.FontMetrics;
 import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public abstract class BasicTextable extends BasicElement implements ITextable{
@@ -36,12 +39,17 @@ public abstract class BasicTextable extends BasicElement implements ITextable{
         }
     }
     
+    private ArrayList<ITextEventable> textHandlers;
+    private ArrayList<IFontMetricsEventable> fontMetricsHandlers;
     protected Font font;
     protected String text;
     protected FontMetrics fontMetrics;
     protected Color color;
     
     public BasicTextable(){
+        textHandlers = new ArrayList<>();
+        fontMetricsHandlers = new ArrayList<>();
+        
         font = new Font("Arial", Font.PLAIN, 24);;
         Canvas c = new Canvas();
         fontMetrics = c.getFontMetrics(font);
@@ -51,8 +59,18 @@ public abstract class BasicTextable extends BasicElement implements ITextable{
         addPostRenderHandler(this::setupRender);
     }
     
-    public final void setText(String t){ text = t; }
+    public final void addTextChangeHandler(ITextEventable e){ textHandlers.add(e); }
+    public final void addFontMetricsChangeHandler(IFontMetricsEventable e){ fontMetricsHandlers.add(e); }
+    
+    public final void setText(String t){
+        text = t; 
+        for(ITextEventable e : textHandlers){ e.onText(text); }
+    }
     public final void setTextColor(Color c){ color = c; }
+    public final void setFontMetrics(FontMetrics fm){ 
+        fontMetrics = fm; 
+        for(IFontMetricsEventable e : fontMetricsHandlers){ e.onFontMetrics(fm); }
+    }
     
     public final String getText() { return text; } 
     public final Color getTextColor() { return color; }
@@ -62,7 +80,7 @@ public abstract class BasicTextable extends BasicElement implements ITextable{
         g.setFont(font);
         g.save();
         g.setTransform(new AffineTransform());
-        fontMetrics = g.getFontMetrics();
+        setFontMetrics(g.getFontMetrics());
         g.reset();
     }
 }
