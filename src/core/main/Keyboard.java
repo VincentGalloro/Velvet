@@ -33,9 +33,9 @@ public class Keyboard implements KeyListener{
         deltaText = "";
     }
     
-    public boolean isDown(Key k){ return keys[k.code]; }
-    public boolean isPressed(Key k){ return keysPressed[k.code]; }
-    public boolean isReleased(Key k){ return keysReleased[k.code]; }
+    public boolean isDown(int code){ return keys[code]; }
+    public boolean isPressed(int code){ return keysPressed[code]; }
+    public boolean isReleased(int code){ return keysReleased[code]; }
     
     public ArrayList<Integer> getPressedLog(){ return pressedLog; }
     public String getTextTyped(){ return textTyped; }
