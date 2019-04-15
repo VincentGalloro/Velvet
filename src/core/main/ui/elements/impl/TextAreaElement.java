@@ -13,54 +13,72 @@ public class TextAreaElement extends BasicTextable{
         
         public void handleString(String field, String value) {
             super.handleString(field, value);
-            if(field.equals("text width")){ width = Double.parseDouble(value); }
+            if(field.equals("text width")){ setWidth(Double.parseDouble(value)); }
             if(field.equals("line sep")){ sep = Double.parseDouble(value); }
         }
     }
     
+    private final ArrayList<Integer> breakpoints;
+    private final ArrayList<String> breakpointSegments;
     private double width, sep;
     
     public TextAreaElement(){
         width = 200;
+        breakpoints = new ArrayList<>();
+        breakpointSegments = new ArrayList<>();
+        calculateBreakpoints();
         
         addPostRenderHandler(this::postRender);
+        addTextChangeHandler(s -> calculateBreakpoints());
+        addFontMetricsChangeHandler(fm -> calculateBreakpoints());
     }
     
     public IElementBuilder getBuilder(){ return new Builder(); }
     
     public boolean supportsNewline(){ return true; }
     
-    private ArrayList<Integer> getBreakpoints(){
-        ArrayList<Integer> points = new ArrayList<>();
-        points.add(0);
+    private void calculateBreakpoints(){
+        breakpoints.clear();
+        breakpointSegments.clear();
+        
+        breakpoints.add(0);
+        char[] chars = text.toCharArray();
         int last = 0, length = 1;
-        while(last+length < text.length()){
+        while(last+length < chars.length){
             Integer whitespaceMarker=null;
-            while(last+length < text.length() && text.charAt(last+length-1) != '\n' && fontMetrics.stringWidth(text.substring(last, last+length+1)) <= width){ 
-                if(text.charAt(last+length) == ' '){ whitespaceMarker = length; }
+            while(last+length < chars.length && chars[last+length-1] != '\n' && fontMetrics.charsWidth(chars, last, length+1) <= width){ 
+                if(chars[last+length] == ' '){ whitespaceMarker = length; }
                 length++; 
             }
-            if(whitespaceMarker != null && last+length < text.length()){ length = whitespaceMarker; }
+            if(whitespaceMarker != null && last+length < chars.length){ length = whitespaceMarker; }
             last += length;
-            points.add(last);
+            breakpoints.add(last);
             length = 1;
         }
         //if the last line begins with a single character, it will not be recognized in the main loop
         //this line makes sure the last pointer is at the end of the text
-        if(points.get(points.size()-1) != text.length()){ points.add(text.length()); }
+        if(breakpoints.get(breakpoints.size()-1) != chars.length){ breakpoints.add(chars.length); }
         //since newlines print in the same line as their text, if the box ends with a newline, the text area
         //will not have an additional empty line. This statement fixes that
-        if(!text.isEmpty() && text.charAt(text.length()-1) == '\n'){ points.add(text.length()); }
-        return points;
+        if(chars.length>0 && chars[chars.length-1] == '\n'){ breakpoints.add(chars.length); }
+        
+        //setup segments from breakpoints
+        for(int i = 0; i < breakpoints.size()-1; i++){
+            breakpointSegments.add(text.substring(breakpoints.get(i), breakpoints.get(i+1)));
+        }
+    }
+    
+    private void setWidth(double w){
+        width = w;
+        calculateBreakpoints();
     }
     
     public Vector getSize() { 
-        int lineCount = Math.max(getBreakpoints().size()-1, 1);
+        int lineCount = Math.max(breakpoints.size()-1, 1);
         return new Vector(width, (fontMetrics.getHeight() + sep)*lineCount - sep); 
     }
     
     public AffineTransform getCharTransform(int charIndex) {
-        ArrayList<Integer> breakpoints = getBreakpoints();
         int index = breakpoints.size()-1;
         while(index>0 && charIndex < breakpoints.get(index)){ index--; }
         if(index>0 && charIndex == text.length()){ index--; }
@@ -75,9 +93,8 @@ public class TextAreaElement extends BasicTextable{
     }
     
     public void postRender(VGraphics g) {
-        ArrayList<Integer> breakPoints = getBreakpoints();
-        for(int i = 0; i < breakPoints.size()-1; i++){
-            g.drawString(text.substring(breakPoints.get(i), breakPoints.get(i+1)), new Vector(0, getYOffs(i)));
+        for(int i = 0; i < breakpointSegments.size(); i++){
+            g.drawString(breakpointSegments.get(i), new Vector(0, getYOffs(i)));
         }
     }
 }
