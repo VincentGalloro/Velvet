@@ -1,7 +1,5 @@
 package core.main.ui.active.impl;
 
-import core.main.Key;
-import core.main.Keyboard;
 import core.main.VGraphics;
 import core.main.smooth.SmoothVector;
 import core.main.smooth.motion.Motion;
@@ -10,6 +8,7 @@ import core.main.ui.active.IRenderable;
 import core.main.ui.active.IUpdateable;
 import core.main.ui.elements.ITextable;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 
@@ -85,8 +84,8 @@ public class TextEntry implements IUpdateable, IRenderable{
     public void onKeyPressed(int i){
         setCursor(true);
         
-        if(i == Key.LEFT.code && cursorIndex > 0){ cursorIndex--; onCursorMove(); }
-        else if(i == Key.RIGHT.code && cursorIndex < textable.getText().length()){ cursorIndex++; onCursorMove(); }
+        if(i == KeyEvent.VK_LEFT && cursorIndex > 0){ cursorIndex--; onCursorMove(); }
+        else if(i == KeyEvent.VK_RIGHT && cursorIndex < textable.getText().length()){ cursorIndex++; onCursorMove(); }
     }
     
     public void onCursorMove(){
