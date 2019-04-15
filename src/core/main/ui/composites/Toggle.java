@@ -2,6 +2,8 @@ package core.main.ui.composites;
 
 import core.main.structs.GridDirection;
 import core.main.structs.Vector;
+import core.main.ui.active.IFontMetricsEventable;
+import core.main.ui.active.ITextEventable;
 import core.main.ui.elements.BasicToggleable;
 import core.main.ui.elements.IBoxable;
 import core.main.ui.elements.IPaddable;
@@ -10,6 +12,8 @@ import core.main.ui.elements.ITextable;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import core.main.ui.elements.IElementBuilder;
+import java.awt.FontMetrics;
+import java.awt.Shape;
 
 public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPaddable, ISizeable{
     
@@ -81,6 +85,9 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
     
     public IElementBuilder getBuilder(){ return new Builder(); }
     
+    public void addTextChangeHandler(ITextEventable e) { button.addTextChangeHandler(e); }
+    public void addFontMetricsChangeHandler(IFontMetricsEventable e) { button.addFontMetricsChangeHandler(e); }
+    public void setFontMetrics(FontMetrics fm) { button.setFontMetrics(fm); }
     public void setOutlineColor(Color o) { button.setOutlineColor(o); }
     public void setFillColor(Color f) { button.setFillColor(f); }
     public void setOutlineThickness(float t) { button.setOutlineThickness(t); }
@@ -95,6 +102,7 @@ public class Toggle extends BasicToggleable implements IBoxable, ITextable, IPad
     
     public Color getOutlineColor(){ return button.getOutlineColor(); }
     public Color getFillColor(){ return button.getFillColor(); }
+    public Shape getShape(){ return button.getShape(); }
     public Vector getSize() { return button.getSize(); }
     public String getText() { return button.getText(); }
     public Color getTextColor() { return button.getTextColor(); }

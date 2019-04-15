@@ -4,11 +4,15 @@ import core.main.smooth.SmoothColor;
 import core.main.smooth.motion.Motion;
 import core.main.structs.GridDirection;
 import core.main.structs.Vector;
+import core.main.ui.active.IFontMetricsEventable;
+import core.main.ui.active.ITextEventable;
 import core.main.ui.active.IUpdateable;
 import core.main.ui.active.impl.OffsetTransition;
 import core.main.ui.elements.*;
 import core.main.ui.elements.impl.*;
 import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -165,6 +169,9 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
     
     public IElementBuilder getBuilder(){ return new Builder(); }
     
+    public void addTextChangeHandler(ITextEventable e) { text.addTextChangeHandler(e); }
+    public void addFontMetricsChangeHandler(IFontMetricsEventable e) { text.addFontMetricsChangeHandler(e); }
+    public void setFontMetrics(FontMetrics fm) { text.setFontMetrics(fm); }
     public void setOutlineColor(Color o) { box.setOutlineColor(o); }
     public void setFillColor(Color f) { box.setFillColor(f); }
     public void setOutlineThickness(float t) { box.setOutlineThickness(t); }
@@ -181,6 +188,7 @@ public class Button extends BasicElement implements IBoxable, ITextable, IPaddab
     
     public Color getOutlineColor(){ return box.getOutlineColor(); }
     public Color getFillColor(){ return box.getFillColor(); }
+    public Shape getShape(){ return box.getShape(); }
     public Vector getSize() { return box.getSize(); }
     public String getText() { return text.getText(); }
     public Color getTextColor() { return text.getTextColor(); }

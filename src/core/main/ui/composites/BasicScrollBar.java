@@ -3,7 +3,6 @@ package core.main.ui.composites;
 
 import core.main.VGraphics;
 import core.main.structs.Vector;
-import core.main.ui.active.IRenderable;
 import core.main.ui.active.impl.ZoomTransition;
 import core.main.ui.elements.BasicScrollable;
 import core.main.ui.elements.BasicSizeable;
@@ -12,6 +11,7 @@ import core.main.ui.elements.IElementBuilder;
 import core.main.ui.elements.impl.BoxElement;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
+import java.awt.Shape;
 
 public abstract class BasicScrollBar extends BasicScrollable implements IBoxable{
     
@@ -61,8 +61,10 @@ public abstract class BasicScrollBar extends BasicScrollable implements IBoxable
     public void setFillColor(Color f) { knob.setFillColor(f); }
     public void setOutlineThickness(float t) { knob.setOutlineThickness(t); }
     public void setRounding(Double d){ knob.setRounding(d); }
+    
     public Color getOutlineColor() { return knob.getOutlineColor(); }
     public Color getFillColor() { return knob.getFillColor(); }
+    public Shape getShape(){ return knob.getShape(); }
     
     public final void knobRender(VGraphics g){
         g.save();

@@ -17,10 +17,12 @@ import core.main.ui.elements.SeriesListContainer;
 import core.main.ui.elements.impl.BoxElement;
 import core.main.ui.elements.impl.PaddingElement;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.util.stream.Stream;
 
-public abstract class BasicScrollListContainer extends BasicElement implements IScrollable, IBoxable, ISizeable, IListContainer{
+public abstract class BasicScrollListContainer extends BasicElement implements 
+        IScrollable, IBoxable, ISizeable, IListContainer{
 
     public class Builder extends BasicElement.Builder{
 
@@ -97,6 +99,7 @@ public abstract class BasicScrollListContainer extends BasicElement implements I
     public final void setFillColor(Color f) { box.setFillColor(f); }
     public final Color getOutlineColor() { return box.getOutlineColor(); }
     public final Color getFillColor() { return box.getFillColor(); }
+    public final Shape getShape(){ return box.getShape(); }
 
     public final void addTransformHandler(IListTransformable t){ seriesListContainer.addTransformHandler(t); } 
     public final void removeTransformHandler(IListTransformable t){ seriesListContainer.removeTransformHandler(t); }
