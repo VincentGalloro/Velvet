@@ -56,6 +56,8 @@ public class WindowedView {
         clear();
         //grab our new graphics
         Graphics2D newG = image.createGraphics();
+        /*newG.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
+                            RenderingHints.VALUE_FRACTIONALMETRICS_ON);*/
         //add our new graphics object to the graphics stack
         g.subGraphics(newG);
         //fill out our image with a white background
