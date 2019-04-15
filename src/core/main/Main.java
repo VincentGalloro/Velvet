@@ -18,6 +18,7 @@ public class Main extends Canvas implements Runnable{
 
     private JFrame frame;
     
+    private String title;
     private Velvet level;
     private Keyboard keyboard;
     private Mouse mouse;
@@ -27,6 +28,7 @@ public class Main extends Canvas implements Runnable{
         
         Dimension d = new Dimension(level.getSize().x, level.getSize().y);
         
+        this.title = name;
         frame = new JFrame(name);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setResizable(false);
@@ -76,8 +78,12 @@ public class Main extends Canvas implements Runnable{
             long now = System.nanoTime();
             delta += (now - lastTime) / nsPerTick;
             lastTime = now;
+            
+            if(delta >= 10){ frame.setTitle(title+" | WARNING [RUNNING BELOW 60FPS] | Frame Deficit = "+delta);}
+            else{ frame.setTitle(title); }
+            
             if(delta >= 1){   
-                delta -= 1;       
+                delta -= 1;      
                 update();
                 render();     
             }
@@ -97,10 +103,10 @@ public class Main extends Canvas implements Runnable{
         g.setColor(BACKGROUND_COLOR);
         g.fillRect(0, 0, level.getSize().x, level.getSize().y);
         
-        ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+        /*((Graphics2D)g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS,
-                            RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+                            RenderingHints.VALUE_FRACTIONALMETRICS_ON);*/
         
         level.render(new VGraphics((Graphics2D)g));
         
