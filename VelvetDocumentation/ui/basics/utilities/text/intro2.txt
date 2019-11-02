@@ -1,1 +1,0 @@
-        Another core utility is the "SmoothMotion" package. This package contains functionality for smooth transitions. Transitions for Vectors and Colors are currently supported.

@@ -1,1 +1,0 @@
-        The above demo runs on the "Smooth Vector" object, which can easily be used for any smooth motion purposes. There is also a Smooth Color object which can be used exactly like the Smooth Vector. Try it out!

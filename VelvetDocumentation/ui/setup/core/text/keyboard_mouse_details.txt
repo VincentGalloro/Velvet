@@ -1,1 +1,0 @@
-        The keyboard and mouse objects are created behind the scenes and are available to the your main class using this.keyboard and this.mouse. Both the keyboard and mouse classes contain functionality for polling which keys are currently being held, the mouse location on screen, which keys have just been clicked, and more.

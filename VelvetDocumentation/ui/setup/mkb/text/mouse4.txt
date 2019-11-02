@@ -1,1 +1,0 @@
-        Finally the "getScrollAmount" function returns an integer representing the amount of ticks the mouse wheel was rotated this frame. The value will be 0 if the wheel was not rotated, and can be positive or negative depending on the direction the wheel was rotated

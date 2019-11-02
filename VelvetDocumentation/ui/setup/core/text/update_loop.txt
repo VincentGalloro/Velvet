@@ -1,1 +1,0 @@
-        Velvet's update loop is set to run as close to 60 frames per second as possible. This is the heartbeat of your program. 

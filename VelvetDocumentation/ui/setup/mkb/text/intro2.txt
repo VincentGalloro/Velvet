@@ -1,1 +1,0 @@
-        It is important to note that the UI package handles mouse and keyboard events using the UIHandler system. The mouse and keyboard objects should mainly be used for games or custom simulations. When working with Velvet UI, use the built in addMousePress or addKeyPress handler functionality

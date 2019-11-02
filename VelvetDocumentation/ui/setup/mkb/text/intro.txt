@@ -1,1 +1,0 @@
-        The mouse and keyboard objects are initialized automatically when you create a new Velvet Project by extending Velvet and calling Velvet.start() with an instance of your main class

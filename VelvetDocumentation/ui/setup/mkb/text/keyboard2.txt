@@ -1,1 +1,0 @@
-        There 3 most common functions are the "isDown", "isPressed", and "isReleased" functions. These work like the mouse, with isDown returning true when a key is being held down, while isPressed returns true only on the first frame the key is pressed. The functions are called with an integer representing the code of the KeyEvent (java.awt)

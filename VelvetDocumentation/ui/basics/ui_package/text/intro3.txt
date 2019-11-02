@@ -1,1 +1,0 @@
-        If you are working on a more serious UI-oriented program, Velvet provides many tools to customize the style, design, and transitions of your UI.

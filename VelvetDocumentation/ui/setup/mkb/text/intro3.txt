@@ -1,1 +1,0 @@
-        Unlike the UI system, the mouse and keyboard objects work on a polling system rather than an event based system. You interact with these objects by asking "Is the 'E' key being held right now?" or "where is the mouse right now", rather than binding an event to be automatically executed when a mouse or keyboard event occurs

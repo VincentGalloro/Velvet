@@ -1,1 +1,0 @@
-        The "getPos" function returns the current window coordinates of the mouse. This value is returned using a Velvet Vector object. The "getTransformedPos" function takes an affineTransform and returns the transformed mouse coordinate, this is just a helper function

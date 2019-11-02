@@ -1,1 +1,0 @@
-        To extend Velvet your constructor should call super with your preferred window size. All initialization code should be placed in init. 

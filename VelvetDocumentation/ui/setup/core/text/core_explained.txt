@@ -1,1 +1,0 @@
-        To use Velvet's core functionality, your main class must extend Velvet. This will provide you with a window, an update loop, a render loop, and a keyboard and mouse object. The objects and loops are set up automatically behind the scenes

@@ -1,1 +1,0 @@
-        These Velvet Script layout files can be dynamically loaded into Velvet at runtime. Multiple layout files can also be loaded and nested within eachother, allowing for complex layouts to be divded into multiple files. This also allows you to use the same layout across multiple pages
