@@ -5,8 +5,7 @@ import velvet.smooth.tracker.impl.DoubleSwishTracker
 import velvet.smooth.tracker.impl.VectorSwishTracker
 import velvet.structs.Vector
 
-class ContainerLayoutActuator (val layoutSupplier: ()->ContainerLayout,
-                               val layoutConsumer: (ContainerLayout)->Unit,
+class ContainerLayoutActuator (val vContainer: VContainer,
                                val posTracker: Tracker<Vector> = VectorSwishTracker(),
                                val sizeTracker: Tracker<Vector> = VectorSwishTracker(),
                                val originTracker: Tracker<Vector> = VectorSwishTracker(),
@@ -15,11 +14,10 @@ class ContainerLayoutActuator (val layoutSupplier: ()->ContainerLayout,
     var targetLayout: ContainerLayout = ContainerLayout()
 
     fun step() {
-        val layout = layoutSupplier()
-        layoutConsumer(ContainerLayout(
-                posTracker.step(layout.pos, targetLayout.pos),
-                sizeTracker.step(layout.size, targetLayout.size),
-                originTracker.step(layout.origin, targetLayout.origin),
-                angleTracker.step(layout.angle, targetLayout.angle)))
+        vContainer.containerLayout = ContainerLayout(
+                posTracker.step(vContainer.containerLayout.pos, targetLayout.pos),
+                sizeTracker.step(vContainer.containerLayout.size, targetLayout.size),
+                originTracker.step(vContainer.containerLayout.origin, targetLayout.origin),
+                angleTracker.step(vContainer.containerLayout.angle, targetLayout.angle))
     }
 }
