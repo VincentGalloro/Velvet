@@ -5,8 +5,9 @@ import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.remote.CapabilityType
 import velvet.automation.Bot
+import velvet.automation.SynchronizedQueue
 
-abstract class WebBot : Bot() {
+abstract class WebBot<T>(externalQueue: SynchronizedQueue<(T)->Unit>? = null) : Bot<T>(externalQueue) {
 
     lateinit var driver: ChromeDriver
 

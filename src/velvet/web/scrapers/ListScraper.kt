@@ -1,7 +1,6 @@
-package velvet.web.scrapers;
+package velvet.web.scrapers
 
-import java.util.ArrayList;
+interface ListScraper<T> {
 
-public interface ListScraper<T> {
-    ArrayList<T> scrape();
+    fun scrape(): List<T>
 }

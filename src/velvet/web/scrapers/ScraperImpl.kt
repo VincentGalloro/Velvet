@@ -1,37 +1,31 @@
-package velvet.web.scrapers;
+package velvet.web.scrapers
 
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.NoSuchElementException
+import org.openqa.selenium.StaleElementReferenceException
+import org.openqa.selenium.WebDriver
 
-import java.util.Optional;
+abstract class ScraperImpl<T>(protected val driver: WebDriver) : Scraper<T> {
 
-public abstract class ScraperImpl<T> implements Scraper<T>{
+    open fun focus(){}
 
-    protected final WebDriver driver;
-
-    public ScraperImpl(WebDriver driver) {
-        this.driver = driver;
-    }
-
-    public abstract void focus();
-
-    public final Optional<T> scrape(){
-        try{
-            focus();
-            return Optional.of(tryScrape());
-        }
-        catch (NoSuchElementException | StaleElementReferenceException e){
-            onScrapeFail();
+    override fun scrape(): T? {
+        try {
+            focus()
+            return tryScrape()
+        } catch (e: NoSuchElementException) {
+            onScrapeFail()
+        } catch (e: StaleElementReferenceException) {
+            onScrapeFail()
         }
 
-        return Optional.empty();
+        return null
     }
 
     //custom error message ?
-    protected void onScrapeFail(){
-        System.err.println(getClass().getSimpleName()+" failed to scrape an item");
+    protected fun onScrapeFail() {
+        System.err.println(javaClass.simpleName + " failed to scrape an item")
     }
 
-    protected abstract T tryScrape() throws NoSuchElementException, StaleElementReferenceException;
+    @Throws(NoSuchElementException::class, StaleElementReferenceException::class)
+    protected abstract fun tryScrape(): T
 }

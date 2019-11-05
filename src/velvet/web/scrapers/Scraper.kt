@@ -1,7 +1,6 @@
-package velvet.web.scrapers;
+package velvet.web.scrapers
 
-import java.util.Optional;
+interface Scraper<T> {
 
-public interface Scraper<T> {
-    Optional<T> scrape();
+    fun scrape(): T?
 }

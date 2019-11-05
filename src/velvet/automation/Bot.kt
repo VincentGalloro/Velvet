@@ -1,30 +1,31 @@
 package velvet.automation
 
-open class Bot(private val externalQueue: JobQueue? = null){
+abstract class Bot<T>(private val externalQueue: SynchronizedQueue<(T)->Unit>? = null){
 
-    private val jobQueue = JobQueue()
-    private val lowPriorityJobQueue = JobQueue()
+    private val jobQueue = SynchronizedQueue<(T)->Unit>()
+    private val lowPriorityJobQueue = SynchronizedQueue<(T)->Unit>()
 
     private var kill = false
+    open val shutdown = { kill = true }
 
-    init {
+    protected abstract val invokingArg: T
+
+    fun start(){
         Thread(::run).start()
     }
 
-    open val shutdown = { kill = true }
-
     private fun run() {
         while (!kill) {
-            val job = jobQueue.popJob() ?: externalQueue?.popJob() ?: lowPriorityJobQueue.popJob()
+            val job = jobQueue.pop() ?: externalQueue?.pop() ?: lowPriorityJobQueue.pop()
 
             try {
-                job?.invoke()
+                job?.invoke(invokingArg)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
 
-    fun addJob(job: ()->Unit) = jobQueue.addJob(job)
-    fun addLowPriorityJob(job: ()->Unit) = lowPriorityJobQueue.addJob(job)
+    fun addJob(job: (T)->Unit) = jobQueue.add(job)
+    fun addLowPriorityJob(job: (T)->Unit) = lowPriorityJobQueue.add(job)
 }
