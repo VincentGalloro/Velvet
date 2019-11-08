@@ -4,15 +4,15 @@ import org.openqa.selenium.UnexpectedAlertBehaviour
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.remote.CapabilityType
-import velvet.automation.Bot
-import velvet.automation.SynchronizedQueue
+import velvet.multithreading.Bot
+import velvet.multithreading.SynchronizedQueue
 
 abstract class WebBot<T>(externalQueue: SynchronizedQueue<(T)->Unit>? = null) : Bot<T>(externalQueue) {
 
     lateinit var driver: ChromeDriver
 
     init {
-        addJob {
+        addJob{
             val options = ChromeOptions()
             options.addArguments("--disable-notifications")
             options.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR,
@@ -21,10 +21,10 @@ abstract class WebBot<T>(externalQueue: SynchronizedQueue<(T)->Unit>? = null) : 
         }
     }
 
-    override val shutdown = {
+    override fun shutdown(){
         System.err.println("Closing Driver")
         driver.quit()
         System.err.println("Killing Bot")
-        super.shutdown.invoke()
+        super.shutdown()
     }
 }

@@ -4,11 +4,10 @@ import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import java.util.*
-import java.util.function.Function
 
-abstract class SlowLoadListScraper<T>(private val driver: WebDriver,
+abstract class SlowLoadListScraper<T>(protected val driver: WebDriver,
                                       private val selector: String,
-                                      private val itemMap: Function<WebElement, T>) : ListScraper<T> {
+                                      private val itemMapper: (WebElement)->T) : ListScraper<T> {
 
     override fun scrape(): List<T> {
         var elements: List<WebElement> = ArrayList()
@@ -26,7 +25,7 @@ abstract class SlowLoadListScraper<T>(private val driver: WebDriver,
 
         postLoad()
 
-        return elements.map { itemMap.apply(it) }
+        return elements.map { itemMapper.invoke(it) }
     }
 
     protected abstract fun preUpdate()

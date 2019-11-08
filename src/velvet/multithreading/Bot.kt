@@ -1,12 +1,16 @@
-package velvet.automation
+package velvet.multithreading
 
 abstract class Bot<T>(private val externalQueue: SynchronizedQueue<(T)->Unit>? = null){
 
     private val jobQueue = SynchronizedQueue<(T)->Unit>()
     private val lowPriorityJobQueue = SynchronizedQueue<(T)->Unit>()
 
+    var idle = false
+        @Synchronized get
+        @Synchronized set
+
     private var kill = false
-    open val shutdown = { kill = true }
+    open fun shutdown(){ kill = true }
 
     protected abstract val invokingArg: T
 
@@ -19,7 +23,11 @@ abstract class Bot<T>(private val externalQueue: SynchronizedQueue<(T)->Unit>? =
             val job = jobQueue.pop() ?: externalQueue?.pop() ?: lowPriorityJobQueue.pop()
 
             try {
-                job?.invoke(invokingArg)
+                if(job == null){ idle = true }
+                else{
+                    idle = false
+                    job.invoke(invokingArg)
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
