@@ -1,6 +1,7 @@
 package velvet.velements.impl
 
 import velvet.main.VGraphics
+import velvet.structs.Vector
 import velvet.velements.VElement
 import java.awt.Canvas
 import java.awt.Color
@@ -10,6 +11,8 @@ import java.awt.image.BufferedImage
 
 abstract class BasicTextElement(_text: String = "",
                                 _color: Color = Color.BLACK) : VElement {
+
+    abstract override val size: Vector
 
     private lateinit var font: Font
     protected lateinit var fontMetrics: FontMetrics
@@ -39,7 +42,6 @@ abstract class BasicTextElement(_text: String = "",
     }
 
     private fun updateCachedImage() {
-        val size = size.ceil()
         cachedImage = BufferedImage(size.x.toInt(), size.y.toInt(), BufferedImage.TYPE_INT_ARGB)
 
         val g = VGraphics(cachedImage.createGraphics())
@@ -50,8 +52,11 @@ abstract class BasicTextElement(_text: String = "",
         textRender(g)
     }
 
-    override fun render(g: VGraphics) {
+    override fun render(g: VGraphics, targetSize: Vector) {
+        g.save()
+        g.scale(targetSize.divide(size))
         g.drawImage(cachedImage)
+        g.reset()
     }
 
     abstract fun textRender(g: VGraphics)

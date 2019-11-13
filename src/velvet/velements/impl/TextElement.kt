@@ -2,10 +2,11 @@ package velvet.velements.impl
 
 import velvet.main.VGraphics
 import velvet.structs.Vector
-
+import java.awt.Color
 import java.awt.geom.AffineTransform
 
-class LabelElement : BasicTextElement() {
+class TextElement(_text: String = "",
+                  _color: Color = Color.BLACK) : BasicTextElement(_text, _color) {
 
     override val size: Vector
         get() = Vector(fontMetrics.stringWidth(text).toDouble(),
