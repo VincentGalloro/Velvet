@@ -4,7 +4,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-public abstract class BasicLoader<T> {
+public abstract class BasicLoader<T> implements Loader<T>{
 
     protected final DataInputStream in;
 

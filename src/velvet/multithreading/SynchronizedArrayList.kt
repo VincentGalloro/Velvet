@@ -38,4 +38,16 @@ class SynchronizedArrayList<T> {
     fun clear(){
         items.clear()
     }
+
+    @Synchronized
+    fun sort(comparator: (T)->Double){
+        items.sortBy(comparator)
+    }
+
+    @Synchronized
+    fun toList(): ArrayList<T>{
+        val newItems = ArrayList<T>()
+        newItems.addAll(items)
+        return newItems
+    }
 }
