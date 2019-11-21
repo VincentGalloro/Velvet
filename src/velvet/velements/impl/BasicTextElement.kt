@@ -10,7 +10,8 @@ import java.awt.FontMetrics
 import java.awt.image.BufferedImage
 
 abstract class BasicTextElement(_text: String = "",
-                                _color: Color = Color.BLACK) : VElement {
+                                _color: Color = Color.BLACK,
+                                fontResolution: Int = 24) : VElement {
 
     abstract override val size: Vector
 
@@ -31,7 +32,7 @@ abstract class BasicTextElement(_text: String = "",
         }
 
     init {
-        setFontResolution(24)
+        setFontResolution(fontResolution)
     }
 
     fun setFontResolution(fontSize: Int) {

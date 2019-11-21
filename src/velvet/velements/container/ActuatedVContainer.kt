@@ -2,7 +2,7 @@ package velvet.velements.container
 
 import velvet.velements.VElement
 
-class ActuatedVContainer(vUnit: VElement? = null) : VContainer(vUnit){
+class ActuatedVContainer(vElement: VElement? = null) : VContainer(vElement){
 
     val layoutActuator = LayoutActuator(this)
 

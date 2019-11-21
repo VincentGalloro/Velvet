@@ -8,7 +8,6 @@ import velvet.structs.Vector
 class LayoutActuator (private val vContainer: VContainer,
                       private val posTracker: Tracker<Vector> = VectorSwishTracker(),
                       private val sizeTracker: Tracker<Vector> = VectorSwishTracker(),
-                      private val originTracker: Tracker<Vector> = VectorSwishTracker(),
                       private val angleTracker: Tracker<Double> = DoubleSwishTracker()) {
 
     var targetLayout: ContainerLayout = ContainerLayout()
@@ -17,7 +16,6 @@ class LayoutActuator (private val vContainer: VContainer,
         vContainer.containerLayout = ContainerLayout(
                 posTracker.step(vContainer.containerLayout.pos, targetLayout.pos),
                 sizeTracker.step(vContainer.containerLayout.size, targetLayout.size),
-                originTracker.step(vContainer.containerLayout.origin, targetLayout.origin),
                 angleTracker.step(vContainer.containerLayout.angle, targetLayout.angle))
     }
 }

@@ -88,7 +88,7 @@ public class Vector {
         return subtract(c).rotate(a).add(c);
     }
     public Vector rotate(double a){
-        return unitVector(a).multiply(x).add(unitVector(a).flip().multiply(y));
+        return unitVector(a).multiply(x).add(unitVector(a+Math.PI/2).multiply(y));
     } 
 
     public boolean lessThan(Vector v){ return x <= v.x && y <= v.y; }
