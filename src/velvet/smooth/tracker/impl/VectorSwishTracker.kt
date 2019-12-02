@@ -6,6 +6,6 @@ import velvet.structs.Vector
 class VectorSwishTracker(private val speed: Double = 0.1) : Tracker<Vector> {
 
     override fun step(current: Vector, target: Vector): Vector {
-        return current.multiply(1 - speed).add(target.multiply(speed))
+        return current*(1-speed) + target*speed
     }
 }

@@ -8,7 +8,7 @@ public class Keyboard implements KeyListener{
     
     private final boolean[] keys, keysLast, keysPressed, keysReleased;
     private String deltaText, textTyped;
-    private ArrayList<Integer> pressedLog, deltaPressed;
+    private ArrayList<Integer> pressedLog, releasedLog;
     
     public Keyboard(){
         keys = new boolean[256];
@@ -16,19 +16,22 @@ public class Keyboard implements KeyListener{
         keysPressed = new boolean[256];
         keysReleased = new boolean[256];
         pressedLog = new ArrayList<>();
-        deltaPressed = new ArrayList<>();
+        releasedLog = new ArrayList<>();
         deltaText = "";
         textTyped = "";
     }
     
     public void update(){
+        pressedLog.clear();
+        releasedLog.clear();
         for(int i = 0; i < keys.length; i++){
             keysPressed[i] = keys[i] && !keysLast[i];
             keysReleased[i] = !keys[i] && keysLast[i];
             keysLast[i] = keys[i];
+
+            if(keysPressed[i]){ pressedLog.add(i); }
+            if(keysReleased[i]){ releasedLog.add(i); }
         }
-        pressedLog = deltaPressed;
-        deltaPressed = new ArrayList<>();
         textTyped = deltaText;
         deltaText = "";
     }
@@ -38,13 +41,13 @@ public class Keyboard implements KeyListener{
     public boolean isReleased(int code){ return keysReleased[code]; }
     
     public ArrayList<Integer> getPressedLog(){ return pressedLog; }
+    public ArrayList<Integer> getReleasedLog(){ return releasedLog; }
     public String getTextTyped(){ return textTyped; }
     
     public void keyTyped(KeyEvent e) {
         deltaText += e.getKeyChar();
     }
     public void keyPressed(KeyEvent e) {
-        deltaPressed.add(e.getKeyCode());
         if(e.getKeyCode() < 256){ keys[e.getKeyCode()] = true; }
     }
     public void keyReleased(KeyEvent e) {

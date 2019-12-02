@@ -1,5 +1,7 @@
 package velvet.main;
 
+import velvet.velements.interact.UIEventHandler;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -19,11 +21,12 @@ public class Main extends Canvas implements Runnable{
     private Velvet level;
     private Keyboard keyboard;
     private Mouse mouse;
+    private UIEventHandler uiEventHandler;
     
     public Main(Velvet level, String name){
         this.level = level;
         
-        Dimension d = new Dimension(level.getSize().x, level.getSize().y);
+        Dimension d = level.size.getDimension();
         
         this.title = name;
         frame = new JFrame(name);
@@ -55,9 +58,11 @@ public class Main extends Canvas implements Runnable{
         addMouseWheelListener(mouse);
         FileDrop fileDrop = new FileDrop();
         frame.setDropTarget(fileDrop);
+        uiEventHandler = new UIEventHandler(mouse, keyboard);
         
         level.setKeyboard(keyboard);
         level.setMouse(mouse);
+        level.setUiEventHandler(uiEventHandler);
         level.setFileDrop(fileDrop);
 
         level.init();
@@ -102,6 +107,7 @@ public class Main extends Canvas implements Runnable{
     public void update(){
         keyboard.update();
         mouse.update();
+        uiEventHandler.update();
         level.update();
     }
     
@@ -110,7 +116,7 @@ public class Main extends Canvas implements Runnable{
         
         Graphics g = getBufferStrategy().getDrawGraphics();
         g.setColor(BACKGROUND_COLOR);
-        g.fillRect(0, 0, level.getSize().x, level.getSize().y);
+        g.fillRect(0, 0, level.getSize().getX(), level.getSize().getY());
 
         ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 

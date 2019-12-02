@@ -16,8 +16,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     private int deltaScroll, scrollAmount;
     
     public Mouse(){
-        pos = Vector.ZERO;
-        livePos = Vector.ZERO;
+        pos = new Vector();
+        livePos = new Vector();
         buttons = new boolean[BUTTON_CODES.length]; 
         buttonsPressed = new boolean[BUTTON_CODES.length];
         buttonsReleased = new boolean[BUTTON_CODES.length];
