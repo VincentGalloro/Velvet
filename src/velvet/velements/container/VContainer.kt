@@ -1,20 +1,24 @@
 package velvet.velements.container
 
 import velvet.main.VGraphics
+import velvet.structs.Bounds
 import velvet.velements.VElement
+import velvet.velements.interact.UIEventListener
 
 open class VContainer(var vElement: VElement? = null) {
 
-    var containerLayout: ContainerLayout = ContainerLayout()
+    var bounds: Bounds = Bounds()
+    var uiEventListener = UIEventListener()
+
+    var disabled: Boolean = false
 
     fun render(g: VGraphics){
+        if(disabled){ return; }
         vElement?.let {
             g.save()
 
-            g.translate(containerLayout.pos)
-            g.rotate(containerLayout.angle)
-            g.translate(containerLayout.size.half().negate())
-            it.render(g, containerLayout.size)
+            g.translate(bounds.start)
+            it.render(g, bounds.size)
 
             g.reset()
         }

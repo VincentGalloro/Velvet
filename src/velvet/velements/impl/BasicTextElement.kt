@@ -18,7 +18,7 @@ abstract class BasicTextElement(_text: String = "",
     private lateinit var font: Font
     protected lateinit var fontMetrics: FontMetrics
 
-    private lateinit var cachedImage: BufferedImage
+    private var cachedImage: BufferedImage? = null
 
     var text = _text
         set(value){
@@ -43,21 +43,27 @@ abstract class BasicTextElement(_text: String = "",
     }
 
     private fun updateCachedImage() {
-        cachedImage = BufferedImage(size.x.toInt(), size.y.toInt(), BufferedImage.TYPE_INT_ARGB)
+        if(size.floor().min <= 0){ cachedImage = null; return; }
 
-        val g = VGraphics(cachedImage.createGraphics())
+        cachedImage = BufferedImage(size.x.toInt(), size.y.toInt(), BufferedImage.TYPE_INT_ARGB).let {
+            val g = VGraphics(it.createGraphics())
 
-        g.setColor(color)
-        g.setFont(font)
+            g.setColor(color)
+            g.setFont(font)
 
-        textRender(g)
+            textRender(g)
+
+            it
+        }
     }
 
     override fun render(g: VGraphics, targetSize: Vector) {
-        g.save()
-        g.scale(targetSize.divide(size))
-        g.drawImage(cachedImage)
-        g.reset()
+        cachedImage?.let {
+            g.save()
+            g.scale(targetSize / size)
+            g.drawImage(it)
+            g.reset()
+        }
     }
 
     abstract fun textRender(g: VGraphics)

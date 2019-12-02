@@ -17,7 +17,7 @@ class ImageElement (var image: BufferedImage? = null) : VElement {
     override fun render(g: VGraphics, targetSize: Vector) {
         image?.let {
             g.save()
-            g.scale(targetSize.divide(calculateImageSize(it)))
+            g.scale(targetSize/calculateImageSize(it))
             g.drawImage(it)
             g.reset()
         }
