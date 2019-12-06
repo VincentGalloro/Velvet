@@ -11,7 +11,12 @@ data class Position constructor(val x: Int = 0, val y: Int = 0) {
         val RIGHT = Position(1, 0)
         val DOWN = Position(0, 1)
         val LEFT = Position(-1, 0)
-        val DIRS = arrayOf(UP, RIGHT, DOWN, LEFT)
+
+        val HORIZONTAL = listOf(LEFT, RIGHT)
+        val VERTICAL = listOf(UP, DOWN)
+        val DIRS = listOf(UP, RIGHT, DOWN, LEFT)
+
+        fun fromIndex(index: Int, width: Int) = Position(index%width, index/width)
     }
 
     val square by lazy { apply { it*it } }
