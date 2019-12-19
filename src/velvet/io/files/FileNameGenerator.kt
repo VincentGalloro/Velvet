@@ -1,4 +1,4 @@
-package velvet.io
+package velvet.io.files
 
 interface FileNameGenerator {
 

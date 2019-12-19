@@ -1,5 +1,7 @@
-package velvet.io
+package velvet.io.files
 
+import velvet.io.Loader
+import velvet.io.Writer
 import java.io.*
 import java.nio.file.Files
 import java.nio.file.Path
@@ -9,11 +11,11 @@ class RollingBackupFileStore(private val currentVersionFileName: String,
                              private val backupFileNameGenerator: FileNameGenerator,
                              private val maxFiles: Int = 10) {
 
-    fun writeToFile(writer: Writeable) : Boolean{
+    fun <T, R> writeToFile(t: T, writer: Writer<T, R>): R?{
         val backupFile = File(backupFileNameGenerator.fName)
         if(!backupFile.parentFile.exists() && !backupFile.parentFile.mkdirs()){
             System.err.println("Could not create folders for ${backupFile.path}")
-            return false;
+            return null
         }
 
         while(true){
@@ -21,17 +23,15 @@ class RollingBackupFileStore(private val currentVersionFileName: String,
             if(backupFile.parentFile?.listFiles()?.get(0)?.delete() != true){ break }
         }
 
-        if(!DataOutputStream(FileOutputStream(backupFile)).use {
+        val r = DataOutputStream(FileOutputStream(backupFile)).use {
             try {
-                writer.write(it)
-            }
-            catch(e: Exception) {
+                writer.write(it, t)
+            } catch (e: Exception) {
                 System.err.println("Something went wrong when writing to ${backupFile.path}:")
                 System.err.println(e)
-                return@use false
+                return null
             }
-            return@use true
-        }){ return false; }
+        }
 
         try {
             Files.copy(backupFile.toPath(),
@@ -41,27 +41,23 @@ class RollingBackupFileStore(private val currentVersionFileName: String,
         catch (e: Exception){
             System.err.println("Something went wrong while copying backup file to current file:")
             System.err.println(e)
-            return false
+            return null
         }
 
-        return true
+        return r
     }
 
-    fun loadFromFile(loadable: Loadable) : Boolean{
-        if(!File(currentVersionFileName).isFile){ return false }
+    fun <T> loadFromFile(t: T, loader: Loader<T>){
+        if(!File(currentVersionFileName).isFile){ return }
 
-        if(!DataInputStream(FileInputStream(currentVersionFileName)).use {
+        DataInputStream(FileInputStream(currentVersionFileName)).use {
             try{
-                loadable.load(it)
-            }
-            catch (e: Exception){
+                loader.load(it, t)
+            } catch (e: Exception){
                 System.err.println("Something went wrong when loading from $currentVersionFileName")
                 System.err.println(e)
-                return@use false
             }
-            return@use true
-        }){ return false; }
-        return true
+        }
     }
 
     fun reloadToBackup(versionsBack: Int){

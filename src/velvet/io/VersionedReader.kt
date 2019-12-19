@@ -1,10 +1,10 @@
 package velvet.io
 
 import java.io.DataInputStream
-import java.io.IOException
 
-interface Readable<T> {
+interface VersionedReader<T> {
 
-    @Throws(IOException::class)
+    val version: String
+
     fun read(dataInputStream: DataInputStream): T
 }
