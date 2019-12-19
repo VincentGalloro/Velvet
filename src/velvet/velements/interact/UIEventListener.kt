@@ -7,6 +7,8 @@ class UIEventListener {
     var onMousePress: (()->Unit)? = null
     var onMouseRelease: (()->Unit)? = null
 
+    var onRightClick: (()->Unit)? = null
+
     var onMouseHover: ((Vector)->Unit)? = null
     var onMouseDrag: ((Vector)->Unit)? = null
 
@@ -22,13 +24,15 @@ class UIEventListener {
 
 
     val isMouseInteractable: Boolean
-        get() = onMousePress != null || onMouseRelease != null || onMouseHover != null || onMouseDrag != null
+        get() = onMousePress != null || onMouseRelease != null || onRightClick != null ||
+                onMouseHover != null || onMouseDrag != null
 
     val isKeyboardInteractable: Boolean
         get() = onKeyPressed != null || onKeyReleased != null || onCharTyped != null
 
     val isFocusable: Boolean
-        get() = onFocusStart != null || onFocusEnd != null || isMouseInteractable || isKeyboardInteractable
+        get() = onFocusStart != null || onFocusEnd != null ||
+                isMouseInteractable || isKeyboardInteractable
 
     val isHoverable: Boolean
         get() = onHoverStart != null || onHoverEnd != null || isFocusable

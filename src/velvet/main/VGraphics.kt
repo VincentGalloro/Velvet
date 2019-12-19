@@ -12,6 +12,9 @@ class VGraphics(private var g: Graphics2D) {
     private val graphicsStack: ArrayList<Graphics2D> = ArrayList()
     private val saves: ArrayList<AffineTransform>
 
+    val baseGraphics: Graphics2D
+        get() = g
+
     var transform: AffineTransform
         get() = g.transform
         set(at) { g.transform = at }

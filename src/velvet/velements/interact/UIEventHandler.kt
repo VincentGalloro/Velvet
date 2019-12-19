@@ -28,8 +28,9 @@ class UIEventHandler(private val mouse: Mouse, private val keyboard: Keyboard) {
     }
 
     fun update(){
-        if(mouse.isPressed(Mouse.LEFT)){
-            hover?.uiEventListener?.onMousePress?.invoke()
+        if(mouse.isPressed(Mouse.LEFT) || mouse.isPressed(Mouse.RIGHT)){
+            if(mouse.isPressed(Mouse.LEFT)){ hover?.uiEventListener?.onMousePress?.invoke() }
+            if(mouse.isPressed(Mouse.RIGHT)){ hover?.uiEventListener?.onRightClick?.invoke() }
             switchFocus(hover)
         }
 
