@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="Velvet:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Velvet_jar</output-path>
+    <root id="archive" name="Velvet.jar">
+      <element id="module-output" name="Velvet" />
+    </root>
+  </artifact>
+</component>
