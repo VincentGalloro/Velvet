@@ -7,7 +7,7 @@ import java.awt.geom.AffineTransform
 
 class TextElement(_text: String = "",
                   _color: Color = Color.BLACK,
-                  fontResolution: Int = 24) : BasicTextElement(_text, _color, fontResolution) {
+                  fontResolution: Int = 40) : BasicTextElement(_text, _color, fontResolution) {
 
     override val size: Vector
         get() = Vector(fontMetrics.stringWidth(text).toDouble(),

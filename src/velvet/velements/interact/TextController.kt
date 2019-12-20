@@ -1,9 +1,9 @@
-package velvet.velements.ui
+package velvet.velements.interact
 
 import velvet.velements.impl.BasicTextElement
 import java.awt.event.KeyEvent
 
-class TextController(val basicTextElement: BasicTextElement) {
+class TextController(private val basicTextElement: BasicTextElement) {
 
     var cursorIndex = basicTextElement.text.length
 
