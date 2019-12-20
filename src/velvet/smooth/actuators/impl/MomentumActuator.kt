@@ -1,10 +1,10 @@
-package velvet.smooth.tracker.impl
+package velvet.smooth.actuators.impl
 
-import velvet.smooth.tracker.Tracker
+import velvet.smooth.actuators.Actuator
 import velvet.structs.Vector
 
-class MomentumTracker (private val acceleration: Double = 2.0,
-                       private val friction: Double = 0.1) : Tracker<Vector> {
+class MomentumActuator (private val acceleration: Double = 2.0,
+                        private val friction: Double = 0.1) : Actuator<Vector> {
 
     var velocity: Vector = Vector()
 
