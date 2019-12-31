@@ -1,11 +1,14 @@
 
 ![alt text](Velvet_Logo.png)  
 ### Developed By: Vincent Galloro
-Velvet is a Java / Kotlin Library for faster application development.
+Velvet is a Java / Kotlin Library created for faster application development.
 
-When you have a great application idea, you can often find yourself spending too much time writing UI boilerplate, or re-writing the same code you've written in dozens of other projects.
+Velvet is designed to save time when developing visual desktop applications. It is a constantly growing collection of utilities, data structures, helper objects, and UI code. 
 
-The idea behind Velvet was to be a collection of all the useful code I've ever written. This way, I would have a library of utilities to draw from when starting a new project.
+Velvet's core package creates a window with an update and render loop, as well as keyboard and mouse input. Velvet's UI package provides "VisualContainers" which can hold text, shapes, and images. These containers can be configured with custom transitions, smooth motion, and animation. These containers are setup to handle all forms of mouse/keyboard interaction. Velvet also contains Versioned readers/writers, which allow for the creation of custom serializers/deserializers as well as automatic saving/loading and file backup. 
+
+All of these tools allow the developer to jump straight into the logic of their app, without worrying about setting up all the usual visual components, or re-writing data structures and helper functions.
+
 
 ## Packages
 Velvet contains the following packages:  
