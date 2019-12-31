@@ -14,7 +14,7 @@ All of these tools allow the developer to jump straight into the logic of their 
 Velvet contains the following packages:  
 
 ### Main 
-* For setting up a window with an update and render loop
+* Sets up a window with an update and render loop
 * Contains a keyboard and mouse object, and a basic graphics object
 
 ### VElements 
@@ -24,13 +24,13 @@ For all UI related objects
 * Interaction handlers for mouse and keyboard input
 
 ### Multithreading
-* Bot object. Can be given a list of jobs, which it will execute asynchronously
+* Contains a 'Bot' object which Can be given a list of jobs, which it will execute asynchronously
 * Support for bot pools, which operate on a single job queue 
 
 ### IO
-* Readers and Writers for writing custom objects to and from files, or other data-streams
+* Readers and Writers, for writing custom objects to and from files, or other data-streams
 * Versioning support for migrating older save files to newer program versions
-* Rolling backup support for recovering to backups in-case of data loss or crashes
+* Rolling backup support for recovering to backups in case of data loss or crashes
 
 ### Web 
 For simple web-scraping
@@ -39,7 +39,7 @@ For simple web-scraping
 
 ### Structs 
 Data structures and utility objects
-* A Vector and Position class for storing 2D coordinates with built in arithmetic functions
+* A Vector and Position class for storing 2D coordinates with built-in arithmetic functions
 * Data structures such as the Disjoint Set, 'Auto Set', and 'Shadow Map'
 * Time related data objects
 
