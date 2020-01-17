@@ -26,7 +26,7 @@ public class Main extends Canvas implements Runnable{
     public Main(Velvet level, String name){
         this.level = level;
         
-        Dimension d = level.size.getDimension();
+        Dimension d = level.getSize().getDimension();
         
         this.title = name;
         frame = new JFrame(name);

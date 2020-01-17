@@ -1,11 +1,11 @@
 package velvet.main
 
+import velvet.main.game.graphics.Sprite
 import velvet.structs.Vector
 import java.awt.*
 import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
 import java.util.*
-import kotlin.math.roundToInt
 
 class VGraphics(private var g: Graphics2D) {
 
@@ -110,7 +110,7 @@ class VGraphics(private var g: Graphics2D) {
     }
 
     fun drawImage(img: BufferedImage, pos: Vector) {
-        g.drawImage(img, pos.x.roundToInt(), pos.y.roundToInt(), null)
+        g.drawImage(img, pos.x.toInt(), pos.y.toInt(), null)
     }
 
     fun drawImage(img: BufferedImage, at: AffineTransform) {
@@ -119,6 +119,10 @@ class VGraphics(private var g: Graphics2D) {
         drawImage(img)
         reset()
     }
+
+    fun drawSprite(sprite: Sprite) = drawImage(sprite.image)
+    fun drawSprite(sprite: Sprite, pos: Vector) = drawImage(sprite.image, pos)
+    fun drawSprite(sprite: Sprite, at: AffineTransform) = drawImage(sprite.image, at)
 
     fun drawString(s: String, pos: Vector){
         g.drawString(s, pos.x.toFloat(), pos.y.toFloat())
