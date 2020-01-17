@@ -1,6 +1,5 @@
 package velvet.velements.container.premade
 
-import velvet.structs.Bounds
 import velvet.structs.Vector
 import velvet.velements.container.VContainer
 import velvet.velements.impl.SquareElement
@@ -27,13 +26,13 @@ class InputField(uiEventHandler: UIEventHandler,
         vElement = outlineElement
         subContainers.add(VContainer(promptElement) {
             //promptContainer
-            bounds.subBounds(Bounds(Vector(0.0, 0.0), Vector(0.3, 1.0)))
-                    .scale(Vector(0.9, 0.8), Vector(1.0, 0.5))
+            bounds.scale(Vector(0.3, 1.0), Vector(0))
+                    .scale(Vector(0.8))
                     .fixRatioElement(it.vElement, Vector(1.0, 0.5))
         })
         subContainers.add(VContainer(inputTextElement) {
             //inputContainer
-            bounds.subBounds(Bounds(Vector(0.3, 0.0), Vector(1.0, 1.0)))
+            bounds.scale(Vector(0.7, 1.0), Vector(1))
                     .scale(Vector(0.9))
                     .fixRatioElement(it.vElement, Vector(0.0, 0.5))
         })
@@ -44,23 +43,23 @@ class InputField(uiEventHandler: UIEventHandler,
         uiEventListener.onCharTyped = textController::onCharTyped
         uiEventListener.onKeyPressed = textController::onKeyPressed
 
-        var focussed = false
+        var focused = false
         uiEventListener.onFocusStart = {
-            focussed = true
+            focused = true
             outlineElement.outlineColor = Color(150, 200, 200)
         }
         uiEventListener.onFocusEnd = {
-            focussed = false
+            focused = false
             outlineElement.outlineColor = Color.BLACK
         }
 
         uiEventListener.onHoverStart = {
-            if(!focussed) {
+            if(!focused) {
                 outlineElement.outlineColor = Color(150, 150, 150)
             }
         }
         uiEventListener.onHoverEnd = {
-            if(!focussed) {
+            if(!focused) {
                 outlineElement.outlineColor = Color.BLACK
             }
         }

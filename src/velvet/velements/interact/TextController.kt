@@ -7,6 +7,10 @@ class TextController(private val basicTextElement: BasicTextElement) {
 
     var cursorIndex = basicTextElement.text.length
 
+    fun moveCursorToEnd(){
+        cursorIndex = basicTextElement.text.length
+    }
+
     fun onCharTyped(c: Char) {
         var text = basicTextElement.text
 

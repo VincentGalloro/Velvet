@@ -1,8 +1,10 @@
 package velvet.velements.container
 
 import velvet.main.VGraphics
+import velvet.smooth.actuators.Actuator
 import velvet.smooth.actuators.impl.BoundsSwishActuator
 import velvet.structs.Bounds
+import velvet.structs.Vector
 import velvet.velements.VElement
 import velvet.velements.interact.UIEventListener
 
@@ -16,10 +18,8 @@ open class VContainer(var vElement: VElement? = null,
 
     var disabled: Boolean = false
 
-    fun trackTo(target: Bounds){
-        with(BoundsSwishActuator()) {
-            boundsGenerator = { step(it.bounds, target) }
-        }
+    fun trackTo(target: Bounds, actuator: Actuator<Bounds> = BoundsSwishActuator()){
+        boundsGenerator = { actuator.step(it.bounds, target) }
     }
 
     fun update(){
@@ -34,7 +34,8 @@ open class VContainer(var vElement: VElement? = null,
         vElement?.let {
             g.save()
 
-            g.translate(bounds.start)
+            g.translate(bounds.getPos(Vector()))
+            g.rotate(bounds.angle)
             it.render(g, bounds.size)
 
             g.reset()
