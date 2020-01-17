@@ -7,7 +7,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
 
-data class Vector(val x: Double = 0.0, val y: Double = 0.0) {
+data class Vector(val x: Double, val y: Double) {
 
     companion object {
         fun unitVector(angle: Double): Vector {
@@ -18,6 +18,7 @@ data class Vector(val x: Double = 0.0, val y: Double = 0.0) {
     constructor(v: Double) : this(v, v)
     constructor(v: Int) : this(v, v)
     constructor(x: Int, y: Int) : this(x.toDouble(), y.toDouble())
+    constructor() : this(0.0, 0.0)
 
     val angle by lazy { flip.combine(Math::atan2) }
     val square by lazy { apply { it*it } }

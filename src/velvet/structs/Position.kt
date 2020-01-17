@@ -4,7 +4,7 @@ import java.awt.Dimension
 import java.awt.Point
 import kotlin.math.sqrt
 
-data class Position constructor(val x: Int = 0, val y: Int = 0) {
+data class Position constructor(val x: Int, val y: Int) {
 
     companion object {
         val UP = Position(0, -1)
@@ -18,6 +18,9 @@ data class Position constructor(val x: Int = 0, val y: Int = 0) {
 
         fun fromIndex(index: Int, width: Int) = Position(index%width, index/width)
     }
+
+    constructor(p: Int) : this(p, p)
+    constructor(): this(0, 0)
 
     val square by lazy { apply { it*it } }
     val magnitude by lazy { sqrt(square.sum.toDouble()) }
