@@ -3,6 +3,7 @@ package velvet.structs
 import java.awt.Dimension
 import java.awt.Point
 import kotlin.math.sqrt
+import kotlin.random.Random
 
 data class Position constructor(val x: Int, val y: Int) {
 
@@ -17,6 +18,8 @@ data class Position constructor(val x: Int, val y: Int) {
         val DIRS = listOf(UP, RIGHT, DOWN, LEFT)
 
         fun fromIndex(index: Int, width: Int) = Position(index%width, index/width)
+
+        fun randomWithin(size: Position) = Position(Random.nextInt(size.x), Random.nextInt(size.y))
     }
 
     constructor(p: Int) : this(p, p)
@@ -25,13 +28,14 @@ data class Position constructor(val x: Int, val y: Int) {
     val square by lazy { apply { it*it } }
     val magnitude by lazy { sqrt(square.sum.toDouble()) }
 
-    val vector by lazy { Vector(x, y) }
-    val point by lazy { Point(x, y) }
-    val dimension by lazy { Dimension(x, y) }
+    fun toVector() = Vector(x, y)
+    fun toPoint() = Point(x, y)
+    fun toDimension() = Dimension(x, y)
 
     val max by lazy { kotlin.math.max(x,y) }
     val min by lazy { kotlin.math.min(x,y) }
     val sum by lazy { x+y }
+    val area by lazy { x*y }
 
     val flip by lazy { Position(y, x) }
 
@@ -65,9 +69,13 @@ data class Position constructor(val x: Int, val y: Int) {
         }
     }
 
+    fun toIndex(width: Int) = x + y*width
+
     fun getGridDistance(p: Position) = (this-p).abs().sum
     fun getDistance(p: Position) = (this-p).magnitude
 
     fun lessThan(p: Position) = x <= p.x && y <= p.y
     fun greaterThan(p: Position) = x >= p.x && y >= p.y
 }
+
+fun Point.toPosition() = Point(x, y)

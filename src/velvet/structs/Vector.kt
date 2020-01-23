@@ -89,3 +89,5 @@ data class Vector(val x: Double, val y: Double) {
         return Vector(d[0], d[1])
     }
 }
+
+fun Point.toVector() = Vector(x, y)
