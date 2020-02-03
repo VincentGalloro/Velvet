@@ -69,11 +69,21 @@ data class Vector(val x: Double, val y: Double) {
     fun getDistance(v: Vector) = sqrt(getDistSqr(v))
     fun getDistSqr(v: Vector) = (this-v).square.sum
 
+    fun getDirection(): Int{
+        if(kotlin.math.abs(y) > kotlin.math.abs(x)){
+            return if(y > 0) 2 else 0
+        }
+        return if(x < 0) 3 else 1
+    }
+
     fun rotate(c: Vector, a: Double) = (this-c).rotate(a)+c
     fun rotate(a: Double) = unitVector(a) * x + unitVector(a+Math.PI/2) * y
 
-    fun lessThan(v: Vector) = x<=v.x && y<=v.y
-    fun greaterThan(v: Vector) = x>=v.x && y>=v.y
+    operator fun compareTo(v: Vector): Int{
+        if(x < v.x && y < v.y) return -1
+        if(x > v.x && y > v.y) return 1
+        return 0
+    }
 
     fun transform(at: AffineTransform): Vector {
         val d = doubleArrayOf(x, y)

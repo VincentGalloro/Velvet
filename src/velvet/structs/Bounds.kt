@@ -17,7 +17,14 @@ data class Bounds(val center: Vector = Vector(),
     fun getPos(anchor: Vector) = center + ((anchor - 0.5)*size).rotate(angle)
     fun getAnchor(pos: Vector) = (pos - center).rotate(-angle) / size + 0.5
 
-    fun contains(v: Vector) = (v.rotate(-angle) - center).abs().lessThan(size/2)
+    fun contains(v: Vector) = (v - center).rotate(-angle).abs() < size/2
+
+    //TODO: THESE ONLY WORKS FOR AXIS-ALIGNED BOUNDS PLEASE FIX!!
+    fun overlaps(bounds: Bounds) = (center - bounds.center).abs() < (size + bounds.size)/2
+    fun merge(bounds: Bounds) = fromStartToEnd(
+            getPos(Vector(0)).min(bounds.getPos(Vector(0))),
+            getPos(Vector(1)).max(bounds.getPos(Vector(1))))
+    //TODO: END OF ONLY AA-BOUNDS SECTION
 
     fun move(v: Vector) = copy(center = center + v.rotate(angle))
     fun resize(v: Vector, anchor: Vector = Vector()): Bounds{

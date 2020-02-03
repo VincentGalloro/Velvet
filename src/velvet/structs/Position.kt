@@ -74,8 +74,7 @@ data class Position constructor(val x: Int, val y: Int) {
     fun getGridDistance(p: Position) = (this-p).abs().sum
     fun getDistance(p: Position) = (this-p).magnitude
 
-    fun lessThan(p: Position) = x <= p.x && y <= p.y
-    fun greaterThan(p: Position) = x >= p.x && y >= p.y
+    operator fun compareTo(p: Position) = (x+y) - (p.x+p.y)
 }
 
 fun Point.toPosition() = Point(x, y)
