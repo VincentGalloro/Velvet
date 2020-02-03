@@ -1,6 +1,7 @@
 package velvet.velements.container.premade
 
 import velvet.structs.Vector
+import velvet.velements.container.BoundsContainer
 import velvet.velements.container.VContainer
 import velvet.velements.impl.SquareElement
 import velvet.velements.impl.TextElement
@@ -24,18 +25,18 @@ class InputField(uiEventHandler: UIEventHandler,
 
     init {
         vElement = outlineElement
-        subContainers.add(VContainer(promptElement) {
+        subContainers.add(VContainer(promptElement, BoundsContainer.tracking {
             //promptContainer
             bounds.scale(Vector(0.3, 1.0), Vector(0))
                     .scale(Vector(0.8))
-                    .fixRatioElement(it.vElement, Vector(1.0, 0.5))
-        })
-        subContainers.add(VContainer(inputTextElement) {
+                    .fixRatioElement(it, Vector(1.0, 0.5))
+        }))
+        subContainers.add(VContainer(inputTextElement, BoundsContainer.tracking {
             //inputContainer
             bounds.scale(Vector(0.7, 1.0), Vector(1))
                     .scale(Vector(0.9))
-                    .fixRatioElement(it.vElement, Vector(0.0, 0.5))
-        })
+                    .fixRatioElement(it, Vector(0.0, 0.5))
+        }))
 
         uiEventHandler.containers.add(this)
 

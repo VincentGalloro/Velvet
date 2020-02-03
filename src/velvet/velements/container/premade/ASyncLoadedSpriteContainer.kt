@@ -2,6 +2,7 @@ package velvet.velements.container.premade
 
 import velvet.main.game.graphics.Sprite
 import velvet.multithreading.Bot
+import velvet.velements.container.BoundsContainer
 import velvet.velements.container.VContainer
 import velvet.velements.impl.SpriteElement
 import velvet.velements.impl.SquareElement
@@ -15,7 +16,9 @@ open class ASyncLoadedSpriteContainer: VContainer() {
 
     init{
         vElement = squareElement
-        subContainers.add(VContainer(spriteElement) { bounds.fixRatioElement(it.vElement) })
+        subContainers.add(VContainer(spriteElement, BoundsContainer.tracking {
+            bounds.fixRatioElement(it)
+        }))
     }
 
     fun <T> loadSprite(loadBot: Bot<T>, loader: (T)->Sprite) {

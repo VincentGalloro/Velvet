@@ -1,6 +1,7 @@
 package velvet.velements.container.premade
 
 import velvet.structs.Vector
+import velvet.velements.container.BoundsContainer
 import velvet.velements.container.VContainer
 import velvet.velements.impl.SquareElement
 import velvet.velements.impl.TextElement
@@ -12,9 +13,9 @@ open class BasicOutlinedTextContainer(text: String,
     : VContainer(outlineElement) {
 
     init{
-        subContainers.add(VContainer(textElement) {
+        subContainers.add(VContainer(textElement, BoundsContainer.tracking {
             //nameContainer
-            bounds.scale(textScaling).fixRatioElement(it.vElement)
-        })
+            bounds.scale(textScaling).fixRatioElement(it)
+        }))
     }
 }

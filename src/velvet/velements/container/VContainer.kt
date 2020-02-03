@@ -1,31 +1,33 @@
 package velvet.velements.container
 
 import velvet.main.VGraphics
-import velvet.smooth.actuators.Actuator
-import velvet.smooth.actuators.impl.BoundsSwishActuator
 import velvet.structs.Bounds
 import velvet.structs.Vector
 import velvet.velements.VElement
 import velvet.velements.interact.UIEventListener
 
-open class VContainer(var vElement: VElement? = null,
-                      var boundsGenerator: ((VContainer) -> Bounds)? = null) {
+open class VContainer (var vElement: VElement? = null,
+                       var boundsContainer: BoundsContainer = BoundsContainer.of(Bounds())){
 
-    var bounds: Bounds = Bounds()
+    var bounds: Bounds
+        get() = boundsContainer.bounds
+        set(value){ boundsContainer = BoundsContainer.of(value) }
+
     var uiEventListener = UIEventListener()
-
-    val subContainers: MutableSet<VContainer> = HashSet()
-
+    val subContainers: MutableSet<VContainer> = mutableSetOf()
     var disabled: Boolean = false
 
-    fun trackTo(target: Bounds, actuator: Actuator<Bounds> = BoundsSwishActuator()){
-        boundsGenerator = { actuator.step(it.bounds, target) }
+    fun trackTo(target: Bounds){
+        boundsContainer = BoundsContainer.trackingFromTo(bounds, target)
+    }
+    fun track(boundsGenerator: (VElement?) -> Bounds){
+        boundsContainer = BoundsContainer.tracking { boundsGenerator(it) }
     }
 
     fun update(){
         if(disabled){ return; }
-        boundsGenerator?.invoke(this)?.also { bounds = it }
 
+        boundsContainer.update(vElement)
         subContainers.forEach { it.update() }
     }
 

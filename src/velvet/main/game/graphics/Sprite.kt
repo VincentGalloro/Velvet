@@ -1,6 +1,7 @@
 package velvet.main.game.graphics
 
 import velvet.main.VGraphics
+import velvet.structs.DenseGrid
 import velvet.structs.Grid
 import velvet.structs.Position
 import velvet.structs.VColor
@@ -17,7 +18,7 @@ class Sprite(val image: BufferedImage){
         fun copySprite(sprite: Sprite) = emptySprite(sprite.size).also { it.createGraphics().drawSprite(sprite) }
         fun loadSprite(file: File) = copySprite(Sprite(ImageIO.read(file)))
 
-        fun fromGrid(grid: Grid<VColor>) = emptySprite(grid.size).also { sprite ->
+        fun fromDenseGrid(grid: DenseGrid<VColor>) = emptySprite(grid.size).also { sprite ->
             val dataBuffer = (sprite.image.raster.dataBuffer as DataBufferInt).data
             grid.size.gridIterate { dataBuffer[it.toIndex(grid.size.x)] = grid[it].toInt() }
         }
@@ -29,7 +30,7 @@ class Sprite(val image: BufferedImage){
 
     fun toGrid(): Grid<VColor> {
         val dataBuffer = (image.raster.dataBuffer as DataBufferInt).data
-        return Grid(size){ VColor.fromInt(dataBuffer[it.toIndex(size.x)]) }
+        return DenseGrid(size){ VColor.fromInt(dataBuffer[it.toIndex(size.x)]) }
     }
 
     fun saveToFile(file: File) = ImageIO.write(image, "png", file)

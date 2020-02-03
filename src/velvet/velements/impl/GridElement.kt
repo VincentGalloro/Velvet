@@ -1,7 +1,7 @@
 package velvet.velements.impl
 
 import velvet.main.VGraphics
-import velvet.structs.Grid
+import velvet.structs.DenseGrid
 import velvet.structs.Position
 import velvet.structs.Vector
 import velvet.velements.VElement
@@ -11,7 +11,7 @@ class GridElement(private val gridSize: Position,
 
     companion object{
 
-        fun <T> ofGrid(grid: Grid<T>, elementFactory: (T)->VElement) =
+        fun <T : Any> ofDenseGrid(grid: DenseGrid<T>, elementFactory: (T)->VElement) =
                 GridElement(grid.size){ elementFactory(grid[it]) }
     }
 
