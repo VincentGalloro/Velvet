@@ -42,13 +42,13 @@ public class Main extends Canvas implements Runnable{
         frame.setVisible(true);
 	    frame.setLocationRelativeTo(null);
         
-        BufferedImage icon;
-        try {
-            icon = ImageIO.read(new File("Velvet_Icon.png"));
-            frame.setIconImage(icon);
-        } catch (IOException ex) {
-            System.err.println("Could not find Velvet Logo :(");
-        }
+        new Thread(()-> {
+            String URL = "https://raw.githubusercontent.com/VincentGalloro/Velvet/master/Velvet_Icon.png";
+            try {
+                BufferedImage icon = ImageIO.read(URI.create(URL).toURL().openStream());
+                frame.setIconImage(icon);
+            } catch (IOException e) { e.printStackTrace(); }
+        }).start();
         
         keyboard = new Keyboard();
         addKeyListener(keyboard); 
