@@ -1,32 +1,47 @@
 package velvet.structs
 
-open class Hierarchy<T : Any> {
+interface Hierarchy<T : Any>{
 
-    protected val pairs: MutableSet<Pair<T, T>> = mutableSetOf()
-    protected val parentMap: MutableMap<T, MutableSet<T>> = mutableMapOf()
-    protected val childMap: MutableMap<T, MutableSet<T>> = mutableMapOf()
+    fun getPairs(): List<Pair<T, T>>
+    fun getParents(item: T): List<T>
+    fun getChildren(item: T): List<T>
 
-    fun getPairs() = pairs.toList()
-    fun getParents(item: T) = (parentMap[item] ?: mutableSetOf()).toList()
-    fun getChildren(item: T) = (childMap[item] ?: mutableSetOf()).toList()
+    fun addRelation(child: T, parent: T)
+    fun removeRelation(child: T, parent: T)
 
-    fun addRelation(child: T, parent: T){
+    fun deleteItem(item: T)
+}
+
+class HierarchyImpl<T : Any> : Hierarchy<T> {
+
+    private val pairs: MutableSet<Pair<T, T>> = mutableSetOf()
+    private val parentMap: MutableMap<T, MutableSet<T>> = mutableMapOf()
+    private val childMap: MutableMap<T, MutableSet<T>> = mutableMapOf()
+
+    override fun getPairs() = pairs.toList()
+    override fun getParents(item: T) = (parentMap[item] ?: mutableSetOf()).toList()
+    override fun getChildren(item: T) = (childMap[item] ?: mutableSetOf()).toList()
+
+    override fun addRelation(child: T, parent: T){
         if(child == parent) return
         if((child to parent) in pairs) return
 
         pairs.add(child to parent)
 
-        parentMap.getOrPut(child, { mutableSetOf() }).add(parent)
-        childMap.getOrPut(parent, { mutableSetOf() }).add(child)
+        parentMap.getOrPut(child, ::mutableSetOf).add(parent)
+        childMap.getOrPut(parent, ::mutableSetOf).add(child)
     }
 
-    fun removeRelation(child: T, parent: T){
+    override fun removeRelation(child: T, parent: T){
         parentMap[child]?.remove(parent)
         childMap[parent]?.remove(child)
         pairs.remove(child to parent)
+
+        if(parentMap[child].isNullOrEmpty() && childMap[child].isNullOrEmpty()){ deleteItem(child) }
+        if(parentMap[parent].isNullOrEmpty() && childMap[parent].isNullOrEmpty()){ deleteItem(parent) }
     }
 
-    fun deleteItem(item: T){
+    override fun deleteItem(item: T){
         getParents(item).forEach { removeRelation(item, it) }
         getChildren(item).forEach { removeRelation(it, item) }
 

@@ -1,36 +1,47 @@
 package velvet.structs
 
-open class Tree<T : Any> {
+interface Tree<T : Any> {
 
-    protected val items: MutableSet<T> = mutableSetOf()
-    protected val parentMap: MutableMap<T, T> = mutableMapOf()
-    protected val childMap: MutableMap<T, MutableSet<T>> = mutableMapOf()
+    var root: T
 
-    var root: T? = null
+    fun getParent(item: T): T?
+    fun getParentChain(item: T): List<T>
+    fun getChildren(item: T): List<T>
+
+    fun addItem(item: T, parent: T): Boolean
+    fun substituteItem(oldItem: T, newItem: T): Boolean
+    fun deleteItem(item: T): Boolean
+}
+
+class TreeImpl<T : Any>(_root: T) : Tree<T>{
+
+    private val items: MutableSet<T> = mutableSetOf()
+    private val parentMap: MutableMap<T, T> = mutableMapOf()
+    private val childMap: MutableMap<T, MutableSet<T>> = mutableMapOf()
+
+    override var root: T = _root
         set(value) {
-            field = if (value == null){
-                field?.let { if(deleteItem(it)) null else field }
-            } else {
-                field?.let { substituteItem(it, value) }
-                items.add(value) //if substitute was called, this is redundant
-                value
+            if(substituteItem(field, value)) {
+                field = value
             }
         }
 
-    fun getParent(item: T) = parentMap[item]
-    fun getParentChain(item: T) = generateSequence(item, { getParent(it) }).toList().reversed()
-    fun getChildren(item: T) = childMap.getOrElse(item, { mutableSetOf() }).toList()
+    override fun getParent(item: T) = parentMap[item]
+    override fun getParentChain(item: T) = generateSequence(item, ::getParent).toList()
+    override fun getChildren(item: T) = childMap.getOrElse(item, ::mutableSetOf).toList()
 
-    fun addItem(item: T, parent: T){
-        if(item in items || parent !in items) return
+    override fun addItem(item: T, parent: T): Boolean{
+        if(item in items || parent !in items) return false
 
         items.add(item)
         parentMap[item] = parent
-        childMap.getOrPut(parent, { mutableSetOf() }).add(item)
+        childMap.getOrPut(parent, ::mutableSetOf).add(item)
+
+        return true
     }
 
-    fun substituteItem(oldItem: T, newItem: T){
-        if(oldItem==newItem || oldItem !in items || newItem in items) return
+    override fun substituteItem(oldItem: T, newItem: T): Boolean{
+        if(oldItem==newItem || oldItem !in items || newItem in items) return false
 
         items.remove(oldItem)
         items.add(newItem)
@@ -51,23 +62,19 @@ open class Tree<T : Any> {
             children.forEach { parentMap[it] = newItem }
         }
         childMap.remove(oldItem)
-    }
-
-    fun canDelete(item: T): Boolean {
-        if (item !in items) return false
-
-        //item cannot have children
-        if (childMap[item]?.isNotEmpty() == true) return false
 
         return true
     }
 
-    fun deleteItem(item: T): Boolean{
-        if(!canDelete(item)) return false
+    override fun deleteItem(item: T): Boolean {
+        if (item !in items) return false
+
+        //recursive delete subtree
+        getChildren(item).forEach { deleteItem(it) }
 
         items.remove(item)
-        parentMap.remove(item)?.let {
-            childMap[it]?.remove(item)
+        parentMap.remove(item)?.let { parent ->
+            childMap[parent]?.remove(item)
         }
 
         return true

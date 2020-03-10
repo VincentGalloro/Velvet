@@ -1,40 +1,41 @@
 package velvet.structs
 
-import velvet.velements.VElement
+import velvet.vcontainer.VContainer
+import velvet.vcontainer.velement.VElement
 
-data class Bounds(val center: Vector = Vector(),
-                  val size: Vector = Vector(),
-                  val angle: Double = 0.0) {
+class Bounds private constructor(val center: Vector,
+                                 val size: Vector,
+                                 val angle: Double) {
 
     companion object{
+        operator fun invoke() = Bounds(Vector(), Vector(), 0.0)
 
-        fun fromStartToEnd(start: Vector, end: Vector) = Bounds((start+end)/2, end-start)
+        fun fromStartToEnd(start: Vector, end: Vector) = Bounds((start+end)/2, end-start, 0.0)
 
-        fun fromStartOfSize(start: Vector, size: Vector) = Bounds(start + size/2, size)
-        fun fromCenterOfSize(center: Vector, size: Vector) = Bounds(center, size)
+        fun fromStartOfSize(start: Vector, size: Vector) = Bounds(start + size/2, size, 0.0)
+        fun fromCenterOfSize(center: Vector, size: Vector) = Bounds(center, size, 0.0)
     }
 
+    //helpers
     fun getPos(anchor: Vector) = center + ((anchor - 0.5)*size).rotate(angle)
     fun getAnchor(pos: Vector) = (pos - center).rotate(-angle) / size + 0.5
 
     fun contains(v: Vector) = (v - center).rotate(-angle).abs() < size/2
 
-    //TODO: THESE ONLY WORKS FOR AXIS-ALIGNED BOUNDS PLEASE FIX!!
-    fun overlaps(bounds: Bounds) = (center - bounds.center).abs() < (size + bounds.size)/2
-    fun merge(bounds: Bounds) = fromStartToEnd(
-            getPos(Vector(0)).min(bounds.getPos(Vector(0))),
-            getPos(Vector(1)).max(bounds.getPos(Vector(1))))
-    //TODO: END OF ONLY AA-BOUNDS SECTION
+    //modifiers
+    fun setPos(p: Vector) = Bounds(p, size, angle)
+    fun localMove(p: Vector) = setPos(center + p.rotate(angle))
+    fun globalMove(p: Vector) = setPos(center + p)
 
-    fun move(v: Vector) = copy(center = center + v.rotate(angle))
-    fun resize(v: Vector, anchor: Vector = Vector()): Bounds{
-        val anchorPos = getPos(anchor)
-        val resized = copy(size = v)
-        val anchorOffset = anchorPos - resized.getPos(anchor)
-        return resized.copy(center = resized.center + anchorOffset)
-    }
-    fun scale(scale: Vector, anchor: Vector = Vector(0.5)) = resize(size*scale, anchor)
-    fun fixRatio(ratio: Vector, anchor: Vector = Vector(0.5)) = resize(ratio * (size/ratio).min, anchor)
-    fun fixRatioElement(element: VElement?, anchor: Vector = Vector(0.5))
-            = fixRatio(element?.size ?: Vector(1), anchor)
+    fun setSize(s: Vector, anchor: Vector) = getPos(anchor).let { ap -> Bounds(center, s, angle).let { r -> r.globalMove(ap - r.getPos(anchor)) } }
+    fun setWidth(w: Double, anchor: Double) = setSize(Vector(w, size.y), Vector(anchor, 0.0))
+    fun setHeight(h: Double, anchor: Double) = setSize(Vector(size.x, h), Vector(0.0, anchor))
+    fun resize(s: Vector, anchor: Vector) = setSize(size + s, anchor)
+    fun scale(scale: Vector, anchor: Vector) = setSize(size*scale, anchor)
+    fun fixRatio(ratio: Vector, anchor: Vector) = setSize(ratio * (size/ratio).min, anchor)
+    fun fixRatioElement(vElement: VElement?, anchor: Vector = Vector(0.5)) =
+            fixRatio(vElement?.size ?: Vector(1), anchor)
+
+    fun rotate(a: Double) = Bounds(center, size, angle + a)
+    fun setAngle(a: Double) = Bounds(center, size, a)
 }

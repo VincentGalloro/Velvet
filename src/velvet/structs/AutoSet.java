@@ -7,6 +7,11 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+/*
+Functions as a set for a list of items
+The auto-set automatically extracts a key from each item, and uses this key to store the value
+Essentially functions as a normal set, with an override on the key extractor
+ */
 public class AutoSet<K, V> {
 
     private static final Random random = new Random();
