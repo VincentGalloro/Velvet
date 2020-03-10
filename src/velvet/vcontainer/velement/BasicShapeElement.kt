@@ -1,8 +1,7 @@
-package velvet.velements.impl
+package velvet.vcontainer.velement
 
 import velvet.main.VGraphics
 import velvet.structs.Vector
-import velvet.velements.VElement
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Shape

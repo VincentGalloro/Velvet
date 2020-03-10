@@ -1,9 +1,8 @@
-package velvet.velements.impl
+package velvet.vcontainer.velement
 
 import velvet.main.VGraphics
 import velvet.main.game.graphics.Sprite
 import velvet.structs.Vector
-import velvet.velements.VElement
 
 class SpriteElement (var sprite: Sprite? = null) : VElement {
 

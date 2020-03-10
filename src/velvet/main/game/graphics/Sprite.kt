@@ -8,6 +8,8 @@ import velvet.structs.VColor
 import java.awt.image.BufferedImage
 import java.awt.image.DataBufferInt
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Path
 import javax.imageio.ImageIO
 
 class Sprite(val image: BufferedImage){
@@ -16,7 +18,7 @@ class Sprite(val image: BufferedImage){
 
         fun emptySprite(size: Position) = Sprite(BufferedImage(size.x, size.y, BufferedImage.TYPE_INT_ARGB))
         fun copySprite(sprite: Sprite) = emptySprite(sprite.size).also { it.createGraphics().drawSprite(sprite) }
-        fun loadSprite(file: File) = copySprite(Sprite(ImageIO.read(file)))
+        fun loadSprite(path: Path) = copySprite(Sprite(ImageIO.read(Files.newInputStream(path))))
 
         fun fromDenseGrid(grid: DenseGrid<VColor>) = emptySprite(grid.size).also { sprite ->
             val dataBuffer = (sprite.image.raster.dataBuffer as DataBufferInt).data

@@ -1,6 +1,6 @@
-package velvet.velements.interact
+package velvet.vcontainer.interact
 
-import velvet.velements.impl.BasicTextElement
+import velvet.vcontainer.velement.BasicTextElement
 import java.awt.event.KeyEvent
 
 class TextController(private val basicTextElement: BasicTextElement) {
@@ -39,5 +39,7 @@ class TextController(private val basicTextElement: BasicTextElement) {
     fun onKeyPressed(i: Int){
         if(i == KeyEvent.VK_LEFT && cursorIndex > 0){ cursorIndex--; }
         else if(i == KeyEvent.VK_RIGHT && cursorIndex < basicTextElement.text.length){ cursorIndex++; }
+        else if(i == KeyEvent.VK_PAGE_UP){ cursorIndex = 0; }
+        else if(i == KeyEvent.VK_PAGE_DOWN){ moveCursorToEnd(); }
     }
 }

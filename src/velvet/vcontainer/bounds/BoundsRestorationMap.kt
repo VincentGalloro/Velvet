@@ -1,9 +1,11 @@
-package velvet.velements.container
+package velvet.vcontainer.bounds
 
 import velvet.structs.Bounds
+import velvet.vcontainer.VContainer
+import velvet.vcontainer.VContainerImpl
 
 private class Item<V : VContainer, K>(private val vSupplier: ()->Collection<V>,
-                                      private val keyExtractor: (V)->K?){
+                                                  private val keyExtractor: (V)->K?){
 
     fun addToBounds(bounds: MutableMap<K, Bounds>){
         vSupplier().forEach { v -> keyExtractor(v)?.let { bounds[it] = v.bounds } }

@@ -1,7 +1,7 @@
 package velvet.main
 
 import velvet.structs.Position
-import velvet.velements.interact.UIEventHandler
+import velvet.vcontainer.interact.UIEventHandler
 
 abstract class Velvet(var size: Position) {
 

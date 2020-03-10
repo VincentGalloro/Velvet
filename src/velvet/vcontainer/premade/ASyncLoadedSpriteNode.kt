@@ -1,23 +1,22 @@
-package velvet.velements.container.premade
+package velvet.vcontainer.premade
 
 import velvet.main.game.graphics.Sprite
 import velvet.multithreading.Bot
-import velvet.velements.container.BoundsContainer
-import velvet.velements.container.VContainer
-import velvet.velements.impl.SpriteElement
-import velvet.velements.impl.SquareElement
+import velvet.vcontainer.interact.TrackedVContainer
+import velvet.vcontainer.interact.UINode
+import velvet.vcontainer.interact.UINodeImpl
+import velvet.vcontainer.velement.SpriteElement
+import velvet.vcontainer.velement.SquareElement
 import java.awt.Color
 
-open class ASyncLoadedSpriteContainer: VContainer() {
+class ASyncLoadedSpriteNode: UINode by UINodeImpl() {
 
-    val spriteElement = SpriteElement()
     val squareElement = SquareElement(fillColor = Color.WHITE)
+    val spriteElement = SpriteElement()
 
     init{
-        vElement = squareElement
-        subContainers.add(VContainer(spriteElement, BoundsContainer.tracking {
-            bounds.fixRatioElement(it)
-        }))
+        containers.add(TrackedVContainer(squareElement){ bounds })
+        containers.add(TrackedVContainer(spriteElement, true) { bounds })
     }
 
     fun <T> loadSprite(loadBot: Bot<T>, loader: (T)->Sprite) {
