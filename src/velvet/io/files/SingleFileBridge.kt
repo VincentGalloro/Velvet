@@ -20,12 +20,8 @@ class SingleFileBridge(private val file: Path) : FileBridge{
         DataInputStream(Files.newInputStream(file)).use { return reader.read(it) }
     }
 
-    override fun <T> loadFromFile(loader: Loader<T>, t: T): Boolean {
-        if(Files.exists(file)) {
-            DataInputStream(Files.newInputStream(file)).use { loader.load(it, t) }
-            return true
-        }
-        return false
+    override fun <T> loadFromFile(loader: Loader<T>, t: T) {
+        DataInputStream(Files.newInputStream(file)).use { loader.load(it, t) }
     }
 
     override fun copyTo(target: Path) {

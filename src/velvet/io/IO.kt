@@ -23,7 +23,8 @@ class Writer<T>(private val version: String = "",
 class Loader<T>(private val versionedLoaders: List<VersionedLoader<T>>){
 
     companion object{
-        fun <T> single(loader: (DataInputStream, T)->Unit) = Loader(listOf(VersionedLoader(loader = loader)))
+        fun <T> basic(version: String = "", loader: (DataInputStream, T)->Unit) =
+                Loader(listOf(VersionedLoader(version, loader)))
     }
 
     fun load(dataInputStream: DataInputStream, t: T){
@@ -32,10 +33,12 @@ class Loader<T>(private val versionedLoaders: List<VersionedLoader<T>>){
         throw NoMatchingVersionHandlerException("${javaClass.simpleName} can not load object of version $version")
     }
 }
+
 class Reader<T>(private val versionedReaders: List<VersionedReader<T>>){
 
     companion object{
-        fun <T> single(reader: (DataInputStream)->T) = Reader(listOf(VersionedReader(reader = reader)))
+        fun <T> basic(version: String = "", reader: (DataInputStream)->T) =
+                Reader(listOf(VersionedReader(version, reader)))
     }
 
     fun read(dataInputStream: DataInputStream): T{

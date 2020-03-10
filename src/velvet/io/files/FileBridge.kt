@@ -9,7 +9,7 @@ interface FileBridge {
 
     fun <T> writeToFile(writer: Writer<T>, t: T)
     fun <T> readFromFile(reader: Reader<T>): T
-    fun <T> loadFromFile(loader: Loader<T>, t : T): Boolean
+    fun <T> loadFromFile(loader: Loader<T>, t : T)
 
     fun copyTo(target: Path)
     fun copyFrom(source: Path)

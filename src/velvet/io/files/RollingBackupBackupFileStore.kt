@@ -21,7 +21,7 @@ class RollingBackupBackupFileStore(private val backupPathGenerator: PathGenerato
 
     override val backups: MutableList<Path> = mutableListOf()
 
-    private val backupIndexLoader = ListIO.createLoader(Reader.single{ Path.of(it.readUTF())  })
+    private val backupIndexLoader = ListIO.createLoader(Reader.basic{ Path.of(it.readUTF()) })
     private val backupIndexWriter = ListIO.createWriter(Writer<Path>{ d, t -> d.writeUTF(t.toAbsolutePath().toString()) })
 
     init{
