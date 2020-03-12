@@ -3,6 +3,8 @@ package velvet.main.game.graphics
 import velvet.structs.Position
 import java.awt.image.BufferedImage
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Path
 import javax.imageio.ImageIO
 
 class SpriteSheet (val img: BufferedImage,
@@ -11,8 +13,8 @@ class SpriteSheet (val img: BufferedImage,
 
     companion object {
 
-        fun loadSpriteSheet(file: File, tileSize: Position, spriteSeparation: Position = Position(1))
-                = SpriteSheet(ImageIO.read(file), tileSize, spriteSeparation)
+        fun loadSpriteSheet(path: Path, tileSize: Position, spriteSeparation: Position = Position(1))
+                = SpriteSheet(ImageIO.read(Files.newInputStream(path)), tileSize, spriteSeparation)
     }
 
     fun createSprite(position: Position): Sprite{

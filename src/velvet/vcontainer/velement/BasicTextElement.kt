@@ -1,15 +1,15 @@
 package velvet.vcontainer.velement
 
 import velvet.main.VGraphics
+import velvet.structs.VColor
 import velvet.structs.Vector
 import java.awt.Canvas
-import java.awt.Color
 import java.awt.Font
 import java.awt.FontMetrics
 import java.awt.image.BufferedImage
 
 abstract class BasicTextElement(_text: String = "",
-                                _color: Color = Color.BLACK,
+                                _color: VColor = VColor.BLACK,
                                 fontResolution: Int = 24) : VElement {
 
     abstract override val size: Vector

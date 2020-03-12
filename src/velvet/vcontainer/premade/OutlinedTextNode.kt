@@ -13,6 +13,10 @@ class OutlinedTextNode(text: String,
     val squareElement = SquareElement()
     val textElement = TextElement(text)
 
+    var text: String
+        get() = textElement.text
+        set(value){ textElement.text = value }
+
     init{
         containers.add(TrackedVContainer(squareElement){ bounds })
         containers.add(TrackedVContainer(textElement, true) {

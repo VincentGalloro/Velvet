@@ -1,12 +1,12 @@
 package velvet.vcontainer.velement
 
 import velvet.main.VGraphics
+import velvet.structs.VColor
 import velvet.structs.Vector
-import java.awt.Color
 import java.awt.geom.AffineTransform
 
 class TextElement(_text: String = "",
-                  _color: Color = Color.BLACK,
+                  _color: VColor = VColor.BLACK,
                   fontResolution: Int = 40) : BasicTextElement(_text, _color, fontResolution) {
 
     override val size: Vector

@@ -1,6 +1,7 @@
 package velvet.main
 
 import velvet.main.game.graphics.Sprite
+import velvet.structs.VColor
 import velvet.structs.Vector
 import java.awt.*
 import java.awt.geom.AffineTransform
@@ -85,8 +86,8 @@ class VGraphics(private var g: Graphics2D) {
         g.stroke = BasicStroke(1f)
     }
 
-    fun setColor(c: Color) {
-        g.color = c
+    fun setColor(c: VColor) {
+        g.color = c.javaColor
     }
 
     fun setFont(f: Font) {

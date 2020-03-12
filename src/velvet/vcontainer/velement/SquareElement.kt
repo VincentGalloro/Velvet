@@ -1,13 +1,13 @@
 package velvet.vcontainer.velement
 
+import velvet.structs.VColor
 import velvet.structs.Vector
-import java.awt.Color
 import java.awt.Shape
 import java.awt.geom.Rectangle2D
 import java.awt.geom.RoundRectangle2D
 
-class SquareElement (fillColor: Color? = null,
-                     outlineColor: Color? = Color.BLACK,
+class SquareElement (fillColor: VColor? = null,
+                     outlineColor: VColor? = VColor.BLACK,
                      outlineThickness: Double = 4.0,
                      var rounding: Double? = null) : BasicShapeElement(fillColor, outlineColor, outlineThickness) {
 

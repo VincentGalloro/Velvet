@@ -1,13 +1,13 @@
 package velvet.vcontainer.velement
 
 import velvet.main.VGraphics
+import velvet.structs.VColor
 import velvet.structs.Vector
 import java.awt.BasicStroke
-import java.awt.Color
 import java.awt.Shape
 
-abstract class BasicShapeElement (var fillColor: Color? = null,
-                                  var outlineColor: Color? = Color.BLACK,
+abstract class BasicShapeElement (var fillColor: VColor? = null,
+                                  var outlineColor: VColor? = VColor.BLACK,
                                   var outlineThickness: Double = 4.0) : VElement {
 
     override val size: Vector? = null
