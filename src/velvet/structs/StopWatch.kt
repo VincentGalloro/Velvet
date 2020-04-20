@@ -11,4 +11,6 @@ class StopWatch(private val interval: Int, private val action: ()->Unit) {
             action()
         }
     }
+
+    fun reset(){ timer = 0 }
 }

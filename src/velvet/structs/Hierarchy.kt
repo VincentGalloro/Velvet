@@ -6,8 +6,8 @@ interface Hierarchy<T : Any>{
     fun getParents(item: T): List<T>
     fun getChildren(item: T): List<T>
 
-    fun addRelation(child: T, parent: T)
-    fun removeRelation(child: T, parent: T)
+    fun addRelation(parent: T, child: T)
+    fun removeRelation(parent: T, child: T)
 
     fun deleteItem(item: T)
 }
@@ -22,20 +22,20 @@ class HierarchyImpl<T : Any> : Hierarchy<T> {
     override fun getParents(item: T) = (parentMap[item] ?: mutableSetOf()).toList()
     override fun getChildren(item: T) = (childMap[item] ?: mutableSetOf()).toList()
 
-    override fun addRelation(child: T, parent: T){
+    override fun addRelation(parent: T, child: T){
         if(child == parent) return
         if((child to parent) in pairs) return
 
-        pairs.add(child to parent)
+        pairs.add(parent to child)
 
         parentMap.getOrPut(child, ::mutableSetOf).add(parent)
         childMap.getOrPut(parent, ::mutableSetOf).add(child)
     }
 
-    override fun removeRelation(child: T, parent: T){
+    override fun removeRelation(parent: T, child: T){
         parentMap[child]?.remove(parent)
         childMap[parent]?.remove(child)
-        pairs.remove(child to parent)
+        pairs.remove(parent to child)
 
         if(parentMap[child].isNullOrEmpty() && childMap[child].isNullOrEmpty()){ deleteItem(child) }
         if(parentMap[parent].isNullOrEmpty() && childMap[parent].isNullOrEmpty()){ deleteItem(parent) }

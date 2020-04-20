@@ -10,6 +10,18 @@ import kotlin.math.sqrt
 data class Vector(val x: Double, val y: Double) {
 
     companion object {
+        val UP = Vector(0, -1)
+        val RIGHT = Vector(1, 0)
+        val DOWN = Vector(0, 1)
+        val LEFT = Vector(-1, 0)
+
+        val ZERO = Vector(0)
+        val HALF = Vector(0.5)
+        val ONE = Vector(1)
+
+        val X = Vector(1,0)
+        val Y = Vector(0,1)
+
         fun unitVector(angle: Double): Vector {
             return Vector(cos(angle), sin(angle))
         }
