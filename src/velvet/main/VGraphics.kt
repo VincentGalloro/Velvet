@@ -51,7 +51,7 @@ class VGraphics(private var g: Graphics2D) {
 
     fun resetGraphics() {
         graphicsStack.removeAt(graphicsStack.size - 1)
-        this.g = graphicsStack[graphicsStack.size - 1]
+        this.g = graphicsStack.last()
     }
 
     fun translate(v: Vector) {

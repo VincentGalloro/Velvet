@@ -1,6 +1,6 @@
 package velvet.main;
 
-import velvet.vcontainer.interact.UIEventHandler;
+import velvet.ui.UIEventHandler;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
