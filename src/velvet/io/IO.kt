@@ -2,6 +2,7 @@ package velvet.io
 
 import java.io.DataInputStream
 import java.io.DataOutputStream
+import java.lang.Exception
 
 class VersionedLoader<T>(val version: String = "",
                          private val loader: (DataInputStream, T)->Unit){
@@ -30,7 +31,7 @@ class Loader<T>(private val versionedLoaders: List<VersionedLoader<T>>){
     fun load(dataInputStream: DataInputStream, t: T){
         val version = dataInputStream.readUTF()
         versionedLoaders.firstOrNull { it.version == version }?.let { return it.load(dataInputStream, t) }
-        throw NoMatchingVersionHandlerException("${javaClass.simpleName} can not load object of version $version")
+        throw Exception("${javaClass.simpleName} can not load object of version $version")
     }
 }
 
@@ -44,6 +45,6 @@ class Reader<T>(private val versionedReaders: List<VersionedReader<T>>){
     fun read(dataInputStream: DataInputStream): T{
         val version = dataInputStream.readUTF()
         versionedReaders.firstOrNull { it.version == version }?.let { return it.read(dataInputStream) }
-        throw NoMatchingVersionHandlerException("${javaClass.simpleName} can not read object of version $version")
+        throw Exception("${javaClass.simpleName} can not read object of version $version")
     }
 }

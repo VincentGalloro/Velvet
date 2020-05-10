@@ -13,11 +13,13 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     
     private final boolean[] buttons, buttonsPressed, buttonsLive, buttonsReleased;
     private Vector pos, livePos;
+    public Vector scalingFactor;
     private int deltaScroll, scrollAmount;
     
     public Mouse(){
         pos = new Vector();
         livePos = new Vector();
+        scalingFactor = new Vector(1);
         buttons = new boolean[BUTTON_CODES.length]; 
         buttonsPressed = new boolean[BUTTON_CODES.length];
         buttonsReleased = new boolean[BUTTON_CODES.length];
@@ -31,7 +33,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
             buttonsReleased[i] = buttons[i] && !b;
             buttons[i] = b;
         }
-        pos = livePos;
+        pos = livePos.times(scalingFactor);
         scrollAmount = deltaScroll;
         deltaScroll = 0;
     }

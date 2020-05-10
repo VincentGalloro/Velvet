@@ -92,6 +92,7 @@ public class Main extends Canvas implements Runnable{
             
             if(System.currentTimeMillis() > secondTimer+1000){
                 secondTimer = System.currentTimeMillis();
+                if(delta > 60) { delta = 60; }
                 if(delta >= 10){ frame.setTitle(title+" | WARNING [RUNNING BELOW 60FPS] | Frame Deficit = "+delta);}
                 else{ frame.setTitle(title); }
             }

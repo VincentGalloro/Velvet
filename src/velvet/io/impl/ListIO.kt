@@ -3,6 +3,9 @@ package velvet.io.impl
 import velvet.io.Loader
 import velvet.io.Reader
 import velvet.io.Writer
+import velvet.structs.OneToOneMap
+import java.io.DataInputStream
+import java.io.DataOutputStream
 
 class ListIO private constructor(){
     companion object{
@@ -12,31 +15,60 @@ class ListIO private constructor(){
                     val size = d.readInt()
                     repeat(size) { t.add(itemReader.read(d)) }
                 }
-
         fun <T> createReader(itemReader: Reader<T>) =
                 Reader.basic("1.0") { d ->
                     val size = d.readInt()
                     List(size) { itemReader.read(d) }
                 }
-
         fun <T> createWriter(itemWriter: Writer<T>) =
-                Writer<List<T>>("1.0") { d, t ->
+                Writer<Collection<T>>("1.0") { d, t ->
                     d.writeInt(t.size)
                     t.forEach { itemWriter.write(d, it) }
                 }
 
-        fun createIDPairReader() = createReader(Reader.basic("1.0") { it.readInt() to it.readInt() })
-        fun createIDPairWriter() = createWriter(Writer<Pair<Int, Int>>("1.0") { d, t ->
-            d.writeInt(t.first)
-            d.writeInt(t.second)
-        })
+        fun <T> createIDReader(itemReader: Reader<T>, map: OneToOneMap<T, Int>) =
+                Reader.basic("1.0") { d ->
+                    val size = d.readInt()
+                    List(size) {
+                        val id = d.readInt()
+                        val item = itemReader.read(d)
+                        map[item] = id
+                        item
+                    }
+                }
+        fun <T> createIDWriter(itemWriter: Writer<T>, map: OneToOneMap<T, Int>) =
+                Writer<Collection<T>>("1.0") { d, t ->
+                    d.writeInt(t.size)
+                    t.forEach {
+                        d.writeInt(map[it] ?: -1)
+                        itemWriter.write(d, it)
+                    }
+                }
+
+        fun <T, U> createIDPairReader(tMap: OneToOneMap<T, Int>,
+                                      uMap: OneToOneMap<U, Int>,
+                                      contentReader: (DataInputStream, T, U)->Unit = {_,_,_->}) =
+                Reader.basic<List<Pair<T, U>>>("1.0") { d ->
+                    val size = d.readInt()
+                    List(size) {
+                        tMap[d.readInt()]?.let { t ->
+                            uMap[d.readInt()]?.let { u ->
+                                contentReader(d, t, u)
+                                (t to u)
+                            }
+                        }
+                    }.filterNotNull()
+                }
+        fun <T, U> createIDPairWriter(tMap: OneToOneMap<T, Int>,
+                                      uMap: OneToOneMap<U, Int>,
+                                      contentWriter: (DataOutputStream, T, U)->Unit = {_,_,_->}) =
+                Writer<List<Pair<T, U>>>("1.0") { d, t ->
+                    d.writeInt(t.size)
+                    t.forEach {
+                        d.writeInt(tMap[it.first] ?: -1)
+                        d.writeInt(uMap[it.second] ?: -1)
+                        contentWriter(d, it.first, it.second)
+                    }
+                }
     }
 }
-
-fun <T> List<T>.toItemIDMap(): Map<T, Int> = mapIndexed{ index, t -> t to index }.toMap()
-fun <T> List<T>.toIDItemMap(): Map<Int, T> = mapIndexed{ index, t -> index to t }.toMap()
-
-fun <T, U> List<Pair<T, U>>.resolveToIDs(tMap: Map<T, Int>, uMap: Map<U, Int>): List<Pair<Int, Int>> =
-        map { (tMap[it.first] ?: -1) to (uMap[it.second] ?: -1) }
-fun <T, U> List<Pair<Int, Int>>.resolveFromIDs(tMap: Map<Int, T>, uMap: Map<Int, U>): List<Pair<T, U>> =
-        mapNotNull { tMap[it.first]?.let { t -> uMap[it.second]?.let { u -> t to u } } }

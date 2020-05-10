@@ -25,7 +25,12 @@ class RollingBackupBackupFileStore(private val backupPathGenerator: PathGenerato
     private val backupIndexWriter = ListIO.createWriter(Writer<Path>{ d, t -> d.writeUTF(t.toAbsolutePath().toString()) })
 
     init{
-        backupIndexBridge.loadFromFile(backupIndexLoader, backups)
+        try{
+            backupIndexBridge.loadFromFile(backupIndexLoader, backups)
+        }
+        catch (_: Exception){
+            System.err.println("Backup File Store could not load backups index")
+        }
     }
 
     private fun removeBackup(backup: Path){

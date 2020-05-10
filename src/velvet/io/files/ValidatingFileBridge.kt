@@ -1,6 +1,5 @@
 package velvet.io.files
 
-import velvet.io.FailedToValidateException
 import velvet.io.Loader
 import velvet.io.Reader
 import velvet.io.Writer
@@ -18,13 +17,13 @@ class ValidatingFileBridge(private val fileBridge: FileBridge): FileBridge by fi
         private fun <T> createValidatingReader(reader: Reader<T>) =
                 Reader.basic("1.0") { dataInputStream ->
                     val out = reader.read(dataInputStream)
-                    if(dataInputStream.readUTF() != validationString) throw FailedToValidateException()
+                    if(dataInputStream.readUTF() != validationString) throw Exception("File could not be validated")
                     out
                 }
         private fun <T> createValidatingLoader(loader: Loader<T>) =
                 Loader.basic<T>("1.0") { dataInputStream, t ->
                     loader.load(dataInputStream, t)
-                    if(dataInputStream.readUTF() != validationString) throw FailedToValidateException()
+                    if(dataInputStream.readUTF() != validationString) throw Exception("File could not be validated")
                 }
     }
 
