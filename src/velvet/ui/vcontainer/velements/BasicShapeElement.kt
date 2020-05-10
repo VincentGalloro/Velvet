@@ -16,12 +16,12 @@ abstract class BasicShapeElement (var fillColor: VColor? = null,
 
     override fun render(g: VGraphics, targetSize: Vector) {
         fillColor?.let {
-            g.setColor(it)
+            g.color = it
             g.fill(getShape(targetSize))
         }
         outlineColor?.let {
-            g.setColor(it)
-            g.setStroke(BasicStroke(outlineThickness.toFloat()))
+            g.color = it
+            g.stroke = BasicStroke(outlineThickness.toFloat())
             g.draw(getShape(targetSize))
         }
     }

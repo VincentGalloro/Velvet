@@ -4,12 +4,11 @@ import velvet.structs.VColor
 import velvet.ui.UIEventListener
 import velvet.ui.vcontainer.velements.SquareElement
 
-class SquareHoverSelectComponent(squareElement: SquareElement) : UIComponent {
+class SquareHoverSelectComponent(squareElement: SquareElement) : BasicComponent() {
 
-    override val uiEventListener = UIEventListener()
+    private var focused = false
 
     init{
-        var focused = false
         uiEventListener.onFocusStart = {
             focused = true
             squareElement.outlineColor = VColor(150, 200, 200)

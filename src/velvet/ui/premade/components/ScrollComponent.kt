@@ -2,11 +2,11 @@ package velvet.ui.premade.components
 
 import velvet.smooth.actuators.Actuator
 import velvet.smooth.actuators.impl.DoubleSwishActuator
-import velvet.ui.UIEventListener
 import velvet.ui.UINode
-import velvet.ui.premade.layouts.Layout
+import velvet.ui.layouts.LLayout
+import velvet.ui.layouts.Layout
 
-class ScrollComponent(var layout: Layout) : UIComponent{
+class ScrollComponent(var layout: LLayout) : BasicComponent() {
 
     var targetScroll: Int = 0
     var scroll: Double = 0.0
@@ -17,14 +17,15 @@ class ScrollComponent(var layout: Layout) : UIComponent{
     var onItemEnter: ((Int)->Unit)? = null
     var onItemExit: ((Int)->Unit)? = null
 
-    override val uiEventListener = UIEventListener()
-
     init{
         uiEventListener.onMouseScroll = { targetScroll += it * scrollRate }
     }
 
-    private fun updateVisible(uiNode: UINode){
-        val newVisible = layout.getVisibleRange(uiNode.bounds, scroll).toHashSet()
+    private fun updateVisible(@Suppress("UNUSED_PARAMETER") uiNode: UINode){
+        //TODO: fix "visible range" (and then uncomment the following block
+        //val newVisible = layout.getVisibleRange(uiNode.bounds, scroll).toHashSet()
+
+        /*
         (visibleNodes - newVisible).forEach {
             onItemExit?.invoke(it)
             uiNode.subNodes.getOrNull(it)?.enabled = false
@@ -33,7 +34,7 @@ class ScrollComponent(var layout: Layout) : UIComponent{
             onItemEnter?.invoke(it)
             uiNode.subNodes.getOrNull(it)?.enabled = true
         }
-        visibleNodes = newVisible
+        visibleNodes = newVisible*/
     }
 
     override fun postUpdate(uiNode: UINode){

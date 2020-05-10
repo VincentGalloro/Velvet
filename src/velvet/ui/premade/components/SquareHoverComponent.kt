@@ -4,9 +4,7 @@ import velvet.structs.VColor
 import velvet.ui.UIEventListener
 import velvet.ui.vcontainer.velements.SquareElement
 
-class SquareHoverComponent(val squareElement: SquareElement) : UIComponent {
-
-    override val uiEventListener = UIEventListener()
+class SquareHoverComponent(val squareElement: SquareElement) : BasicComponent() {
 
     init {
         uiEventListener.onHoverStart = { squareElement.outlineColor = VColor(150, 150, 150) }

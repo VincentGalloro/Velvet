@@ -1,21 +1,15 @@
 package velvet.ui.premade.nodes
 
-import velvet.structs.Vector
 import velvet.ui.UINode
-import velvet.ui.premade.layouts.Layout
+import velvet.ui.layouts.LLayout
+import velvet.ui.layouts.Layout
 
-class ListNode(var layout: Layout) {
-
-    val uiNode = UINode()
-
-    var padding = Vector()
+class ListNode(var layout: LLayout) : UINode() {
 
     fun loadNodes(nodes: List<UINode>){
-        uiNode.subNodes.clear()
-        uiNode.subNodes.addAll(nodes)
-
-        uiNode.subNodes.forEachIndexed { index, uiNode ->
-            uiNode.boundsGenerator = { layout.getBounds(index, uiNode.bounds.resize(-padding*2, Vector(0.5))) }
+        subNodes.clear()
+        nodes.forEachIndexed { index, childNode ->
+            add(childNode) { layout.getBounds(bounds, index, nodes.size) }
         }
     }
 }

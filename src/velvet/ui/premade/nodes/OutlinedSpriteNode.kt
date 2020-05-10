@@ -5,22 +5,20 @@ import velvet.ui.UINode
 import velvet.ui.vcontainer.velements.SpriteElement
 import velvet.ui.vcontainer.velements.SquareElement
 
-class OutlinedSpriteNode {
-
-    val uiNode = UINode()
+class OutlinedSpriteNode : UINode(){
 
     val squareElement = SquareElement()
     val spriteElement = SpriteElement()
 
+    var sprite: Sprite?
+        get() = spriteElement.sprite
+        set(value) { spriteElement.sprite = value }
+
     val squareContainer = squareElement.createContainer()
     val spriteContainer = spriteElement.createContainer()
 
-    var sprite: Sprite?
-        get() = spriteElement.sprite
-        set(value){ spriteElement.sprite = value }
-
     init{
-        uiNode.addContainer(squareContainer){ uiNode.bounds }
-        uiNode.addContainer(spriteContainer){ uiNode.bounds.fixRatioElement(spriteElement) }
+        add(squareContainer){ bounds }
+        add(spriteContainer){ bounds.fixRatioElement(spriteElement) }
     }
 }

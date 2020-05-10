@@ -7,10 +7,9 @@ import velvet.ui.UINode
 import java.awt.image.BufferedImage
 import kotlin.math.roundToInt
 
-class WindowedComponent : UIComponent {
+class WindowedComponent : BasicComponent() {
 
     private var buffer: BufferedImage? = null
-    override val uiEventListener = UIEventListener()
 
     override fun preRender(uiNode: UINode, g: VGraphics) {
         if (uiNode.bounds.size.x.roundToInt() <= 0 || uiNode.bounds.size.y.roundToInt() <= 0) {

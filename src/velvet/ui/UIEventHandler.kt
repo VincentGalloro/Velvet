@@ -15,12 +15,12 @@ class UIEventHandler(private val mouse: Mouse,
 
     private fun handleEvent(chain: List<UINode>, eventRunner: (UIEventListener)->Unit?){
         chain.forEach { uiNode ->
-            if(uiNode.uiComponents.map { eventRunner(it.uiEventListener) }.any { it != null }) return@forEach
+            if(uiNode.activeComponents.map { eventRunner(it.uiEventListener) }.any { it != null }) return
         }
     }
 
     private fun createChain(chain: List<UINode>, eventChecker: (UIEventListener) -> Boolean): List<UINode> {
-        return chain.dropWhile { uiNode -> uiNode.uiComponents.none { eventChecker(it.uiEventListener) } }
+        return chain.dropWhile { uiNode -> uiNode.activeComponents.none { eventChecker(it.uiEventListener) } }
     }
 
     private fun switchHover(){
@@ -38,7 +38,8 @@ class UIEventHandler(private val mouse: Mouse,
     private fun updateTarget(){
         targetChain = generateSequence(
                 root?.takeIf { it.isHovered(mouse.pos) },
-                { it.subNodes.find { uiContainer -> uiContainer.isHovered(mouse.pos) } }).toList().reversed()
+                { it.subNodes.asReversed().find { uiContainer -> uiContainer.isHovered(mouse.pos) } }
+        ).toList().reversed()
     }
 
     fun update(){
@@ -64,8 +65,14 @@ class UIEventHandler(private val mouse: Mouse,
             handleEvent(targetChain) { it.onMouseRelease?.invoke(mouse.pos) }
         }
 
-        if(!mouse.isDown(Mouse.LEFT)){
-            switchHover()
+        if(mouse.isDown(Mouse.LEFT)) {
+            handleEvent(hoverChain) { it.onMouseDrag?.invoke(mouse.pos) }
+        }
+        else{
+            if(createChain(targetChain, UIEventListener::isHoverable).firstOrNull() != hoverChain.firstOrNull()) {
+                switchHover()
+            }
+            handleEvent(hoverChain) { it.onMouseHover?.invoke(mouse.pos) }
         }
 
         keyboard.pressedLog.forEach { code -> handleEvent(focusChain) { it.onKeyPressed?.invoke(code) } }

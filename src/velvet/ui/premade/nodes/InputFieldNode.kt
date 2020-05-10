@@ -4,12 +4,11 @@ import velvet.structs.VColor
 import velvet.structs.Vector
 import velvet.ui.vcontainer.velements.SquareElement
 import velvet.ui.UINode
+import velvet.ui.layouts.Layout
 import velvet.ui.premade.components.SquareHoverSelectComponent
 import velvet.ui.vcontainer.velements.TextElement
 
-class InputFieldNode(promptText: String, defaultInput: String = ""){
-
-    val uiNode = UINode()
+class InputFieldNode(promptText: String, defaultInput: String = "") : UINode(){
 
     val squareElement = SquareElement(outlineThickness = 4.0, rounding = 20.0)
     val promptElement = TextElement(promptText, _color = VColor(200, 200, 200))
@@ -20,18 +19,18 @@ class InputFieldNode(promptText: String, defaultInput: String = ""){
     val inputContainer = inputElement.createContainer()
 
     init {
-        uiNode.addContainer(squareContainer){ uiNode.bounds }
-        uiNode.addContainer(promptContainer) {
-            uiNode.bounds.scale(Vector(0.3, 1.0), Vector(0))
+        add(squareContainer){ bounds }
+        add(promptContainer) {
+            bounds.scaleWidth(0.3, 0.0)
                     .scale(Vector(0.8), Vector(0.5))
                     .fixRatioElement(promptElement)
         }
-        uiNode.addContainer(inputContainer) {
-            uiNode.bounds.scale(Vector(0.7, 1.0), Vector(1))
+        add(inputContainer) {
+            bounds.scaleWidth(0.7, 1.0)
                     .scale(Vector(0.9), Vector(0.5))
                     .fixRatioElement(inputElement, Vector(0.0, 0.5))
         }
 
-        uiNode.uiComponents.add(SquareHoverSelectComponent(squareElement))
+        add(SquareHoverSelectComponent(squareElement))
     }
 }

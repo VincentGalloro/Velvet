@@ -12,6 +12,7 @@ class TextElementEditor(private val textElement: TextElement) {
         }
 
     var onCursorMove: ((Int)->Unit)? = null
+    var onTextChange: ((String)->Unit)? = null
 
     fun moveCursorToEnd(){
         cursorIndex = textElement.text.length
@@ -32,14 +33,17 @@ class TextElementEditor(private val textElement: TextElement) {
         } else if (c == '\n') { //enter
             if (false) { //TODO: change false to supports new line
                 text = text.substring(0, cursorIndex) + c + text.substring(cursorIndex)
+                cursorIndex++
             }
-            cursorIndex++
         } else {
             text = text.substring(0, cursorIndex) + c + text.substring(cursorIndex)
             cursorIndex++
         }
 
-        textElement.text = text
+        if(text != textElement.text){
+            textElement.text = text
+            onTextChange?.invoke(textElement.text)
+        }
     }
 
     fun onKeyHeld(i: Int){

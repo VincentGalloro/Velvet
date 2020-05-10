@@ -11,12 +11,12 @@ import velvet.ui.vcontainer.velements.TextElement
 import java.awt.geom.Rectangle2D
 
 class TextControllerComponent(val vContainer: VContainer,
-                              val textElement: TextElement) : UIComponent{
+                              val textElement: TextElement) : BasicComponent(){
 
     private val textElementEditor = TextElementEditor(textElement)
-    override val uiEventListener = UIEventListener()
-
-    var canEdit: Boolean = true
+    var onTextChange: ((String)->Unit)?
+        get() = textElementEditor.onTextChange
+        set(value) { textElementEditor.onTextChange = value }
 
     private var focused: Boolean = false
     private var cursorVisible: Boolean = false
@@ -26,7 +26,7 @@ class TextControllerComponent(val vContainer: VContainer,
         }
     private var cursorStopwatch = StopWatch(30){ cursorVisible = !cursorVisible }
 
-    init{
+    init {
         uiEventListener.onFocusStart = {
             focused = true
             cursorVisible = true
@@ -36,16 +36,12 @@ class TextControllerComponent(val vContainer: VContainer,
         }
 
         uiEventListener.onCharTyped = {
-            if(canEdit){
-                textElementEditor.onCharTyped(it)
-                cursorVisible = true
-            }
+            textElementEditor.onCharTyped(it)
+            cursorVisible = true
         }
         uiEventListener.onKeyHeld = {
-            if(canEdit){
-                textElementEditor.onKeyHeld(it)
-                cursorVisible = true
-            }
+            textElementEditor.onKeyHeld(it)
+            cursorVisible = true
         }
     }
 
@@ -64,7 +60,7 @@ class TextControllerComponent(val vContainer: VContainer,
         g.translate(vContainer.bounds.getPos(Vector()))
         g.rotate(vContainer.bounds.angle)
         g.scale(vContainer.bounds.size / textElement.size)
-        g.setColor(VColor.BLACK)
+        g.color = VColor.BLACK
         g.fill(Rectangle2D.Double(charPos.x, charPos.y - textElement.font.size.toDouble(), 3.0, textElement.font.size.toDouble()))
         g.reset()
     }

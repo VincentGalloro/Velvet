@@ -59,8 +59,8 @@ class TextElement(_text: String = "",
             val g = VGraphics(it.createGraphics())
             g.baseGraphics.setRenderingHints(Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints") as Map<*,*>)
 
-            g.setColor(color)
-            g.setFont(font)
+            g.color = color
+            g.font = font
 
             textLayout.render(g, text, fontMetrics)
 

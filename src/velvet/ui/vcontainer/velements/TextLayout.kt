@@ -49,7 +49,7 @@ class MultiLineLayout(var width: Double, var lineSep: Double) : TextLayout{
     override fun getCharPos(text: String, fontMetrics: FontMetrics, index: Int): Vector {
         val lineBreaks = calculateLineBreaks(text.substring(0, index), fontMetrics).toList()
         return Vector(fontMetrics.stringWidth(text.substring(lineBreaks[lineBreaks.size-2], index)).toDouble(),
-                fontMetrics.ascent.toDouble() + (fontMetrics.ascent + fontMetrics.descent + lineSep) * index)
+                fontMetrics.ascent.toDouble() + (fontMetrics.ascent + fontMetrics.descent + lineSep) * (lineBreaks.size-2))
     }
 
     override fun render(g: VGraphics, text: String, fontMetrics: FontMetrics) {
