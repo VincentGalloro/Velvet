@@ -23,6 +23,8 @@ data class VColor(val red: Double, val green: Double, val blue: Double, val alph
         val BLUE: VColor = VColor(0, 0, 255)
         val WHITE: VColor = VColor(255, 255, 255)
 
+        fun fromJavaColor(c: Color) = VColor(c.red, c.green, c.blue, c.alpha)
+
         fun fromIntWithAlpha(color: Int, alpha: Int) =
                 VColor((color shr 16) and 0xFF, (color shr 8) and 0xFF, color and 0xFF, alpha)
 
@@ -36,5 +38,3 @@ data class VColor(val red: Double, val green: Double, val blue: Double, val alph
     fun getRGBDistance(vColor: VColor) =
             ((red - vColor.red).pow(2) + (green - vColor.green).pow(2) + (blue - vColor.blue).pow(2)).pow(0.5)
 }
-
-fun Color.toVColor() = VColor(red, green, blue, alpha)

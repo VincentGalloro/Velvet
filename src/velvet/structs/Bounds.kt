@@ -30,8 +30,15 @@ class Bounds private constructor(val center: Vector,
     fun setSize(s: Vector, anchor: Vector) = Bounds(center, s, angle).setPos(getPos(anchor), anchor)
     fun setWidth(w: Double, anchor: Double) = setSize(Vector(w, size.y), Vector.X * anchor)
     fun setHeight(h: Double, anchor: Double) = setSize(Vector(size.x, h), Vector.Y * anchor)
+
     fun resize(s: Vector, anchor: Vector) = setSize(size + s, anchor)
+    fun resizeWidth(w: Double, anchor: Double) = setWidth(size.x + w, anchor)
+    fun resizeHeight(h: Double, anchor: Double) = setHeight(size.y + h, anchor)
+
     fun scale(scale: Vector, anchor: Vector) = setSize(size*scale, anchor)
+    fun scaleWidth(scale: Double, anchor: Double) = setWidth(size.x*scale, anchor)
+    fun scaleHeight(scale: Double, anchor: Double) = setHeight(size.y*scale, anchor)
+
     fun fixRatio(ratio: Vector, anchor: Vector) = setSize(ratio * (size/ratio).min, anchor)
     fun fixRatioElement(vElement: VElement?, anchor: Vector = Vector.HALF) =
             fixRatio(vElement?.size ?: Vector.ONE, anchor)

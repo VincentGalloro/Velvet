@@ -16,6 +16,8 @@ data class Position constructor(val x: Int, val y: Int) {
         val HORIZONTAL = listOf(LEFT, RIGHT)
         val VERTICAL = listOf(UP, DOWN)
         val DIRS = listOf(UP, RIGHT, DOWN, LEFT)
+        val DIAGONALS = listOf(Position(-1,-1), Position(1,-1), Position(1,1), Position(-1,1))
+        val FULL_DIRS = DIRS + DIAGONALS
 
         fun fromIndex(index: Int, width: Int) = Position(index%width, index/width)
 

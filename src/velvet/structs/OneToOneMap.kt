@@ -2,6 +2,15 @@ package velvet.structs
 
 class OneToOneMap<T, U> {
 
+    companion object{
+
+        fun <T> createIDMap(items: Collection<T>): OneToOneMap<T, Int>{
+            val map = OneToOneMap<T, Int>()
+            items.forEachIndexed { index, t -> map[t] = index }
+            return map
+        }
+    }
+
     private val tuMap: MutableMap<T, U> = HashMap()
     private val utMap: MutableMap<U, T> = HashMap()
 
