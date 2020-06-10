@@ -1,5 +1,6 @@
-package velvet.structs
+package velvet.util.types
 
+import velvet.util.types.spatial.Vector
 import java.awt.Shape
 import java.awt.geom.Line2D
 import java.awt.geom.Rectangle2D

@@ -1,4 +1,4 @@
-package velvet.structs
+package velvet.util
 
 class StopWatch(private val interval: Int, private val action: ()->Unit) {
 

@@ -1,4 +1,4 @@
-package velvet.structs
+package velvet.util.types
 
 import java.awt.Color
 import kotlin.math.pow
@@ -33,6 +33,8 @@ data class VColor(val red: Double, val green: Double, val blue: Double, val alph
 
         fun fromHSB(hue: Double, sat: Double, bright: Double, alpha: Double = 1.0) =
                 fromIntWithAlpha(Color.HSBtoRGB(hue.toFloat(), sat.toFloat(), bright.toFloat()), (alpha * 255).toInt())
+
+        fun grayScale(brightness: Int) = VColor(brightness, brightness, brightness)
     }
 
     fun getRGBDistance(vColor: VColor) =

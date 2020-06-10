@@ -1,4 +1,4 @@
-package velvet.structs;
+package velvet.util.structs;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,6 @@
-package velvet.structs
+package velvet.util
+
+import velvet.util.structs.Hierarchy
 
 class TopologicalSorter {
 

@@ -1,4 +1,4 @@
-package velvet.structs
+package velvet.util.structs
 
 /*
 Maintains a second list of items which mirrors the original list.

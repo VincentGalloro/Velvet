@@ -1,4 +1,4 @@
-package velvet.structs;
+package velvet.util.structs;
 
 public class DisjointSet {
 

@@ -1,4 +1,4 @@
-package velvet.structs
+package velvet.util.structs
 
 class OneToOneMap<T, U> {
 

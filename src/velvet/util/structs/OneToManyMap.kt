@@ -1,4 +1,4 @@
-package velvet.structs
+package velvet.util.structs
 
 open class OneToManyMap<T, U> {
 
