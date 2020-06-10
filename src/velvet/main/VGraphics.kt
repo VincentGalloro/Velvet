@@ -1,9 +1,9 @@
 package velvet.main
 
 import velvet.main.game.graphics.Sprite
-import velvet.structs.VColor
-import velvet.structs.Vector
-import velvet.structs.VShape
+import velvet.util.types.VColor
+import velvet.util.types.spatial.Vector
+import velvet.util.types.VShape
 import java.awt.*
 import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage

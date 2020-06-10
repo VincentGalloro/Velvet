@@ -1,10 +1,11 @@
 package velvet.main.game.graphics
 
 import velvet.main.VGraphics
-import velvet.structs.DenseGrid
-import velvet.structs.Grid
-import velvet.structs.Position
-import velvet.structs.VColor
+import velvet.util.types.DenseGrid
+import velvet.util.types.Grid
+import velvet.util.types.spatial.Position
+import velvet.util.types.VColor
+import velvet.util.types.spatial.Size
 import java.awt.image.BufferedImage
 import java.awt.image.DataBufferInt
 import java.io.File
@@ -16,23 +17,25 @@ class Sprite(val image: BufferedImage){
 
     companion object{
 
-        fun emptySprite(size: Position) = Sprite(BufferedImage(size.x, size.y, BufferedImage.TYPE_INT_ARGB))
+        fun emptySprite(size: Size) = Sprite(BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB))
         fun copySprite(sprite: Sprite) = emptySprite(sprite.size).also { it.createGraphics().drawSprite(sprite) }
         fun loadSprite(path: Path) = copySprite(Sprite(ImageIO.read(Files.newInputStream(path))))
 
-        fun fromDenseGrid(grid: DenseGrid<VColor>) = emptySprite(grid.size).also { sprite ->
+        fun fromDenseGrid(grid: Grid<VColor>) = emptySprite(grid.size).also { sprite ->
             val dataBuffer = (sprite.image.raster.dataBuffer as DataBufferInt).data
-            grid.size.gridIterate { dataBuffer[it.toIndex(grid.size.x)] = grid[it].toInt() }
+            grid.itemsIndexed().forEach { (pos, color) ->
+                dataBuffer[grid.toIndex(pos)] = color.toInt()
+            }
         }
     }
 
-    val size = Position(image.width, image.height)
+    val size = Size(image.width, image.height)
 
     private fun createGraphics() = VGraphics(image.createGraphics())
 
     fun toGrid(): Grid<VColor> {
         val dataBuffer = (image.raster.dataBuffer as DataBufferInt).data
-        return DenseGrid(size){ VColor.fromInt(dataBuffer[it.toIndex(size.x)]) }
+        return DenseGrid.ofSize(size){ VColor.fromInt(dataBuffer[size.toIndex(it)]) }
     }
 
     fun saveToFile(file: File) = ImageIO.write(image, "png", file)

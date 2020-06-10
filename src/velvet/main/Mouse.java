@@ -1,6 +1,6 @@
 package velvet.main;
 
-import velvet.structs.Vector;
+import velvet.util.types.spatial.Vector;
 
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;

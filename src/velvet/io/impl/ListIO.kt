@@ -3,7 +3,7 @@ package velvet.io.impl
 import velvet.io.Loader
 import velvet.io.Reader
 import velvet.io.Writer
-import velvet.structs.OneToOneMap
+import velvet.util.structs.OneToOneMap
 import java.io.DataInputStream
 import java.io.DataOutputStream
 
