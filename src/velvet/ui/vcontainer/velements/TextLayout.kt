@@ -1,12 +1,13 @@
 package velvet.ui.vcontainer.velements
 
 import velvet.main.VGraphics
-import velvet.structs.Vector
+import velvet.util.types.spatial.Area
+import velvet.util.types.spatial.Vector
 import java.awt.FontMetrics
 
 interface TextLayout {
 
-    fun getSize(text: String, fontMetrics: FontMetrics): Vector
+    fun getArea(text: String, fontMetrics: FontMetrics): Area
     fun getCharPos(text: String, fontMetrics: FontMetrics, index: Int): Vector
 
     fun render(g: VGraphics, text: String, fontMetrics: FontMetrics)
@@ -14,8 +15,8 @@ interface TextLayout {
 
 class SingleLineLayout : TextLayout{
 
-    override fun getSize(text: String, fontMetrics: FontMetrics) =
-            Vector(fontMetrics.stringWidth(text).toDouble(),
+    override fun getArea(text: String, fontMetrics: FontMetrics) =
+            Area(fontMetrics.stringWidth(text).toDouble(),
                     (fontMetrics.ascent + fontMetrics.descent).toDouble())
 
     override fun getCharPos(text: String, fontMetrics: FontMetrics, index: Int) =
@@ -41,15 +42,15 @@ class MultiLineLayout(var width: Double, var lineSep: Double) : TextLayout{
         yield(text.length)
     }
 
-    override fun getSize(text: String, fontMetrics: FontMetrics): Vector {
+    override fun getArea(text: String, fontMetrics: FontMetrics): Area {
         val lineCount = calculateLineBreaks(text, fontMetrics).toList().size - 1
-        return Vector(width, (fontMetrics.ascent + fontMetrics.descent) * lineCount + lineSep * (lineCount-1))
+        return Area(width, (fontMetrics.ascent + fontMetrics.descent) * lineCount + lineSep * (lineCount - 1))
     }
 
     override fun getCharPos(text: String, fontMetrics: FontMetrics, index: Int): Vector {
         val lineBreaks = calculateLineBreaks(text.substring(0, index), fontMetrics).toList()
-        return Vector(fontMetrics.stringWidth(text.substring(lineBreaks[lineBreaks.size-2], index)).toDouble(),
-                fontMetrics.ascent.toDouble() + (fontMetrics.ascent + fontMetrics.descent + lineSep) * (lineBreaks.size-2))
+        return Vector(fontMetrics.stringWidth(text.substring(lineBreaks[lineBreaks.size - 2], index)).toDouble(),
+                fontMetrics.ascent.toDouble() + (fontMetrics.ascent + fontMetrics.descent + lineSep) * (lineBreaks.size - 2))
     }
 
     override fun render(g: VGraphics, text: String, fontMetrics: FontMetrics) {
@@ -57,7 +58,7 @@ class MultiLineLayout(var width: Double, var lineSep: Double) : TextLayout{
         for(index in 0 until lineBreaks.size-1){
             g.drawString(text.substring(lineBreaks[index], lineBreaks[index+1]),
                     Vector(0.0, fontMetrics.ascent.toDouble() +
-                    (fontMetrics.ascent + fontMetrics.descent + lineSep) * index))
+                            (fontMetrics.ascent + fontMetrics.descent + lineSep) * index))
         }
     }
 

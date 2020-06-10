@@ -28,3 +28,7 @@ open class BasicComponent : UIComponent{
     override fun preRender(uiNode: UINode, g: VGraphics) {}
     override fun postRender(uiNode: UINode, g: VGraphics) {}
 }
+
+class BasicEventComponent(eventSetter: UIEventListener.()->Unit) : BasicComponent() {
+    init{ eventSetter(uiEventListener) }
+}

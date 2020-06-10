@@ -1,8 +1,7 @@
 package velvet.ui.premade.components
 
 import velvet.main.VGraphics
-import velvet.structs.Vector
-import velvet.ui.UIEventListener
+import velvet.util.types.spatial.Vector
 import velvet.ui.UINode
 import java.awt.image.BufferedImage
 import kotlin.math.roundToInt
@@ -12,13 +11,8 @@ class WindowedComponent : BasicComponent() {
     private var buffer: BufferedImage? = null
 
     override fun preRender(uiNode: UINode, g: VGraphics) {
-        if (uiNode.bounds.size.x.roundToInt() <= 0 || uiNode.bounds.size.y.roundToInt() <= 0) {
-            buffer = null
-            return
-        }
-
-        val bufferedImage = BufferedImage(uiNode.bounds.size.x.roundToInt(),
-                uiNode.bounds.size.y.roundToInt(),
+        val bufferedImage = BufferedImage(uiNode.bounds.area.width.roundToInt(),
+                uiNode.bounds.area.height.roundToInt(),
                 BufferedImage.TYPE_INT_ARGB)
         buffer = bufferedImage
 

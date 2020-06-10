@@ -1,46 +1,49 @@
 package velvet.ui
 
 import velvet.main.VGraphics
-import velvet.structs.Bounds
-import velvet.structs.Vector
-import velvet.ui.vcontainer.VContainer
+import velvet.util.types.spatial.Bounds
+import velvet.util.types.spatial.Vector
+import velvet.ui.boundsprocessors.layouts.Layout
 import velvet.ui.premade.components.UIComponent
 import velvet.ui.vcontainer.velements.VElement
 
 open class UINode {
 
+    companion object{
+        fun basic(vElement: VElement) = UINode().also { it.add(vElement) }
+    }
+
     var bounds = Bounds()
-    var boundsGenerator: (() -> Bounds)? = null
-    val boundsProcessors: MutableList<(Bounds)->Bounds> = mutableListOf()
+    var layout: Layout = Layout.empty()
 
     val subNodes: MutableList<UINode> = mutableListOf()
-    val vContainers: MutableList<Pair<VContainer, (() -> Bounds)>> = mutableListOf()
+    val vElements: MutableList<VElement> = mutableListOf()
     val uiComponents: MutableList<UIComponent> = mutableListOf()
+
     val activeComponents: Sequence<UIComponent> get() = uiComponents.asSequence().filter { it.enabled }
 
     var enabled = true
 
     fun isHovered(pos: Vector) = bounds.contains(pos) && enabled
+    fun findHoveredSubNode(pos: Vector) = subNodes.asReversed().find { it.isHovered(pos) }
 
-    fun add(vElement: VElement, boundsGenerator: ()->Bounds)
-            = vContainers.add(VContainer(vElement) to boundsGenerator)
-    fun add(vContainer: VContainer, boundsGenerator: () -> Bounds)
-            = vContainers.add(vContainer to boundsGenerator)
-    fun add(uiComponent: UIComponent)
-            = uiComponents.add(uiComponent)
-    fun add(uiNode: UINode, boundsGenerator: () -> Bounds)
-            = subNodes.add(uiNode.also { it.boundsGenerator = boundsGenerator })
+    fun add(uiComponent: UIComponent) = uiComponents.add(uiComponent)
+    fun add(vElement: VElement) = vElements.add(vElement)
+    fun add(uiNode: UINode, layout: Layout = Layout.empty()) = subNodes.add(uiNode.also { it.layout = layout })
+
+    fun remove(uiNode: UINode) = subNodes.remove(uiNode)
+
+    fun clearVElements() = vElements.clear()
+    fun clearSubNodes() = subNodes.clear()
 
     fun update() {
         if(!enabled) return
 
-        boundsGenerator?.invoke()?.let {
-            bounds = boundsProcessors.fold(it){ acc, f -> f(acc) }
-        }
-
         activeComponents.forEach { it.preUpdate(this) }
-        vContainers.forEach { (vContainer, boundsGenerator) -> vContainer.bounds = boundsGenerator() }
-        subNodes.forEach { it.update() }
+        subNodes.forEachIndexed { index, subNode ->
+            subNode.bounds = subNode.layout(bounds, index)
+            subNode.update()
+        }
         activeComponents.toList().asReversed().forEach { it.postUpdate(this) }
     }
 
@@ -48,7 +51,7 @@ open class UINode {
         if(!enabled) return
 
         activeComponents.forEach { it.preRender(this, g) }
-        vContainers.forEach { (vContainer, _) -> vContainer.render(g) }
+        vElements.forEach { it.render(g, bounds) }
         subNodes.forEach { it.render(g) }
         activeComponents.toList().asReversed().forEach { it.postRender(this, g) }
     }

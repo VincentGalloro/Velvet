@@ -1,4 +1,4 @@
-package velvet.smooth.motion;
+package velvet.ui.boundsprocessors.smooth.motion;
 
 public interface Motion {
 

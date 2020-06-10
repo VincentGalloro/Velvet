@@ -2,17 +2,18 @@ package velvet.ui.vcontainer.velements
 
 import velvet.main.VGraphics
 import velvet.main.game.graphics.Sprite
-import velvet.structs.Vector
+import velvet.util.types.spatial.Area
+import velvet.util.types.spatial.Vector
 
 class SpriteElement (var sprite: Sprite? = null) : VElement {
 
-    override val size: Vector?
-        get() = sprite?.size?.toVector()
+    override val area: Area?
+        get() = sprite?.size?.area
 
-    override fun render(g: VGraphics, targetSize: Vector) {
+    override fun render(g: VGraphics, targetArea: Area) {
         sprite?.let {
             g.save()
-            g.scale(targetSize / it.size.toVector())
+            g.scale(targetArea.vector / it.size.vector)
             g.drawSprite(it)
             g.reset()
         }

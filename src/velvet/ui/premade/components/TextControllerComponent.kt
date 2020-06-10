@@ -1,16 +1,14 @@
 package velvet.ui.premade.components
 
 import velvet.main.VGraphics
-import velvet.structs.StopWatch
-import velvet.structs.VColor
-import velvet.structs.Vector
-import velvet.ui.vcontainer.VContainer
-import velvet.ui.UIEventListener
+import velvet.util.StopWatch
+import velvet.util.types.VColor
+import velvet.util.types.spatial.Vector
 import velvet.ui.UINode
 import velvet.ui.vcontainer.velements.TextElement
 import java.awt.geom.Rectangle2D
 
-class TextControllerComponent(val vContainer: VContainer,
+class TextControllerComponent(val textNode: UINode,
                               val textElement: TextElement) : BasicComponent(){
 
     private val textElementEditor = TextElementEditor(textElement)
@@ -24,7 +22,7 @@ class TextControllerComponent(val vContainer: VContainer,
             field = value
             cursorStopwatch.reset()
         }
-    private var cursorStopwatch = StopWatch(30){ cursorVisible = !cursorVisible }
+    private var cursorStopwatch = StopWatch(30) { cursorVisible = !cursorVisible }
 
     init {
         uiEventListener.onFocusStart = {
@@ -51,17 +49,25 @@ class TextControllerComponent(val vContainer: VContainer,
 
     override fun postRender(uiNode: UINode, g: VGraphics) {
         if(!focused || !cursorVisible){ return }
+        if(textElement !in textNode.vElements){
+            System.err.println("Text Controller UINode binding does not contain text element")
+            return
+        }
 
         val charPos = textElement.textLayout.getCharPos(textElement.text,
                 textElement.getFontMetrics(),
                 textElementEditor.cursorIndex)
 
         g.save()
-        g.translate(vContainer.bounds.getPos(Vector()))
-        g.rotate(vContainer.bounds.angle)
-        g.scale(vContainer.bounds.size / textElement.size)
+        g.translate(textNode.bounds.getPos(Vector()))
+        g.rotate(textNode.bounds.angle)
+        g.scale(textNode.bounds.area.vector / textElement.area.vector)
         g.color = VColor.BLACK
-        g.fill(Rectangle2D.Double(charPos.x, charPos.y - textElement.font.size.toDouble(), 3.0, textElement.font.size.toDouble()))
+        g.fill(Rectangle2D.Double(
+                charPos.x,
+                charPos.y - textElement.font.size.toDouble(),
+                3.0,
+                textElement.font.size.toDouble()))
         g.reset()
     }
 }

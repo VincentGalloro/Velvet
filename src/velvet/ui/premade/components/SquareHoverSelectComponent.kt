@@ -1,7 +1,6 @@
 package velvet.ui.premade.components
 
-import velvet.structs.VColor
-import velvet.ui.UIEventListener
+import velvet.util.types.VColor
 import velvet.ui.vcontainer.velements.SquareElement
 
 class SquareHoverSelectComponent(squareElement: SquareElement) : BasicComponent() {

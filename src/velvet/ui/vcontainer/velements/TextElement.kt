@@ -1,8 +1,9 @@
 package velvet.ui.vcontainer.velements
 
 import velvet.main.VGraphics
-import velvet.structs.VColor
-import velvet.structs.Vector
+import velvet.util.types.VColor
+import velvet.util.types.spatial.Area
+import velvet.util.types.spatial.Vector
 import java.awt.Canvas
 import java.awt.Font
 import java.awt.FontMetrics
@@ -12,7 +13,7 @@ import java.awt.image.BufferedImage
 class TextElement(_text: String = "",
                   _color: VColor = VColor.BLACK) : VElement {
 
-    override var size: Vector = Vector()
+    override var area: Area = Area.ZERO
 
     private var cachedImage: BufferedImage? = null
 
@@ -51,27 +52,26 @@ class TextElement(_text: String = "",
     }
 
     private fun updateCachedImage() {
-        size = textLayout.getSize(text, fontMetrics)
+        area = textLayout.getArea(text, fontMetrics)
 
-        if(size.floor().min <= 0){ cachedImage = null; return; }
+        if(area.width.toInt() <= 0 || area.height.toInt() <= 0) return
 
-        cachedImage = BufferedImage(size.x.toInt(), size.y.toInt(), BufferedImage.TYPE_INT_ARGB).let {
+        cachedImage = BufferedImage(area.width.toInt(), area.height.toInt(), BufferedImage.TYPE_INT_ARGB).also {
             val g = VGraphics(it.createGraphics())
-            g.baseGraphics.setRenderingHints(Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints") as Map<*,*>)
+            g.baseGraphics.setRenderingHints(
+                    Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints") as Map<*,*>)
 
             g.color = color
             g.font = font
 
             textLayout.render(g, text, fontMetrics)
-
-            it
         }
     }
 
-    override fun render(g: VGraphics, targetSize: Vector) {
+    override fun render(g: VGraphics, targetArea: Area) {
         cachedImage?.let {
             g.save()
-            g.scale(targetSize / size)
+            g.scale(targetArea.vector / area.vector)
             g.drawImage(it)
             g.reset()
         }

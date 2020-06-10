@@ -36,10 +36,9 @@ class UIEventHandler(private val mouse: Mouse,
     }
 
     private fun updateTarget(){
-        targetChain = generateSequence(
-                root?.takeIf { it.isHovered(mouse.pos) },
-                { it.subNodes.asReversed().find { uiContainer -> uiContainer.isHovered(mouse.pos) } }
-        ).toList().reversed()
+        targetChain = generateSequence(root?.takeIf { it.isHovered(mouse.pos) }) {
+            it.findHoveredSubNode(mouse.pos)
+        }.toList().reversed()
     }
 
     fun update(){

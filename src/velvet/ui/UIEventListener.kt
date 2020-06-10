@@ -1,6 +1,6 @@
 package velvet.ui
 
-import velvet.structs.Vector
+import velvet.util.types.spatial.Vector
 
 class UIEventListener {
 

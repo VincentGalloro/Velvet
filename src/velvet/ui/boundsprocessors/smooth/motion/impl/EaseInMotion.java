@@ -1,6 +1,6 @@
-package velvet.smooth.motion.impl;
+package velvet.ui.boundsprocessors.smooth.motion.impl;
 
-import velvet.smooth.motion.Motion;
+import velvet.ui.boundsprocessors.smooth.motion.Motion;
 
 public class EaseInMotion implements Motion {
 
