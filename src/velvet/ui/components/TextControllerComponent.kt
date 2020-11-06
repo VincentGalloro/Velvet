@@ -1,11 +1,11 @@
-package velvet.ui.premade.components
+package velvet.ui.components
 
 import velvet.main.VGraphics
 import velvet.util.StopWatch
 import velvet.util.types.VColor
 import velvet.util.types.spatial.Vector
 import velvet.ui.UINode
-import velvet.ui.vcontainer.velements.TextElement
+import velvet.ui.velements.TextElement
 import java.awt.geom.Rectangle2D
 
 class TextControllerComponent(val textNode: UINode,
@@ -33,12 +33,12 @@ class TextControllerComponent(val textNode: UINode,
             focused = false
         }
 
-        uiEventListener.onCharTyped = {
-            textElementEditor.onCharTyped(it)
+        uiEventListener.onCharTyped = { it, _ ->
+            textElementEditor.onCharTyped(it.char)
             cursorVisible = true
         }
-        uiEventListener.onKeyHeld = {
-            textElementEditor.onKeyHeld(it)
+        uiEventListener.onKeyPressed = { it, _ ->
+            textElementEditor.onKeyPressed(it.code)
             cursorVisible = true
         }
     }

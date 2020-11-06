@@ -1,23 +1,23 @@
-package velvet.ui.premade.components
+package velvet.ui.components
 
-import velvet.main.game.graphics.Sprite
+import velvet.game.graphics.Sprite
 import velvet.multithreading.Bot
-import velvet.ui.vcontainer.velements.SpriteElement
+import velvet.ui.velements.SpriteElement
 
 class ASyncSpriteLoader(private val spriteElement: SpriteElement){
 
-    fun <T> loadSprite(loadBot: Bot<T>, loader: (T)->Sprite) {
+    fun loadSprite(loadBot: Bot, loader: ()-> Sprite) {
         if(spriteElement.sprite == null) { //check for content before adding the job
             loadBot.addJob {
                 if (spriteElement.sprite == null) { //check for content before executing the job
-                    spriteElement.sprite = loader(it)
+                    spriteElement.sprite = loader()
                 }
             }
         }
     }
 
-    fun <T> reloadSprite(loadBot: Bot<T>, loader: (T)->Sprite) {
-        loadBot.addJob { spriteElement.sprite = loader(it) }
+    fun reloadSprite(loadBot: Bot, loader: ()-> Sprite) {
+        loadBot.addJob { spriteElement.sprite = loader() }
     }
 
     fun unload() {

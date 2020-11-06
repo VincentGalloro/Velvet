@@ -1,6 +1,6 @@
-package velvet.ui.premade.components
+package velvet.ui.components
 
-import velvet.ui.vcontainer.velements.TextElement
+import velvet.ui.velements.TextElement
 import java.awt.event.KeyEvent
 
 class TextElementEditor(private val textElement: TextElement) {
@@ -46,7 +46,7 @@ class TextElementEditor(private val textElement: TextElement) {
         }
     }
 
-    fun onKeyHeld(i: Int){
+    fun onKeyPressed(i: Int){
         if(i == KeyEvent.VK_LEFT && cursorIndex > 0){ cursorIndex--; }
         else if(i == KeyEvent.VK_RIGHT && cursorIndex < textElement.text.length){ cursorIndex++; }
         else if(i == KeyEvent.VK_PAGE_UP){ cursorIndex = 0; }

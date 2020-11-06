@@ -1,4 +1,4 @@
-package velvet.ui.vcontainer.velements
+package velvet.ui.velements
 
 import velvet.main.VGraphics
 import velvet.util.types.VColor

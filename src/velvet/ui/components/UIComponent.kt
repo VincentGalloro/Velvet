@@ -1,7 +1,8 @@
-package velvet.ui.premade.components
+package velvet.ui.components
 
+import velvet.io.hardware.InputEventListener
 import velvet.main.VGraphics
-import velvet.ui.UIEventListener
+import velvet.ui.events.UIEventListener
 import velvet.ui.UINode
 
 interface UIComponent {
@@ -19,8 +20,9 @@ interface UIComponent {
 
 open class BasicComponent : UIComponent{
 
-    final override var enabled = true
-    final override val uiEventListener = UIEventListener()
+    override var enabled = true
+
+    override val uiEventListener = UIEventListener()
 
     override fun preUpdate(uiNode: UINode) {}
     override fun postUpdate(uiNode: UINode) {}

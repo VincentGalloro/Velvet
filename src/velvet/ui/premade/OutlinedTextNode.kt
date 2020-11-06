@@ -1,10 +1,10 @@
-package velvet.ui.premade.nodes
+package velvet.ui.premade
 
 import velvet.ui.UINode
 import velvet.ui.boundsprocessors.layouts.Layout
-import velvet.ui.premade.components.TextControllerComponent
-import velvet.ui.vcontainer.velements.SquareElement
-import velvet.ui.vcontainer.velements.TextElement
+import velvet.ui.components.TextControllerComponent
+import velvet.ui.velements.SquareElement
+import velvet.ui.velements.TextElement
 
 class OutlinedTextNode (_text: String, textScaling: Double = 0.8) : UINode(){
 

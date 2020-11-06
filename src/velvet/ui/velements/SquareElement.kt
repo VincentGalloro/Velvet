@@ -1,4 +1,4 @@
-package velvet.ui.vcontainer.velements
+package velvet.ui.velements
 
 import velvet.util.types.VColor
 import velvet.util.types.spatial.Area

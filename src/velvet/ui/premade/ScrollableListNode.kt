@@ -1,18 +1,17 @@
-package velvet.ui.premade.nodes
+package velvet.ui.premade
 
 import velvet.ui.UINode
 import velvet.ui.boundsprocessors.layouts.CompiledListLayout
 import velvet.ui.boundsprocessors.layouts.Layout
-import velvet.ui.boundsprocessors.layouts.ListLayout
-import velvet.ui.premade.components.ScrollComponent
-import velvet.ui.premade.components.WindowedComponent
+import velvet.ui.components.ScrollComponent
+import velvet.ui.components.WindowedComponent
 
 class ScrollableListNode<T : UINode> : UINode(){
 
     private var _items: List<T> = emptyList()
     val items get() = _items
 
-    private val scrollComponent = ScrollComponent()
+    val scrollComponent = ScrollComponent()
 
     var onItemEnter: ((T)->Unit)? = null
     var onItemExit: ((T)->Unit)? = null

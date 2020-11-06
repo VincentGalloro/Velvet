@@ -1,4 +1,4 @@
-package velvet.ui.premade.nodes
+package velvet.ui.premade
 
 import velvet.ui.UINode
 import velvet.ui.boundsprocessors.layouts.Layout

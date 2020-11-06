@@ -1,11 +1,11 @@
-package velvet.ui.premade.nodes
+package velvet.ui.premade
 
-import velvet.main.game.graphics.Sprite
+import velvet.game.graphics.Sprite
 import velvet.ui.UINode
 import velvet.ui.boundsprocessors.layouts.Layout
-import velvet.ui.premade.components.ASyncSpriteLoader
-import velvet.ui.vcontainer.velements.SpriteElement
-import velvet.ui.vcontainer.velements.SquareElement
+import velvet.ui.components.ASyncSpriteLoader
+import velvet.ui.velements.SpriteElement
+import velvet.ui.velements.SquareElement
 
 class OutlinedSpriteNode : UINode(){
 

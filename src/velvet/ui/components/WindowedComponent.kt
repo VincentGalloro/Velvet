@@ -1,4 +1,4 @@
-package velvet.ui.premade.components
+package velvet.ui.components
 
 import velvet.main.VGraphics
 import velvet.util.types.spatial.Vector

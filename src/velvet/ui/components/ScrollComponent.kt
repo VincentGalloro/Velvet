@@ -1,8 +1,9 @@
-package velvet.ui.premade.components
+package velvet.ui.components
 
 import velvet.ui.UINode
 import velvet.ui.boundsprocessors.smooth.actuators.Actuator
 import velvet.ui.boundsprocessors.smooth.actuators.impl.DoubleSwishActuator
+import java.awt.event.KeyEvent
 
 class ScrollComponent: BasicComponent() {
 
@@ -22,7 +23,15 @@ class ScrollComponent: BasicComponent() {
     var onItemExit: ((Int)->Unit)? = null
 
     init{
-        uiEventListener.onMouseScroll = { targetScroll += it * scrollRate }
+        uiEventListener.onMouseWheelScrolled = { it, _ -> targetScroll += it.amount * scrollRate }
+        uiEventListener.onKeyPressed = { it, _ ->
+            if(it.code == KeyEvent.VK_UP){
+                targetScroll -= scrollRate
+            }
+            else if(it.code == KeyEvent.VK_DOWN){
+                targetScroll += scrollRate
+            }
+        }
     }
 
     private fun updateVisible(uiNode: UINode){

@@ -1,4 +1,4 @@
-package velvet.ui.vcontainer.velements
+package velvet.ui.velements
 
 import velvet.main.VGraphics
 import velvet.util.types.spatial.Area
@@ -13,7 +13,7 @@ interface TextLayout {
     fun render(g: VGraphics, text: String, fontMetrics: FontMetrics)
 }
 
-class SingleLineLayout : TextLayout{
+class SingleLineLayout : TextLayout {
 
     override fun getArea(text: String, fontMetrics: FontMetrics) =
             Area(fontMetrics.stringWidth(text).toDouble(),
@@ -28,7 +28,7 @@ class SingleLineLayout : TextLayout{
     }
 }
 
-class MultiLineLayout(var width: Double, var lineSep: Double) : TextLayout{
+class MultiLineLayout(var width: Double, var lineSep: Double) : TextLayout {
 
     fun calculateLineBreaks(text: String, fontMetrics: FontMetrics): Sequence<Int> = sequence{
         yield(0)

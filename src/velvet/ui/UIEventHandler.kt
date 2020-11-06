@@ -1,10 +1,13 @@
 package velvet.ui
 
-import velvet.main.Keyboard
-import velvet.main.Mouse
+import velvet.io.hardware.InputEventListener
+import velvet.io.hardware.InputEventListenerImpl
+import velvet.io.hardware.InputEventStream
+import velvet.ui.events.*
+import velvet.util.types.spatial.Vector
+import java.awt.event.MouseEvent
 
-class UIEventHandler(private val mouse: Mouse,
-                     private val keyboard: Keyboard) {
+class UIEventHandler(private val inputEventStream: InputEventStream) {
 
     var root: UINode? = null
 
@@ -12,6 +15,30 @@ class UIEventHandler(private val mouse: Mouse,
 
     var hoverChain: List<UINode> = emptyList()
     var focusChain: List<UINode> = emptyList()
+
+    var eventRedirect: InputEventListener = InputEventListenerImpl()
+
+    init{
+        eventRedirect.onMouseButtonPressed = { e, s ->
+            if(e.button == MouseEvent.BUTTON1) switchFocus()
+            handleEvent(hoverChain){ it.handleInputEvent(e, s) }
+        }
+        eventRedirect.onMouseButtonReleased = { e, s ->
+            if(e.button == MouseEvent.BUTTON1) switchHover()
+            handleEvent(hoverChain){ it.handleInputEvent(e, s) }
+        }
+        eventRedirect.onMouseWheelScrolled = { e, s ->
+            handleEvent(hoverChain){ it.handleInputEvent(e, s) }
+        }
+        eventRedirect.onMouseMoved = { e, s ->
+            updateTarget(e.pos)
+            if(MouseEvent.BUTTON1 !in s.mouseButtonsDown) switchHover()
+            handleEvent(hoverChain){ it.handleInputEvent(e, s) }
+        }
+        eventRedirect.onKeyPressed = { e, s -> handleEvent(focusChain){ it.handleInputEvent(e, s) } }
+        eventRedirect.onKeyReleased = { e, s -> handleEvent(focusChain){ it.handleInputEvent(e, s) } }
+        eventRedirect.onCharTyped = { e, s -> handleEvent(focusChain){ it.handleInputEvent(e, s) } }
+    }
 
     private fun handleEvent(chain: List<UINode>, eventRunner: (UIEventListener)->Unit?){
         chain.forEach { uiNode ->
@@ -24,59 +51,26 @@ class UIEventHandler(private val mouse: Mouse,
     }
 
     private fun switchHover(){
-        handleEvent(listOfNotNull(hoverChain.firstOrNull())){ it.onHoverEnd?.invoke() }
+        handleEvent(listOfNotNull(hoverChain.firstOrNull())){ it.handleUiEvent(HoverEndEvent()) }
         hoverChain = createChain(targetChain, UIEventListener::isHoverable)
-        handleEvent(listOfNotNull(hoverChain.firstOrNull())){ it.onHoverStart?.invoke() }
+        handleEvent(listOfNotNull(hoverChain.firstOrNull())){ it.handleUiEvent(HoverStartEvent()) }
     }
 
     private fun switchFocus(){
-        handleEvent(listOfNotNull(focusChain.firstOrNull())){ it.onFocusEnd?.invoke() }
+        handleEvent(listOfNotNull(focusChain.firstOrNull())){ it.handleUiEvent(FocusEndEvent()) }
         focusChain = createChain(targetChain, UIEventListener::isFocusable)
-        handleEvent(listOfNotNull(focusChain.firstOrNull())){ it.onFocusStart?.invoke() }
+        handleEvent(listOfNotNull(focusChain.firstOrNull())){ it.handleUiEvent(FocusStartEvent()) }
     }
 
-    private fun updateTarget(){
-        targetChain = generateSequence(root?.takeIf { it.isHovered(mouse.pos) }) {
-            it.findHoveredSubNode(mouse.pos)
+    private fun updateTarget(mousePos: Vector){
+        targetChain = generateSequence(root?.takeIf { it.isHovered(mousePos) }) {
+            it.findHoveredSubNode(mousePos)
         }.toList().reversed()
     }
 
     fun update(){
-        updateTarget()
-
-        if(mouse.isPressed(Mouse.LEFT)){
-            switchFocus()
-            handleEvent(targetChain) { it.onMousePress?.invoke(mouse.pos) }
-        }
-        if(mouse.isPressed(Mouse.RIGHT)){
-            switchFocus()
-            handleEvent(targetChain) { it.onRightClick?.invoke(mouse.pos) }
-        }
-        if(mouse.isPressed(Mouse.MIDDLE)){
-            switchFocus()
-            handleEvent(targetChain) { it.onMiddleClick?.invoke(mouse.pos) }
-        }
-        if(mouse.scrollAmount != 0){
-            handleEvent(targetChain) { it.onMouseScroll?.invoke(mouse.scrollAmount) }
-        }
-
-        if(mouse.isReleased(Mouse.LEFT)){
-            handleEvent(targetChain) { it.onMouseRelease?.invoke(mouse.pos) }
-        }
-
-        if(mouse.isDown(Mouse.LEFT)) {
-            handleEvent(hoverChain) { it.onMouseDrag?.invoke(mouse.pos) }
-        }
-        else{
-            if(createChain(targetChain, UIEventListener::isHoverable).firstOrNull() != hoverChain.firstOrNull()) {
-                switchHover()
-            }
-            handleEvent(hoverChain) { it.onMouseHover?.invoke(mouse.pos) }
-        }
-
-        keyboard.pressedLog.forEach { code -> handleEvent(focusChain) { it.onKeyPressed?.invoke(code) } }
-        keyboard.heldLog.forEach { code -> handleEvent(focusChain) { it.onKeyHeld?.invoke(code) } }
-        keyboard.releasedLog.forEach { code -> handleEvent(focusChain) { it.onKeyReleased?.invoke(code) } }
-        keyboard.textTyped.forEach { char -> handleEvent(focusChain) { it.onCharTyped?.invoke(char) } }
+        updateTarget(inputEventStream.state.mousePos)
+        if(MouseEvent.BUTTON1 !in inputEventStream.state.mouseButtonsDown) switchHover()
+        inputEventStream.feedToListener(eventRedirect)
     }
 }

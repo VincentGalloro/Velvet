@@ -3,7 +3,9 @@ package velvet.ui.boundsprocessors.layouts
 import velvet.util.types.spatial.Bounds
 import velvet.util.types.spatial.Vector
 import velvet.ui.boundsprocessors.BoundsProcessor
-import velvet.ui.vcontainer.velements.VElement
+import velvet.ui.boundsprocessors.smooth.actuators.Actuator
+import velvet.ui.boundsprocessors.smooth.actuators.impl.BoundsSwishActuator
+import velvet.ui.velements.VElement
 
 class Layout(val boundsProcessors: List<BoundsProcessor>): BoundsProcessor {
 
@@ -27,6 +29,13 @@ class Layout(val boundsProcessors: List<BoundsProcessor>): BoundsProcessor {
 
     fun columnList() = ColumnListLayoutFactory(this)
     fun rowList() = RowListLayoutFactory(this)
+
+    fun track(boundsProcessor: BoundsProcessor, initial: Bounds? = null)
+            = add(TrackLayout(boundsProcessor, initial))
+    fun snapTrack(boundsProcessor: BoundsProcessor): Pair<Layout, SnapTrackLayout>{
+        val snapTrackLayout = SnapTrackLayout(boundsProcessor)
+        return add(snapTrackLayout) to snapTrackLayout
+    }
 
     fun pad(amount: Vector, anchor: Vector) = add { it, _ -> it.resize(-amount, anchor) }
     fun pad(amount: Double, anchor: Vector) = add { it, _ -> it.resize(Vector(-amount), anchor) }

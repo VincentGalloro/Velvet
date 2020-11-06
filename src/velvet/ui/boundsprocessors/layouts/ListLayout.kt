@@ -2,7 +2,7 @@ package velvet.ui.boundsprocessors.layouts
 
 import velvet.util.types.spatial.Bounds
 import velvet.util.types.spatial.Vector
-import velvet.ui.premade.components.ScrollComponent
+import velvet.ui.components.ScrollComponent
 
 class ColumnListLayoutFactory(val layout: Layout){
 
