@@ -1,6 +1,5 @@
 package velvet.io.files
 
-import velvet.io.Writer
 import java.nio.file.Path
 
 class AutoBackupBridge(private val fileBridge: FileBridge,
@@ -10,12 +9,12 @@ class AutoBackupBridge(private val fileBridge: FileBridge,
     companion object{
 
         fun basicSetup(name: String, maxBackups: Int = 10) =
-                AutoBackupBridge(ValidatingFileBridge(SingleFileBridge(Path.of("$name.dat"))),
+                AutoBackupBridge(SingleFileBridge(Path.of("${name}.dat")),
                         RollingBackupBackupFileStore.basicSetup(name, maxBackups))
     }
 
-    override fun <T> writeToFile(writer: Writer<T>, t: T) {
-        fileBridge.writeToFile(writer, t)
+    override fun writeToFile(writeable: VelvetWriteable) {
+        fileBridge.writeToFile(writeable)
         backupFileStore.createBackup(fileBridge)
     }
 

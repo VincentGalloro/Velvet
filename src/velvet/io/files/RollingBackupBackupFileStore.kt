@@ -1,32 +1,29 @@
 package velvet.io.files
 
-import velvet.io.Reader
-import velvet.io.Writer
-import velvet.io.impl.ListIO
+import java.io.DataInputStream
+import java.io.DataOutputStream
 import java.nio.file.Files
 import java.nio.file.Path
 
 class RollingBackupBackupFileStore(private val backupPathGenerator: PathGenerator,
                                    private val backupIndexBridge: FileBridge,
-                                   private val maxBackups: Int = 10): BackupFileStore{
+                                   private val maxBackups: Int = 10)
+    : BackupFileStore, VelvetWriteable, VelvetLoadable{
 
     companion object{
 
         fun basicSetup(name: String, maxBackups: Int = 10) = RollingBackupBackupFileStore(
-                SystemTimePathGenerator("$name backups/", ".dat"),
-                SingleFileBridge(Path.of("$name backup index.dat")),
+                SystemTimePathGenerator("${name}_backups/", ".dat"),
+                SingleFileBridge(Path.of("${name}_backup_index.dat")),
                 maxBackups
         )
     }
 
-    override val backups: MutableList<Path> = mutableListOf()
-
-    private val backupIndexLoader = ListIO.createLoader(Reader.basic{ Path.of(it.readUTF()) })
-    private val backupIndexWriter = ListIO.createWriter(Writer<Path>{ d, t -> d.writeUTF(t.toAbsolutePath().toString()) })
+    override var backups: MutableList<Path> = mutableListOf()
 
     init{
         try{
-            backupIndexBridge.loadFromFile(backupIndexLoader, backups)
+            backupIndexBridge.loadFromFile(this)
         }
         catch (_: Exception){
             System.err.println("Backup File Store could not load backups index")
@@ -37,7 +34,7 @@ class RollingBackupBackupFileStore(private val backupPathGenerator: PathGenerato
         backups.remove(backup)
         Files.delete(backup)
 
-        backupIndexBridge.writeToFile(backupIndexWriter, backups)
+        backupIndexBridge.writeToFile(this)
     }
 
     override fun createBackup(primaryBridge: FileBridge) {
@@ -47,10 +44,18 @@ class RollingBackupBackupFileStore(private val backupPathGenerator: PathGenerato
         backups.add(backup)
         primaryBridge.copyTo(backup)
 
-        backupIndexBridge.writeToFile(backupIndexWriter, backups)
+        backupIndexBridge.writeToFile(this)
     }
 
     override fun restoreToBackup(primaryBridge: FileBridge, backup: Path) {
         primaryBridge.copyFrom(backup)
+    }
+
+    override fun write(dOut: DataOutputStream) {
+        VelvetIO.writeCollection(backups, dOut){ dOut.writeUTF(it.toAbsolutePath().toString()) }
+    }
+
+    override fun load(dIn: DataInputStream) {
+        VelvetIO.loadCollection(backups, dIn){ Path.of(dIn.readUTF()) }
     }
 }

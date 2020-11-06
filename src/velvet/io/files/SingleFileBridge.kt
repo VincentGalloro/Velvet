@@ -1,8 +1,5 @@
 package velvet.io.files
 
-import velvet.io.Loader
-import velvet.io.Reader
-import velvet.io.Writer
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.nio.file.Files
@@ -11,17 +8,13 @@ import java.nio.file.StandardCopyOption
 
 class SingleFileBridge(private val file: Path) : FileBridge{
 
-    override fun <T> writeToFile(writer: Writer<T>, t: T) {
+    override fun writeToFile(writeable: VelvetWriteable) {
         Files.createDirectories(file.toAbsolutePath().parent)
-        DataOutputStream(Files.newOutputStream(file)).use { writer.write(it, t) }
+        writeable.write(DataOutputStream(Files.newOutputStream(file)))
     }
 
-    override fun <T> readFromFile(reader: Reader<T>): T {
-        DataInputStream(Files.newInputStream(file)).use { return reader.read(it) }
-    }
-
-    override fun <T> loadFromFile(loader: Loader<T>, t: T) {
-        DataInputStream(Files.newInputStream(file)).use { loader.load(it, t) }
+    override fun loadFromFile(loadable: VelvetLoadable) {
+        loadable.load(DataInputStream(Files.newInputStream(file)))
     }
 
     override fun copyTo(target: Path) {
