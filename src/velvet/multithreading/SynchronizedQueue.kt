@@ -23,6 +23,16 @@ open class SynchronizedQueue<T> {
     }
 
     @Synchronized
+    fun clear() = items.clear()
+
+    @Synchronized
+    fun popAll(): List<T>{
+        val out = items.toList()
+        items.clear()
+        return out
+    }
+
+    @Synchronized
     fun isEmpty(): Boolean{
         return items.isEmpty()
     }
