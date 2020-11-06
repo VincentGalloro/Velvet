@@ -1,6 +1,6 @@
 package velvet.main
 
-import velvet.main.game.graphics.Sprite
+import velvet.game.graphics.Sprite
 import velvet.util.types.VColor
 import velvet.util.types.spatial.Vector
 import velvet.util.types.VShape

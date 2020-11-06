@@ -1,7 +1,13 @@
 package velvet.main
 
+import velvet.io.hardware.InputEventLogger
+import velvet.io.hardware.Keyboard
+import velvet.io.hardware.Mouse
 import velvet.ui.UIEventHandler
+import velvet.ui.UINode
+import velvet.util.types.spatial.Bounds
 import velvet.util.types.spatial.Size
+import velvet.util.types.spatial.Vector
 import java.awt.*
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
@@ -13,14 +19,14 @@ import javax.swing.JFrame
 class Main(levelGenerator: (VelvetState)->Velvet, size: Size, name: String) : Canvas(), Runnable {
 
     companion object {
-        val BACKGROUND_COLOR = Color.WHITE
+        val BACKGROUND_COLOR: Color = Color.WHITE
     }
 
     private val frame: JFrame
     private val title: String
-    private val keyboard: Keyboard
-    private val mouse: Mouse
     private val uiEventHandler: UIEventHandler
+    private val rootNode: UINode = UINode()
+    private val inputEvents = InputEventLogger()
 
     private val level: Velvet
 
@@ -46,20 +52,23 @@ class Main(levelGenerator: (VelvetState)->Velvet, size: Size, name: String) : Ca
                 e.printStackTrace()
             }
         }).start()
-        keyboard = Keyboard()
-        addKeyListener(keyboard)
-        mouse = Mouse()
-        addMouseListener(mouse)
-        addMouseMotionListener(mouse)
-        addMouseWheelListener(mouse)
+
+        addKeyListener(Keyboard(inputEvents))
+        Mouse(inputEvents).let { mouse ->
+            addMouseListener(mouse)
+            addMouseMotionListener(mouse)
+            addMouseWheelListener(mouse)
+        }
+
         val fileDrop = FileDrop()
         frame.dropTarget = fileDrop
-        uiEventHandler = UIEventHandler(mouse, keyboard)
+        uiEventHandler = UIEventHandler(inputEvents)
+        uiEventHandler.root = rootNode
+        rootNode.bounds = Bounds.fromStartOfArea(Vector(), size.area)
 
-        val state = VelvetState(size, mouse, keyboard, uiEventHandler, fileDrop)
+        val state = VelvetState(size, inputEvents, uiEventHandler, rootNode, fileDrop)
         level = levelGenerator(state)
 
-        level.init()
         frame.addWindowListener(object : WindowAdapter() {
             override fun windowClosing(windowEvent: WindowEvent) {
                 level.onClose()
@@ -102,10 +111,10 @@ class Main(levelGenerator: (VelvetState)->Velvet, size: Size, name: String) : Ca
     }
 
     fun update() {
-        keyboard.update()
-        mouse.update()
-        uiEventHandler.update()
+        inputEvents.nextFrame()
         level.update()
+        uiEventHandler.update()
+        rootNode.update()
     }
 
     fun render() {
@@ -116,6 +125,7 @@ class Main(levelGenerator: (VelvetState)->Velvet, size: Size, name: String) : Ca
         g.color = BACKGROUND_COLOR
         g.fillRect(0, 0, level.size.width, level.size.height)
         (g as Graphics2D).setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON)
+        rootNode.render(VGraphics(g))
         level.render(VGraphics(g))
         g.dispose()
         bufferStrategy.show()
