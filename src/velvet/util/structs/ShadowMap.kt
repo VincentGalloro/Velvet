@@ -21,7 +21,7 @@ class ShadowMap<T,U>(private val watchListGetter: ()->Collection<T>,
     fun update(){
         val watchList = watchListGetter()
         //delete in items but no longer in watch set
-        items -= watchList
+        items -= (items.keys - watchList)
         //add from watch list not yet in items
         (watchList - items.keys).forEach { items[it] = factory(it) }
     }

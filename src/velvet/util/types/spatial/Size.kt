@@ -7,6 +7,7 @@ import kotlin.random.Random
 class Size private constructor(val width: Int, val height: Int){
 
     companion object{
+        operator fun invoke() = Size(0, 0)
         operator fun invoke(width: Int, height: Int) = Size(max(width, 0), max(height, 0))
         operator fun invoke(size: Int) = invoke(size, size)
     }
@@ -25,7 +26,8 @@ class Size private constructor(val width: Int, val height: Int){
     fun withinBounds(p: Position) = p.x>=0 && p.y>=0 && p.x<width && p.y<height
     fun withinBounds(region: Region) = withinBounds(region.topLeft) && withinBounds(region.bottomRight-1)
 
-    fun toIndex(p: Position) = p.x + p.y*width
+    fun toIndex(p: Position) = (p.x + p.y*width)
+    fun toIndexOrNull(p: Position) = toIndex(p).takeIf { withinBounds(p) }
     fun fromIndex(index: Int) = Position(index%width, index/width)
 
     fun containedPositions() = (0 until calculateArea()).asSequence().map(::fromIndex)
@@ -36,7 +38,7 @@ class Size private constructor(val width: Int, val height: Int){
         return "Size(width=$width, height=$height)"
     }
 
-    fun toRegion(topLeft: Position = Position()) = Region(topLeft, this)
+    fun toRegion(topLeft: Position = Position()) = Region.fromStartOfSize(topLeft, this)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

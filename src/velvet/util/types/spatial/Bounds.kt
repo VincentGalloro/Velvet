@@ -1,6 +1,6 @@
 package velvet.util.types.spatial
 
-import velvet.ui.vcontainer.velements.VElement
+import velvet.ui.velements.VElement
 
 class Bounds private constructor(val center: Vector,
                                  val area: Area,

@@ -1,8 +1,12 @@
 package velvet.util.types.spatial
 
-import kotlin.random.Random
+class Region private constructor(val topLeft: Position, val size: Size) {
 
-class Region(val topLeft: Position, val size: Size) {
+    companion object{
+        operator fun invoke() = Region(Position(), Size())
+        fun fromStartOfSize(position: Position, size: Size) = Region(position, size)
+        fun fromStartToEnd(start: Position, end: Position) = Region(start, (end - start).size)
+    }
 
     val bottomRight: Position get() = topLeft + Position(size.width, size.height)
 
@@ -35,3 +39,17 @@ class Region(val topLeft: Position, val size: Size) {
         return result
     }
 }
+
+fun Sequence<Position>.toRegion(): Region {
+    return Region.fromStartToEnd(
+            Position(
+                    asSequence().map { it.x }.min() ?: return Region(),
+                    asSequence().map { it.y }.min() ?: return Region()
+            ),
+            Position(
+                    asSequence().map { it.x }.max()?.inc() ?: return Region(),
+                    asSequence().map { it.y }.max()?.inc() ?: return Region()
+            )
+    )
+}
+fun Iterable<Position>.toRegion(): Region = asSequence().toRegion()
