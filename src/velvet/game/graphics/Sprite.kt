@@ -1,9 +1,8 @@
-package velvet.main.game.graphics
+package velvet.game.graphics
 
 import velvet.main.VGraphics
 import velvet.util.types.DenseGrid
 import velvet.util.types.Grid
-import velvet.util.types.spatial.Position
 import velvet.util.types.VColor
 import velvet.util.types.spatial.Size
 import java.awt.image.BufferedImage
@@ -21,10 +20,11 @@ class Sprite(val image: BufferedImage){
         fun copySprite(sprite: Sprite) = emptySprite(sprite.size).also { it.createGraphics().drawSprite(sprite) }
         fun loadSprite(path: Path) = copySprite(Sprite(ImageIO.read(Files.newInputStream(path))))
 
-        fun fromDenseGrid(grid: Grid<VColor>) = emptySprite(grid.size).also { sprite ->
+        fun fromDenseGrid(grid: Grid<VColor>,
+                          backgroundColor: VColor) = emptySprite(grid.size).also { sprite ->
             val dataBuffer = (sprite.image.raster.dataBuffer as DataBufferInt).data
             grid.itemsIndexed().forEach { (pos, color) ->
-                dataBuffer[grid.toIndex(pos)] = color.toInt()
+                dataBuffer[grid.toIndex(pos)] = color?.toInt() ?: backgroundColor.toInt()
             }
         }
     }

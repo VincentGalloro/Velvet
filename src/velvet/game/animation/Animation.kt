@@ -1,7 +1,7 @@
-package velvet.main.game.graphics.animation
+package velvet.game.animation
 
-import velvet.main.game.graphics.Sprite
-import velvet.main.game.graphics.Track
+import velvet.game.graphics.Sprite
+import velvet.game.graphics.Track
 
 class Animation(val track: Track,
                 val speed: Double,

@@ -1,6 +1,6 @@
-package velvet.main.game.graphics.animation
+package velvet.game.animation
 
-import velvet.main.game.graphics.Sprite
+import velvet.game.graphics.Sprite
 
 class AnimationPlayer {
 

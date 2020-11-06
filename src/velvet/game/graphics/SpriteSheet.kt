@@ -1,4 +1,4 @@
-package velvet.main.game.graphics
+package velvet.game.graphics
 
 import velvet.util.types.spatial.Position
 import velvet.util.types.spatial.Size
@@ -17,7 +17,7 @@ class SpriteSheet (val img: BufferedImage,
                 = SpriteSheet(ImageIO.read(Files.newInputStream(path)), tileSize, spriteSeparation)
     }
 
-    fun createSprite(position: Position): Sprite{
+    fun createSprite(position: Position): Sprite {
         val imgPos = position * (tileSize.position + spriteSeparation)
         return Sprite(img.getSubimage(imgPos.x, imgPos.y, tileSize.width, tileSize.height))
     }
