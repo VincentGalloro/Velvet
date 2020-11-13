@@ -1,5 +1,8 @@
-package velvet.main
+package experiments
 
+import velvet.main.VGraphics
+import velvet.main.Velvet
+import velvet.main.VelvetState
 import velvet.ui.UINode
 import velvet.ui.components.BasicComponent
 import velvet.util.types.VCircle
@@ -10,7 +13,7 @@ import velvet.util.types.spatial.Size
 import velvet.util.types.spatial.Vector
 import java.awt.BasicStroke
 
-class TestVelvet(velvetState: VelvetState) : Velvet(velvetState) {
+class BezierCurve(velvetState: VelvetState) : Velvet(velvetState) {
 
     private var points: List<Vector> = listOf()
 
@@ -26,15 +29,17 @@ class TestVelvet(velvetState: VelvetState) : Velvet(velvetState) {
             var anim = 0.0
 
             init{
-                uiEventListener.onMouseMoved = { e, _ -> control = e.pos }
+                uiEventListener.onMouseMoved = { e, _ ->
+                    control = e.pos
+                    points = (0..101).map { it*0.01 }.map {
+                        val a1 = start*(1-it) + control*it
+                        val a2 = control*(1-it) + end*it
+                        a1*(1-it) + a2*it
+                    }
+                }
             }
 
             override fun postUpdate(uiNode: UINode) {
-                points = (0..101).map { it*0.01 }.map {
-                    val a1 = start*(1-it) + control*it
-                    val a2 = control*(1-it) + end*it
-                    a1*(1-it) + a2*it
-                }
                 anim = (anim + 0.01) % 2
                 val a = if(anim<1) anim else 2-anim
 
@@ -69,5 +74,5 @@ class TestVelvet(velvetState: VelvetState) : Velvet(velvetState) {
 }
 
 fun main(){
-    Velvet.start({ TestVelvet(it) }, Size(1500, 832), "Test Velvet")
+    Velvet.start({ BezierCurve(it) }, Size(1500, 832), "Bezier Curve")
 }
