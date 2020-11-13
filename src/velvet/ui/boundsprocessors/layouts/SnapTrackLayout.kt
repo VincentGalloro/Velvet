@@ -16,7 +16,7 @@ class SnapTrackLayout(private val boundsProcessor: BoundsProcessor) : BoundsProc
         prevTarget?.let {
             bounds = Bounds.fromCenterOfArea(
                     bounds.center + (newTarget.center - it.center),
-                    (bounds.area.vector + (newTarget.area.vector - it.area.vector)).area)
+                    bounds.size + (newTarget.size - it.size))
         }
         prevTarget = newTarget
         bounds = actuator(bounds, newTarget)

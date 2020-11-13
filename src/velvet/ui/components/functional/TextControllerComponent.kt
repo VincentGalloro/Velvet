@@ -1,11 +1,14 @@
-package velvet.ui.components
+package velvet.ui.components.functional
 
 import velvet.main.VGraphics
 import velvet.util.StopWatch
 import velvet.util.types.VColor
 import velvet.util.types.spatial.Vector
 import velvet.ui.UINode
+import velvet.ui.components.BasicComponent
 import velvet.ui.velements.TextElement
+import velvet.util.types.VRect
+import velvet.util.types.spatial.Area
 import java.awt.geom.Rectangle2D
 
 class TextControllerComponent(val textNode: UINode,
@@ -61,13 +64,9 @@ class TextControllerComponent(val textNode: UINode,
         g.save()
         g.translate(textNode.bounds.getPos(Vector()))
         g.rotate(textNode.bounds.angle)
-        g.scale(textNode.bounds.area.vector / textElement.area.vector)
+        g.scale((textNode.bounds.size / textElement.size).vector)
         g.color = VColor.BLACK
-        g.fill(Rectangle2D.Double(
-                charPos.x,
-                charPos.y - textElement.font.size.toDouble(),
-                3.0,
-                textElement.font.size.toDouble()))
+        g.fill(VRect(charPos - Vector(0, textElement.font.size), Area(3, textElement.font.size)))
         g.reset()
     }
 }

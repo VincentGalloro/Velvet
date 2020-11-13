@@ -47,18 +47,18 @@ class HorizontalSplitDoubleScaledLayout(private val leftScale: Double,
 
 class HorizontalSplitFixedLeftLayout(private val leftWidth: Double,
                                      private val sepWidth: Double) : HorizontalSplitLayout{
-    override fun left(bounds: Bounds) = bounds.setWidth(min(leftWidth, bounds.area.width), 0.0)
-    override fun right(bounds: Bounds) = bounds.setWidth(max(bounds.area.width-leftWidth-sepWidth, 0.0), 1.0)
+    override fun left(bounds: Bounds) = bounds.setWidth(min(leftWidth, bounds.size.width), 0.0)
+    override fun right(bounds: Bounds) = bounds.setWidth(max(bounds.size.width-leftWidth-sepWidth, 0.0), 1.0)
 }
 
 class HorizontalSplitFixedRightLayout(private val rightWidth: Double,
                                       private val sepWidth: Double) : HorizontalSplitLayout{
-    override fun left(bounds: Bounds) = bounds.setWidth(max(bounds.area.width-rightWidth-sepWidth, 0.0), 0.0)
-    override fun right(bounds: Bounds) = bounds.setWidth(min(rightWidth, bounds.area.width), 1.0)
+    override fun left(bounds: Bounds) = bounds.setWidth(max(bounds.size.width-rightWidth-sepWidth, 0.0), 0.0)
+    override fun right(bounds: Bounds) = bounds.setWidth(min(rightWidth, bounds.size.width), 1.0)
 }
 
 class HorizontalSplitDoubleFixedLayout(private val leftWidth: Double,
                                        private val rightWidth: Double) : HorizontalSplitLayout{
-    override fun left(bounds: Bounds) = bounds.setWidth(min(leftWidth, bounds.area.width), 0.0)
-    override fun right(bounds: Bounds) = bounds.setWidth(min(rightWidth, bounds.area.width), 1.0)
+    override fun left(bounds: Bounds) = bounds.setWidth(min(leftWidth, bounds.size.width), 0.0)
+    override fun right(bounds: Bounds) = bounds.setWidth(min(rightWidth, bounds.size.width), 1.0)
 }

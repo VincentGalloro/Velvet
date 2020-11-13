@@ -1,4 +1,4 @@
-package velvet.ui.components
+package velvet.ui.components.functional
 
 import velvet.game.graphics.Sprite
 import velvet.multithreading.Bot

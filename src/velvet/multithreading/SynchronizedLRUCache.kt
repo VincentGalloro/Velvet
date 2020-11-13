@@ -58,7 +58,7 @@ class SynchronizedLRUCache<K,V>(private val maxItems: Int) {
     fun forEach(consumer: (K,V)->Unit){
         var node = firstNode
         while(node != null){
-            consumer.invoke(node.key, node.value)
+            consumer(node.key, node.value)
             node = node.nextNode
         }
     }

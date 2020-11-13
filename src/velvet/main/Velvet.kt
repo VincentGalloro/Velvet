@@ -19,8 +19,6 @@ abstract class Velvet(private val velvetState: VelvetState){
     val rootNode: UINode get() = velvetState.rootNode
     val fileDrop: FileDrop get() = velvetState.fileDrop
 
-    abstract fun update()
-    abstract fun render(g: VGraphics)
     abstract fun onClose()
 
     companion object {

@@ -9,8 +9,17 @@ class BoundsSwishActuator(private val vectorActuator: Actuator<Vector> = VectorS
                           private val areaActuator: Actuator<Area> = AreaSwishActuator(),
                           private val doubleActuator: Actuator<Double> = DoubleSwishActuator()) : Actuator<Bounds> {
 
-    override fun invoke(current: Bounds, target: Bounds) =
-            current.setCenter(vectorActuator(current.center, target.center))
-                    .setArea(areaActuator(current.area, target.area), Vector(0.5))
-                    .setAngle(doubleActuator(current.angle, target.angle))
+    companion object{
+
+        fun speed(speed: Double) = BoundsSwishActuator(
+                VectorSwishActuator(speed),
+                AreaSwishActuator(speed),
+                DoubleSwishActuator(speed)
+        )
+    }
+
+    override fun invoke(current: Bounds, target: Bounds) = Bounds(
+            vectorActuator(current.center, target.center),
+            areaActuator(current.size, target.size),
+            doubleActuator(current.angle, target.angle))
 }

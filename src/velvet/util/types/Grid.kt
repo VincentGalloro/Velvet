@@ -10,13 +10,14 @@ interface Grid<T>{
 
     fun toIndex(pos: Position) = size.toIndex(pos)
     fun fromIndex(index: Int) = size.fromIndex(index)
-    fun withinBounds(pos: Position) = size.withinBounds(pos)
+    operator fun contains(pos: Position) = pos in size
 
     operator fun get(pos: Position): T?
 
-    fun items(): Sequence<T?> = size.containedPositions().map { get(it) }
-    fun itemsIndexed() = size.containedPositions().map { it to get(it) }
-    fun nonNullItemsIndexed(): Sequence<Pair<Position, T>> = itemsIndexed().mapNotNull { it.second?.let { v -> it.first to v } }
+    fun items(): Sequence<T?> = size.positions().map { get(it) }
+    fun itemsIndexed() = size.positions().map { it to get(it) }
+    fun nonNullItemsIndexed(): Sequence<Pair<Position, T>>
+            = itemsIndexed().mapNotNull { it.second?.let { v -> it.first to v } }
 
     fun mergeOnto(base: Grid<T>): Grid<T>
 }
@@ -31,15 +32,15 @@ class DenseGrid<T> private constructor(override val size: Size,
 
     companion object{
         fun <T> ofSize(size: Size, initializer: (Position)->T?)
-                = DenseGrid(size, MutableList(size.calculateArea()) { initializer(size.fromIndex(it)) })
+                = DenseGrid(size, MutableList(size.area) { initializer(size.fromIndex(it)) })
     }
 
     override fun get(pos: Position): T?{
-        if(!withinBounds(pos)) return null
+        if(pos !in this) return null
         return items[toIndex(pos)]
     }
     override fun set(pos: Position, item: T?) {
-        if(!withinBounds(pos)) return
+        if(pos !in this) return
         items[toIndex(pos)] = item
     }
 
@@ -59,7 +60,7 @@ class SparseGrid<T> private constructor(override val size: Size,
 
     override fun get(pos: Position) = items[pos]
     override fun set(pos: Position, item: T?){
-        if(!withinBounds(pos)) return
+        if(pos !in this) return
         if(item != null) items[pos] = item
         else items.remove(pos)
     }

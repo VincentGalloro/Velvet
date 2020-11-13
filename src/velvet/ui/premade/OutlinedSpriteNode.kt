@@ -3,7 +3,7 @@ package velvet.ui.premade
 import velvet.game.graphics.Sprite
 import velvet.ui.UINode
 import velvet.ui.boundsprocessors.layouts.Layout
-import velvet.ui.components.ASyncSpriteLoader
+import velvet.ui.components.functional.ASyncSpriteLoader
 import velvet.ui.velements.SpriteElement
 import velvet.ui.velements.SquareElement
 

@@ -1,8 +1,9 @@
-package velvet.ui.components
+package velvet.ui.components.functional
 
 import velvet.ui.UINode
 import velvet.ui.boundsprocessors.smooth.actuators.Actuator
 import velvet.ui.boundsprocessors.smooth.actuators.impl.DoubleSwishActuator
+import velvet.ui.components.BasicComponent
 import java.awt.event.KeyEvent
 
 class ScrollComponent: BasicComponent() {

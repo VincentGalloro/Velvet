@@ -3,8 +3,8 @@ package velvet.ui.premade
 import velvet.ui.UINode
 import velvet.ui.boundsprocessors.layouts.CompiledListLayout
 import velvet.ui.boundsprocessors.layouts.Layout
-import velvet.ui.components.ScrollComponent
-import velvet.ui.components.WindowedComponent
+import velvet.ui.components.functional.ScrollComponent
+import velvet.ui.components.graphical.WindowedComponent
 
 class ScrollableListNode<T : UINode> : UINode(){
 

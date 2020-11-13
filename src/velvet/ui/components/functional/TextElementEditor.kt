@@ -1,4 +1,4 @@
-package velvet.ui.components
+package velvet.ui.components.functional
 
 import velvet.ui.velements.TextElement
 import java.awt.event.KeyEvent

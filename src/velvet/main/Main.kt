@@ -64,7 +64,7 @@ class Main(levelGenerator: (VelvetState)->Velvet, size: Size, name: String) : Ca
         frame.dropTarget = fileDrop
         uiEventHandler = UIEventHandler(inputEvents)
         uiEventHandler.root = rootNode
-        rootNode.bounds = Bounds.fromStartOfArea(Vector(), size.area)
+        rootNode.bounds = Bounds.fromStartOfArea(Vector(), size.toArea())
 
         val state = VelvetState(size, inputEvents, uiEventHandler, rootNode, fileDrop)
         level = levelGenerator(state)
@@ -112,7 +112,6 @@ class Main(levelGenerator: (VelvetState)->Velvet, size: Size, name: String) : Ca
 
     fun update() {
         inputEvents.nextFrame()
-        level.update()
         uiEventHandler.update()
         rootNode.update()
     }
@@ -126,7 +125,6 @@ class Main(levelGenerator: (VelvetState)->Velvet, size: Size, name: String) : Ca
         g.fillRect(0, 0, level.size.width, level.size.height)
         (g as Graphics2D).setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON)
         rootNode.render(VGraphics(g))
-        level.render(VGraphics(g))
         g.dispose()
         bufferStrategy.show()
     }

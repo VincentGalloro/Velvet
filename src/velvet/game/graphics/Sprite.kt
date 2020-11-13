@@ -31,7 +31,7 @@ class Sprite(val image: BufferedImage){
 
     val size = Size(image.width, image.height)
 
-    private fun createGraphics() = VGraphics(image.createGraphics())
+    fun createGraphics() = VGraphics(image.createGraphics())
 
     fun toGrid(): Grid<VColor> {
         val dataBuffer = (image.raster.dataBuffer as DataBufferInt).data

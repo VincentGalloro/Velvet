@@ -9,7 +9,7 @@ class MomentumActuator (private val acceleration: Double = 2.0,
     private var velocity: Vector = Vector()
 
     override fun invoke(current: Vector, target: Vector): Vector {
-        val acc = Vector.unitVector(current.angleTo(target)) * acceleration
+        val acc = Vector.unit(current.angleTo(target)) * acceleration
         val fri = -velocity*friction
         velocity += acc + fri
 

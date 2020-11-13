@@ -12,7 +12,7 @@ class BoundsTest {
         val b = Bounds.fromStartOfArea(Vector(100, 200), Area(20, 50))
 
         assertEquals(Vector(110, 225), b.center)
-        assertEquals(Area(20, 50), b.area)
+        assertEquals(Area(20, 50), b.size)
         assertEquals(0.0, b.angle, 0.0001)
     }
 

@@ -7,6 +7,6 @@ data class InputState(val mousePos: Vector,
                       val keysDown: Set<Int>){
 
     companion object{
-        fun new() = InputState(Vector.ZERO, emptySet(), emptySet())
+        fun new() = InputState(Vector(), emptySet(), emptySet())
     }
 }

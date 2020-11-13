@@ -69,9 +69,8 @@ class VGraphics(private var g: Graphics2D) {
     fun resetStroke() { stroke = BasicStroke(1f) }
     fun setRenderingHint(key: RenderingHints.Key, value: Any) = g.setRenderingHint(key, value)
 
-    fun draw(s: Shape) = g.draw(s)
     fun draw(s: VShape) = g.draw(s.javaShape)
-    fun fill(s: Shape) = g.fill(s)
+    fun fill(s: VShape) = g.fill(s.javaShape)
 
     fun drawImage(img: BufferedImage) = g.drawImage(img, 0, 0, null)
     fun drawImage(img: BufferedImage, pos: Vector) = g.drawImage(img, pos.x.toInt(), pos.y.toInt(), null)

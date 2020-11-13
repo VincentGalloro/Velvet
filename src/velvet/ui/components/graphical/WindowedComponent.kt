@@ -1,19 +1,19 @@
-package velvet.ui.components
+package velvet.ui.components.graphical
 
 import velvet.main.VGraphics
 import velvet.util.types.spatial.Vector
 import velvet.ui.UINode
+import velvet.ui.components.BasicComponent
 import java.awt.image.BufferedImage
-import kotlin.math.roundToInt
 
 class WindowedComponent : BasicComponent() {
 
     private var buffer: BufferedImage? = null
 
     override fun preRender(uiNode: UINode, g: VGraphics) {
-        val bufferedImage = BufferedImage(uiNode.bounds.area.width.roundToInt(),
-                uiNode.bounds.area.height.roundToInt(),
-                BufferedImage.TYPE_INT_ARGB)
+        val size = uiNode.bounds.size.toSize()
+
+        val bufferedImage = BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB)
         buffer = bufferedImage
 
         val imgG = VGraphics(bufferedImage.createGraphics())

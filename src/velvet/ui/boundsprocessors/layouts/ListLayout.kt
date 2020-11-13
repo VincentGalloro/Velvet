@@ -2,7 +2,7 @@ package velvet.ui.boundsprocessors.layouts
 
 import velvet.util.types.spatial.Bounds
 import velvet.util.types.spatial.Vector
-import velvet.ui.components.ScrollComponent
+import velvet.ui.components.functional.ScrollComponent
 
 class ColumnListLayoutFactory(val layout: Layout){
 
@@ -46,8 +46,8 @@ class ScaledColumnLayout(val heightScale: Double,
                          val sepScale: Double,
                          val sepHeight: Double): ListLayout{
     override fun getBounds(bounds: Bounds, index: Int, scroll: Double): Bounds {
-        val height = bounds.area.width * heightScale
-        val sep = bounds.area.width * sepScale + sepHeight
+        val height = bounds.size.width * heightScale
+        val sep = bounds.size.width * sepScale + sepHeight
         return bounds.setHeight(height, 0.0).localMove(Vector(0.0, (height + sep) * (index - scroll)))
     }
 }
@@ -62,8 +62,8 @@ class ScaledRowLayout(val widthScale: Double,
                       val sepScale: Double,
                       val sepWidth: Double): ListLayout{
     override fun getBounds(bounds: Bounds, index: Int, scroll: Double): Bounds {
-        val width = bounds.area.height * widthScale
-        val sep = bounds.area.height * sepScale + sepWidth
+        val width = bounds.size.height * widthScale
+        val sep = bounds.size.height * sepScale + sepWidth
         return bounds.setWidth(width, 0.0).localMove(Vector((width + sep) * (index - scroll), 0.0))
     }
 }

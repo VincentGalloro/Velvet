@@ -1,5 +1,6 @@
-package velvet.ui.components
+package velvet.ui.components.graphical
 
+import velvet.ui.components.BasicComponent
 import velvet.util.types.VColor
 import velvet.ui.velements.SquareElement
 
