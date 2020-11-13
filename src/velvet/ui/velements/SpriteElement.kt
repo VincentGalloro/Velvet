@@ -6,13 +6,13 @@ import velvet.util.types.spatial.Area
 
 class SpriteElement (var sprite: Sprite? = null) : VElement {
 
-    override val area: Area?
-        get() = sprite?.size?.area
+    override val size: Area?
+        get() = sprite?.size?.toArea()
 
-    override fun render(g: VGraphics, targetArea: Area) {
+    override fun render(g: VGraphics, targetSize: Area) {
         sprite?.let {
             g.save()
-            g.scale(targetArea.vector / it.size.vector)
+            g.scale(targetSize.vector / it.size.vector)
             g.drawSprite(it)
             g.reset()
         }

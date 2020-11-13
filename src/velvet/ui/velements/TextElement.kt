@@ -1,5 +1,6 @@
 package velvet.ui.velements
 
+import velvet.game.graphics.Sprite
 import velvet.main.VGraphics
 import velvet.util.types.VColor
 import velvet.util.types.spatial.Area
@@ -13,9 +14,9 @@ import java.awt.image.BufferedImage
 class TextElement(_text: String = "",
                   _color: VColor = VColor.BLACK) : VElement {
 
-    override var area: Area = Area.ZERO
+    override var size: Area = Area()
 
-    private var cachedImage: BufferedImage? = null
+    private var cachedImage: Sprite? = null
 
     var font: Font = Font("Franklin Gothic Medium", Font.PLAIN, 24)
         set(value){
@@ -52,12 +53,10 @@ class TextElement(_text: String = "",
     }
 
     private fun updateCachedImage() {
-        area = textLayout.getArea(text, fontMetrics)
+        size = textLayout.getArea(text, fontMetrics)
 
-        if(area.width.toInt() <= 0 || area.height.toInt() <= 0) return
-
-        cachedImage = BufferedImage(area.width.toInt(), area.height.toInt(), BufferedImage.TYPE_INT_ARGB).also {
-            val g = VGraphics(it.createGraphics())
+        cachedImage = Sprite.emptySprite(size.toSize()).also {
+            val g = it.createGraphics()
             g.baseGraphics.setRenderingHints(
                     Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints") as Map<*,*>)
 
@@ -68,11 +67,11 @@ class TextElement(_text: String = "",
         }
     }
 
-    override fun render(g: VGraphics, targetArea: Area) {
+    override fun render(g: VGraphics, targetSize: Area) {
         cachedImage?.let {
             g.save()
-            g.scale(targetArea.vector / area.vector)
-            g.drawImage(it)
+            g.scale(targetSize.vector / size)
+            g.drawSprite(it)
             g.reset()
         }
     }
