@@ -9,7 +9,7 @@ class BoundsTest {
 
     @Test
     fun fromStartOfArea(){
-        val b = Bounds.fromStartOfArea(Vector(100, 200), Area(20, 50))
+        val b = Bounds.fromStartOfSize(Vector(100, 200), Area(20, 50))
 
         assertEquals(Vector(110, 225), b.center)
         assertEquals(Area(20, 50), b.size)
@@ -18,7 +18,7 @@ class BoundsTest {
 
     @Test
     fun getPos() {
-        val b = Bounds.fromStartOfArea(Vector(100, 200), Area(20, 50))
+        val b = Bounds.fromStartOfSize(Vector(100, 200), Area(20, 50))
 
         assertEquals(Vector(100, 200), b.getPos(Vector()))
         assertEquals(Vector(115, 225), b.getPos(Vector(0.75, 0.5)))
@@ -28,7 +28,7 @@ class BoundsTest {
 
     @Test
     fun getAnchor() {
-        val b = Bounds.fromStartOfArea(Vector(100, 200), Area(20, 50))
+        val b = Bounds.fromStartOfSize(Vector(100, 200), Area(20, 50))
 
         assertEquals(0.0, b.getAnchor(Vector(100, 200)).x, 0.0001)
         assertEquals(0.0, b.getAnchor(Vector(100, 200)).y, 0.0001)

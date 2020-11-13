@@ -11,10 +11,10 @@ data class Bounds(val center: Vector,
 
         fun fromStartToEnd(start: Vector, end: Vector)
                 = Bounds((start + end) / 2, (end - start).toArea(), 0.0)
-        fun fromStartOfArea(start: Vector, area: Area)
-                = Bounds(start + (area / 2), area, 0.0)
-        fun fromCenterOfArea(center: Vector, area: Area)
-                = Bounds(center, area, 0.0)
+        fun fromStartOfSize(start: Vector, size: Area)
+                = Bounds(start + (size / 2), size, 0.0)
+        fun fromCenterOfSize(center: Vector, size: Area)
+                = Bounds(center, size, 0.0)
     }
 
     //helpers

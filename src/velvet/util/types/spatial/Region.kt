@@ -7,7 +7,7 @@ class Region private constructor(val topLeft: Position, val size: Size) {
         fun fromStartToEnd(start: Position, end: Position) = Region(start, (end - start).toSize())
     }
 
-    val bounds get() = Bounds.fromStartOfArea(topLeft.vector, size.toArea())
+    val bounds get() = Bounds.fromStartOfSize(topLeft.vector, size.toArea())
 
     val bottomRight: Position get() = topLeft + Position(size.width, size.height)
 

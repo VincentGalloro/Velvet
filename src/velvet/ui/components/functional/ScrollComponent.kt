@@ -9,6 +9,10 @@ import java.awt.event.KeyEvent
 class ScrollComponent: BasicComponent() {
 
     var targetScroll: Int = 0
+        set(value) {
+            field = value
+            onScrollChange?.invoke(targetScroll)
+        }
     var scroll: Double = 0.0
     var scrollRate: Int = 1
     private val scrollActuator: Actuator<Double> = DoubleSwishActuator()
@@ -22,8 +26,13 @@ class ScrollComponent: BasicComponent() {
 
     var onItemEnter: ((Int)->Unit)? = null
     var onItemExit: ((Int)->Unit)? = null
+    var onScrollChange: ((Int)->Unit)? = null
 
     init{
+        enableUserControl()
+    }
+
+    fun enableUserControl(){
         uiEventListener.onMouseWheelScrolled = { it, _ -> targetScroll += it.amount * scrollRate }
         uiEventListener.onKeyPressed = { it, _ ->
             if(it.code == KeyEvent.VK_UP){
@@ -33,6 +42,11 @@ class ScrollComponent: BasicComponent() {
                 targetScroll += scrollRate
             }
         }
+    }
+
+    fun disableUserControl(){
+        uiEventListener.onMouseWheelScrolled = null
+        uiEventListener.onKeyPressed = null
     }
 
     private fun updateVisible(uiNode: UINode){

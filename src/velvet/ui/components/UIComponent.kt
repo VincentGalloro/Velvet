@@ -1,9 +1,8 @@
 package velvet.ui.components
 
-import velvet.io.hardware.InputEventListener
 import velvet.main.VGraphics
-import velvet.ui.events.UIEventListener
 import velvet.ui.UINode
+import velvet.ui.events.UIEventListener
 
 interface UIComponent {
 

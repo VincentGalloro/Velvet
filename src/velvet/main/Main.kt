@@ -64,7 +64,7 @@ class Main(levelGenerator: (VelvetState)->Velvet, size: Size, name: String) : Ca
         frame.dropTarget = fileDrop
         uiEventHandler = UIEventHandler(inputEvents)
         uiEventHandler.root = rootNode
-        rootNode.bounds = Bounds.fromStartOfArea(Vector(), size.toArea())
+        rootNode.bounds = Bounds.fromStartOfSize(Vector(), size.toArea())
 
         val state = VelvetState(size, inputEvents, uiEventHandler, rootNode, fileDrop)
         level = levelGenerator(state)

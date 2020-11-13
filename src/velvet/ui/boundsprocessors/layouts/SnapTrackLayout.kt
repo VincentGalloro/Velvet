@@ -14,7 +14,7 @@ class SnapTrackLayout(private val boundsProcessor: BoundsProcessor) : BoundsProc
     override fun invoke(it: Bounds, index: Int): Bounds {
         val newTarget = boundsProcessor(it, index)
         prevTarget?.let {
-            bounds = Bounds.fromCenterOfArea(
+            bounds = Bounds.fromCenterOfSize(
                     bounds.center + (newTarget.center - it.center),
                     bounds.size + (newTarget.size - it.size))
         }

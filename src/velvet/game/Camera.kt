@@ -11,7 +11,7 @@ import velvet.util.types.spatial.Vector
 
 class Camera(private val windowSize: Size) : BasicComponent(){
 
-    var bounds = Bounds.fromStartOfArea(Vector(), windowSize.toArea())
+    var bounds = Bounds.fromStartOfSize(Vector(), windowSize.toArea())
     var targetBounds: Bounds? = null
     var boundsActuator: Actuator<Bounds> = BoundsSwishActuator()
     var cameraBoundsRenderMode: CameraBoundsRenderMode = PadToFitRenderMode()
