@@ -4,41 +4,49 @@ import java.awt.Dimension
 import kotlin.math.max
 import kotlin.random.Random
 
-class Size private constructor(val width: Int, val height: Int){
+class Size private constructor(val width: Int, val height: Int) : TwoDimensionalInt{
 
     companion object{
-        operator fun invoke() = Size(0, 0)
-        operator fun invoke(width: Int, height: Int) = Size(max(width, 0), max(height, 0))
+        operator fun invoke() = Size(1, 1)
+        operator fun invoke(width: Int, height: Int) = Size(max(width, 1), max(height, 1))
         operator fun invoke(size: Int) = invoke(size, size)
     }
 
-    //converters
-    val position by lazy { Position(width, height) }
-    val dimension by lazy { Dimension(width, height) }
-    val area by lazy { Area(width, height) }
-    val vector by lazy { Vector(width, height) }
+    override val xComponent get() = width
+    override val yComponent get() = height
 
     //properties
-    fun calculateArea() = width*height
-    val perimeter = (width+height)*2
+    val area get() = width*height
+    val perimeter get() = (width+height)*2
 
     //utility
-    fun withinBounds(p: Position) = p.x>=0 && p.y>=0 && p.x<width && p.y<height
-    fun withinBounds(region: Region) = withinBounds(region.topLeft) && withinBounds(region.bottomRight-1)
+    operator fun contains(p: Position) = p.x>=0 && p.y>=0 && p.x<width && p.y<height
+    operator fun contains(region: Region) = region.topLeft in this && region.bottomRight-1 in this
 
     fun toIndex(p: Position) = (p.x + p.y*width)
-    fun toIndexOrNull(p: Position) = toIndex(p).takeIf { withinBounds(p) }
+    fun toIndexOrNull(p: Position) = toIndex(p).takeIf { p in this }
     fun fromIndex(index: Int) = Position(index%width, index/width)
+    fun fromIndexOrNull(index: Int) = Position(index%width, index/width).takeIf { index in 0 until area }
 
-    fun containedPositions() = (0 until calculateArea()).asSequence().map(::fromIndex)
+    fun positions() = (0 until area).asSequence().map(::fromIndex)
 
     fun randomWithin() = Position(Random.nextInt(width), Random.nextInt(height))
+
+    operator fun plus(td: TwoDimensionalInt) = invoke(width+td.xComponent, height+td.yComponent)
+    operator fun plus(td: Int) = invoke(width+td, height+td)
+
+    operator fun minus(td: TwoDimensionalInt) = invoke(width-td.xComponent, height-td.yComponent)
+    operator fun minus(td: Int) = invoke(width-td, height-td)
+
+    operator fun times(td: TwoDimensionalInt) = invoke(width*td.xComponent, height*td.yComponent)
+    operator fun times(td: Int) = invoke(width*td, height*td)
+
+    operator fun div(td: TwoDimensionalInt) = invoke(width/td.xComponent, height/td.yComponent)
+    operator fun div(td: Int) = invoke(width/td, height/td)
 
     override fun toString(): String {
         return "Size(width=$width, height=$height)"
     }
-
-    fun toRegion(topLeft: Position = Position()) = Region.fromStartOfSize(topLeft, this)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

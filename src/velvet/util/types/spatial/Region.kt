@@ -3,20 +3,17 @@ package velvet.util.types.spatial
 class Region private constructor(val topLeft: Position, val size: Size) {
 
     companion object{
-        operator fun invoke() = Region(Position(), Size())
         fun fromStartOfSize(position: Position, size: Size) = Region(position, size)
-        fun fromStartToEnd(start: Position, end: Position) = Region(start, (end - start).size)
+        fun fromStartToEnd(start: Position, end: Position) = Region(start, (end - start).toSize())
     }
+
+    val bounds get() = Bounds.fromStartOfArea(topLeft.vector, size.toArea())
 
     val bottomRight: Position get() = topLeft + Position(size.width, size.height)
 
-    fun withinBounds(position: Position) = size.withinBounds(position-topLeft)
+    operator fun contains(position: Position) = position-topLeft in size
 
-    fun toIndex(p: Position) = size.toIndex(p - topLeft)
-    fun fromIndex(index: Int) = size.fromIndex(index) + topLeft
-
-    fun containedPositions() = size.containedPositions().map { it + topLeft }
-
+    fun positions() = size.positions().map { it + topLeft }
     fun randomWithin() = size.randomWithin() + topLeft
 
     override fun toString(): String {
@@ -39,17 +36,3 @@ class Region private constructor(val topLeft: Position, val size: Size) {
         return result
     }
 }
-
-fun Sequence<Position>.toRegion(): Region {
-    return Region.fromStartToEnd(
-            Position(
-                    asSequence().map { it.x }.min() ?: return Region(),
-                    asSequence().map { it.y }.min() ?: return Region()
-            ),
-            Position(
-                    asSequence().map { it.x }.max()?.inc() ?: return Region(),
-                    asSequence().map { it.y }.max()?.inc() ?: return Region()
-            )
-    )
-}
-fun Iterable<Position>.toRegion(): Region = asSequence().toRegion()
