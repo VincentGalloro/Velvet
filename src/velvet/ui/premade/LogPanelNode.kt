@@ -28,7 +28,7 @@ class LogPanelNode : UINode(){
             fadeTime: Int = 60): DecayingUINode<OutlinedTextNode>{
         val node = OutlinedTextNode(text)
         node.squareElement.fillColor = fillColor
-        node.squareElement.rounding = 5.0
+        node.squareElement.rounding = 20.0
         node.textElement.setFontResolution(40)
         return log(node, initialTime, fadeTime)
     }

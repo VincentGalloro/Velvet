@@ -7,6 +7,11 @@ import java.awt.FontMetrics
 
 interface TextLayout {
 
+    companion object{
+        fun singleLine() = SingleLineLayout()
+        fun multiLine(width: Double, lineSep: Double) = MultiLineLayout(width, lineSep)
+    }
+
     fun getArea(text: String, fontMetrics: FontMetrics): Area
     fun getCharPos(text: String, fontMetrics: FontMetrics, index: Int): Vector
 
@@ -33,10 +38,15 @@ class MultiLineLayout(var width: Double, var lineSep: Double) : TextLayout {
     fun calculateLineBreaks(text: String, fontMetrics: FontMetrics): Sequence<Int> = sequence{
         yield(0)
         var last = 0
+        var lastSpace: Int? = null
         for(index in 1 until text.length){
+            if(text[index] == ' '){
+                lastSpace = index
+            }
             if(fontMetrics.stringWidth(text.substring(last, index+1)) > width){
-                yield(index)
-                last = index
+                yield((lastSpace?.inc()) ?: index)
+                last = (lastSpace?.inc()) ?: index
+                lastSpace = null
             }
         }
         yield(text.length)
