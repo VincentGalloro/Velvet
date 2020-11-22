@@ -3,16 +3,15 @@ package velvet.ui.components.graphical
 import velvet.main.VGraphics
 import velvet.ui.UINode
 import velvet.ui.components.BasicComponent
-import java.awt.AlphaComposite
 
-class FadeInComponent(private val speed: Double = 0.04) : BasicComponent() {
+class FadeOutComponent(private val speed: Double = 0.04) : BasicComponent() {
 
     private val alphaComponent = AlphaComponent()
 
     val isDone get() = alphaComponent.alpha >= 1.0
 
     init {
-        alphaComponent.alpha = 0.0
+        alphaComponent.alpha = 1.0
     }
 
     override fun preUpdate(uiNode: UINode) {
