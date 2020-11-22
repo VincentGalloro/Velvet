@@ -6,9 +6,9 @@ import velvet.util.types.VShape
 import velvet.util.types.spatial.Area
 import java.awt.BasicStroke
 
-abstract class BasicShapeElement (var fillColor: VColor? = null,
-                                  var outlineColor: VColor? = VColor.BLACK,
-                                  var outlineThickness: Double = 4.0) : VElement {
+abstract class ShapeElement (var fillColor: VColor? = null,
+                             var outlineColor: VColor? = VColor.BLACK,
+                             var outlineThickness: Double = 4.0) : VElement {
 
     override val size: Area? = null
 

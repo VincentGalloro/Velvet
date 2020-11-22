@@ -13,7 +13,7 @@ class SpriteElement (var sprite: Sprite? = null) : VElement {
         sprite?.let {
             g.save()
             g.scale(targetSize.vector / it.size.vector)
-            g.drawSprite(it)
+            g.draw(it)
             g.reset()
         }
     }

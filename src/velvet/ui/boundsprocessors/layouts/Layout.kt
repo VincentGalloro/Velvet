@@ -30,8 +30,10 @@ class Layout(val boundsProcessors: List<BoundsProcessor>): BoundsProcessor {
     fun columnList() = ColumnListLayoutFactory(this)
     fun rowList() = RowListLayoutFactory(this)
 
-    fun track(boundsProcessor: BoundsProcessor, initial: Bounds? = null)
-            = add(TrackLayout(boundsProcessor, initial))
+    fun track(boundsProcessor: BoundsProcessor,
+              initial: Bounds? = null,
+              boundsInitializer: BoundsProcessor = { it, _ -> it })
+            = add(TrackLayout(boundsProcessor, initial, boundsInitializer))
     fun snapTrack(boundsProcessor: BoundsProcessor): Pair<Layout, SnapTrackLayout>{
         val snapTrackLayout = SnapTrackLayout(boundsProcessor)
         return add(snapTrackLayout) to snapTrackLayout

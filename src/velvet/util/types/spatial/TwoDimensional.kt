@@ -19,6 +19,9 @@ interface TwoDimensionalInt {
     val sum get() = xComponent + yComponent
     val min get() = min(xComponent, yComponent)
     val max get() = max(xComponent, yComponent)
+
+    fun fold(td: TwoDimensionalInt, op: (Int, Int)->Int): TwoDimensionalInt
+    fun map(op: (Int) -> Int): TwoDimensionalInt
 }
 
 interface TwoDimensionalDouble {
@@ -33,4 +36,8 @@ interface TwoDimensionalDouble {
     val sum get() = xComponent + yComponent
     val min get() = min(xComponent, yComponent)
     val max get() = max(xComponent, yComponent)
+
+    fun fold(td: TwoDimensionalDouble, op: (Double, Double)->Double): TwoDimensionalDouble
+    fun fold(td: TwoDimensionalInt, op: (Double, Int)->Double): TwoDimensionalDouble
+    fun map(op: (Double) -> Double): TwoDimensionalDouble
 }

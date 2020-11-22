@@ -72,18 +72,20 @@ class VGraphics(private var g: Graphics2D) {
     fun draw(s: VShape) = g.draw(s.javaShape)
     fun fill(s: VShape) = g.fill(s.javaShape)
 
-    fun drawImage(img: BufferedImage) = g.drawImage(img, 0, 0, null)
-    fun drawImage(img: BufferedImage, pos: Vector) = g.drawImage(img, pos.x.toInt(), pos.y.toInt(), null)
-    fun drawImage(img: BufferedImage, at: AffineTransform) {
+    private fun drawImage(img: BufferedImage)
+            = g.drawImage(img, 0, 0, null)
+    private fun drawImage(img: BufferedImage, pos: Vector)
+            = g.drawImage(img, pos.x.toInt(), pos.y.toInt(), null)
+    private fun drawImage(img: BufferedImage, at: AffineTransform) {
         save()
         transform(at)
         drawImage(img)
         reset()
     }
 
-    fun drawSprite(sprite: Sprite) = drawImage(sprite.image)
-    fun drawSprite(sprite: Sprite, pos: Vector) = drawImage(sprite.image, pos)
-    fun drawSprite(sprite: Sprite, at: AffineTransform) = drawImage(sprite.image, at)
+    fun draw(sprite: Sprite) = drawImage(sprite.image)
+    fun draw(sprite: Sprite, pos: Vector) = drawImage(sprite.image, pos)
+    fun draw(sprite: Sprite, at: AffineTransform) = drawImage(sprite.image, at)
 
-    fun drawString(s: String, pos: Vector) = g.drawString(s, pos.x.toFloat(), pos.y.toFloat())
+    fun draw(s: String, pos: Vector) = g.drawString(s, pos.x.toFloat(), pos.y.toFloat())
 }

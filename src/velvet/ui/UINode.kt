@@ -39,8 +39,8 @@ open class UINode {
     fun update() {
         if(!enabled) return
 
-        activeComponents.forEach { it.preUpdate(this) }
-        subNodes.forEachIndexed { index, subNode ->
+        activeComponents.toList().forEach { it.preUpdate(this) }
+        subNodes.toList().forEachIndexed { index, subNode ->
             subNode.bounds = subNode.layout(bounds, index)
             subNode.update()
         }

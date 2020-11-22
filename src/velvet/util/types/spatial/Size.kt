@@ -15,6 +15,8 @@ class Size private constructor(val width: Int, val height: Int) : TwoDimensional
     override val xComponent get() = width
     override val yComponent get() = height
 
+    override fun toSize() = this
+
     //properties
     val area get() = width*height
     val perimeter get() = (width+height)*2
@@ -32,17 +34,21 @@ class Size private constructor(val width: Int, val height: Int) : TwoDimensional
 
     fun randomWithin() = Position(Random.nextInt(width), Random.nextInt(height))
 
-    operator fun plus(td: TwoDimensionalInt) = invoke(width+td.xComponent, height+td.yComponent)
-    operator fun plus(td: Int) = invoke(width+td, height+td)
+    override fun fold(td: TwoDimensionalInt, op: (Int, Int) -> Int)
+            = invoke(op(width, td.xComponent), op(height, td.yComponent))
+    override fun map(op: (Int) -> Int) = invoke(op(width), op(height))
 
-    operator fun minus(td: TwoDimensionalInt) = invoke(width-td.xComponent, height-td.yComponent)
-    operator fun minus(td: Int) = invoke(width-td, height-td)
+    operator fun plus(td: TwoDimensionalInt) = fold(td){ a, b -> a+b }
+    operator fun plus(td: Int) = map { it+td }
 
-    operator fun times(td: TwoDimensionalInt) = invoke(width*td.xComponent, height*td.yComponent)
-    operator fun times(td: Int) = invoke(width*td, height*td)
+    operator fun minus(td: TwoDimensionalInt) = fold(td){ a, b -> a-b }
+    operator fun minus(td: Int) = map { it-td }
 
-    operator fun div(td: TwoDimensionalInt) = invoke(width/td.xComponent, height/td.yComponent)
-    operator fun div(td: Int) = invoke(width/td, height/td)
+    operator fun times(td: TwoDimensionalInt) = fold(td){ a, b -> a*b }
+    operator fun times(td: Int) = map { it*td }
+
+    operator fun div(td: TwoDimensionalInt) = fold(td){ a, b -> a/b }
+    operator fun div(td: Int) = map { it/td }
 
     override fun toString(): String {
         return "Size(width=$width, height=$height)"

@@ -1,5 +1,8 @@
 package velvet.util.types.spatial
 
+import kotlin.math.max
+import kotlin.math.min
+
 class Region private constructor(val topLeft: Position, val size: Size) {
 
     companion object{
@@ -36,3 +39,7 @@ class Region private constructor(val topLeft: Position, val size: Size) {
         return result
     }
 }
+
+fun Collection<Position>.toRegion() = Region.fromStartToEnd(
+        reduce { acc, p -> acc.fold(p, ::min) },
+        reduce { acc, p -> acc.fold(p, ::max) })

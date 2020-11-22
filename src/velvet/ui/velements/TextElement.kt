@@ -71,7 +71,7 @@ class TextElement(_text: String = "",
         cachedImage?.let {
             g.save()
             g.scale(targetSize.vector / size)
-            g.drawSprite(it)
+            g.draw(it)
             g.reset()
         }
     }

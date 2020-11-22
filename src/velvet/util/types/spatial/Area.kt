@@ -19,6 +19,8 @@ class Area private constructor(val width: Double, val height: Double) : TwoDimen
     override val xComponent get() = width
     override val yComponent get() = height
 
+    override fun toArea() = this
+
     //properties
     val area = width*height
     val perimeter = (width+height)*2
@@ -31,25 +33,31 @@ class Area private constructor(val width: Double, val height: Double) : TwoDimen
     fun getPos(anchor: Vector) = vector * anchor
     fun getAnchor(pos: Vector) = pos / vector
 
-    operator fun plus(td: TwoDimensionalDouble) = invoke(width+td.xComponent, height+td.yComponent)
-    operator fun plus(td: TwoDimensionalInt) = invoke(width+td.xComponent, height+td.yComponent)
-    operator fun plus(td: Double) = invoke(width+td, height+td)
-    operator fun plus(td: Int) = invoke(width+td, height+td)
+    override fun fold(td: TwoDimensionalDouble, op: (Double, Double) -> Double)
+            = invoke(op(width, td.xComponent), op(height, td.yComponent))
+    override fun fold(td: TwoDimensionalInt, op: (Double, Int) -> Double)
+            = invoke(op(width, td.xComponent), op(height, td.yComponent))
+    override fun map(op: (Double) -> Double) = invoke(op(width), op(height))
 
-    operator fun minus(td: TwoDimensionalDouble) = invoke(width-td.xComponent, height-td.yComponent)
-    operator fun minus(td: TwoDimensionalInt) = invoke(width-td.xComponent, height-td.yComponent)
-    operator fun minus(td: Double) = invoke(width-td, height-td)
-    operator fun minus(td: Int) = invoke(width-td, height-td)
+    operator fun plus(td: TwoDimensionalDouble) = fold(td){ a, b -> a+b }
+    operator fun plus(td: TwoDimensionalInt) = fold(td){ a, b -> a+b }
+    operator fun plus(td: Double) = map { it+td }
+    operator fun plus(td: Int) = map { it+td }
 
-    operator fun times(td: TwoDimensionalDouble) = invoke(width*td.xComponent, height*td.yComponent)
-    operator fun times(td: TwoDimensionalInt) = invoke(width*td.xComponent, height*td.yComponent)
-    operator fun times(td: Double) = invoke(width*td, height*td)
-    operator fun times(td: Int) = invoke(width*td, height*td)
+    operator fun minus(td: TwoDimensionalDouble) = fold(td){ a, b -> a-b }
+    operator fun minus(td: TwoDimensionalInt) = fold(td){ a, b -> a-b }
+    operator fun minus(td: Double) = map { it-td }
+    operator fun minus(td: Int) = map { it-td }
 
-    operator fun div(td: TwoDimensionalDouble) = invoke(width/td.xComponent, height/td.yComponent)
-    operator fun div(td: TwoDimensionalInt) = invoke(width/td.xComponent, height/td.yComponent)
-    operator fun div(td: Double) = invoke(width/td, height/td)
-    operator fun div(td: Int) = invoke(width/td, height/td)
+    operator fun times(td: TwoDimensionalDouble) = fold(td){ a, b -> a*b }
+    operator fun times(td: TwoDimensionalInt) = fold(td){ a, b -> a*b }
+    operator fun times(td: Double) = map { it*td }
+    operator fun times(td: Int) = map { it*td }
+
+    operator fun div(td: TwoDimensionalDouble) = fold(td){ a, b -> a/b }
+    operator fun div(td: TwoDimensionalInt) = fold(td){ a, b -> a/b }
+    operator fun div(td: Double) = map { it/td }
+    operator fun div(td: Int) = map { it/td }
 
     override fun toString(): String {
         return "Area(width=$width, height=$height)"

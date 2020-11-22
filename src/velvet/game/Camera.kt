@@ -9,12 +9,16 @@ import velvet.util.types.spatial.Bounds
 import velvet.util.types.spatial.Size
 import velvet.util.types.spatial.Vector
 
-class Camera(private val windowSize: Size) : BasicComponent(){
+class Camera(val windowSize: Size) : BasicComponent(){
 
-    var bounds = Bounds.fromStartOfSize(Vector(), windowSize.toArea())
+    val windowBounds = Bounds.fromStartOfSize(Vector(), windowSize.toArea())
+    var bounds = windowBounds
     var targetBounds: Bounds? = null
     var boundsActuator: Actuator<Bounds> = BoundsSwishActuator()
     var cameraBoundsRenderMode: CameraBoundsRenderMode = PadToFitRenderMode()
+
+    fun fromScreenPos(pos: Vector) = bounds.getPos(windowBounds.getAnchor(pos))
+    fun toScreenPos(pos: Vector) = windowBounds.getPos(bounds.getAnchor(pos))
 
     override fun preUpdate(uiNode: UINode) {
         targetBounds?.let { bounds = boundsActuator(bounds, cameraBoundsRenderMode(it, windowSize)) }

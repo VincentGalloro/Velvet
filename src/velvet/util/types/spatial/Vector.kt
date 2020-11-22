@@ -22,6 +22,8 @@ data class Vector(val x: Double,
     override val xComponent get() = x
     override val yComponent get() = y
 
+    override val vector get() = this
+
     val angle get() = atan2(yComponent, xComponent)
     val magnitude get() = sqrt(square().sum)
     fun abs() = Vector(abs(x), abs(y))
@@ -42,25 +44,31 @@ data class Vector(val x: Double,
     fun rotateAround(c: TwoDimensionalDouble, a: Double) = (this-c).rotate(a) + c
     fun rotate(a: Double) = unit(angle + a) * magnitude
 
-    operator fun plus(td: TwoDimensionalInt) = Vector(x+td.xComponent, y+td.yComponent)
-    operator fun plus(td: TwoDimensionalDouble) = Vector(x+td.xComponent, y+td.yComponent)
-    operator fun plus(td: Int) = Vector(x+td, y+td)
-    operator fun plus(td: Double) = Vector(x+td, y+td)
+    override fun fold(td: TwoDimensionalDouble, op: (Double, Double) -> Double)
+            = Vector(op(x, td.xComponent), op(y, td.yComponent))
+    override fun fold(td: TwoDimensionalInt, op: (Double, Int) -> Double)
+            = Vector(op(x, td.xComponent), op(y, td.yComponent))
+    override fun map(op: (Double) -> Double) = Vector(op(x), op(y))
 
-    operator fun minus(td: TwoDimensionalInt) = Vector(x-td.xComponent, y-td.yComponent)
-    operator fun minus(td: TwoDimensionalDouble) = Vector(x-td.xComponent, y-td.yComponent)
-    operator fun minus(td: Int) = Vector(x-td, y-td)
-    operator fun minus(td: Double) = Vector(x-td, y-td)
+    operator fun plus(td: TwoDimensionalInt) = fold(td){ a, b -> a+b }
+    operator fun plus(td: TwoDimensionalDouble) = fold(td){ a, b -> a+b }
+    operator fun plus(td: Int) = map { it+td }
+    operator fun plus(td: Double) = map { it+td }
 
-    operator fun times(td: TwoDimensionalInt) = Vector(x*td.xComponent, y*td.yComponent)
-    operator fun times(td: TwoDimensionalDouble) = Vector(x*td.xComponent, y*td.yComponent)
-    operator fun times(td: Int) = Vector(x*td, y*td)
-    operator fun times(td: Double) = Vector(x*td, y*td)
+    operator fun minus(td: TwoDimensionalInt) = fold(td){ a, b -> a-b }
+    operator fun minus(td: TwoDimensionalDouble) = fold(td){ a, b -> a-b }
+    operator fun minus(td: Int) = map { it-td }
+    operator fun minus(td: Double) = map { it-td }
 
-    operator fun div(td: TwoDimensionalInt) = Vector(x/td.xComponent, y/td.yComponent)
-    operator fun div(td: TwoDimensionalDouble) = Vector(x/td.xComponent, y/td.yComponent)
-    operator fun div(td: Int) = Vector(x/td, y/td)
-    operator fun div(td: Double) = Vector(x/td, y/td)
+    operator fun times(td: TwoDimensionalInt) = fold(td){ a, b -> a*b }
+    operator fun times(td: TwoDimensionalDouble) = fold(td){ a, b -> a*b }
+    operator fun times(td: Int) = map { it*td }
+    operator fun times(td: Double) = map { it*td }
 
-    operator fun unaryMinus() = Vector(-x, -y)
+    operator fun div(td: TwoDimensionalInt) = fold(td){ a, b -> a/b }
+    operator fun div(td: TwoDimensionalDouble) = fold(td){ a, b -> a/b }
+    operator fun div(td: Int) = map { it/td }
+    operator fun div(td: Double) = map { it/td }
+
+    operator fun unaryMinus() = this*-1
 }

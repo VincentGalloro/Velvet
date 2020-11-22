@@ -24,7 +24,7 @@ class SingleLineLayout : TextLayout {
                     (fontMetrics.ascent + fontMetrics.descent).toDouble())
 
     override fun render(g: VGraphics, text: String, fontMetrics: FontMetrics) {
-        g.drawString(text, Vector(0.0, fontMetrics.ascent.toDouble()))
+        g.draw(text, Vector(0.0, fontMetrics.ascent.toDouble()))
     }
 }
 
@@ -56,10 +56,9 @@ class MultiLineLayout(var width: Double, var lineSep: Double) : TextLayout {
     override fun render(g: VGraphics, text: String, fontMetrics: FontMetrics) {
         val lineBreaks = calculateLineBreaks(text, fontMetrics).toList()
         for(index in 0 until lineBreaks.size-1){
-            g.drawString(text.substring(lineBreaks[index], lineBreaks[index+1]),
+            g.draw(text.substring(lineBreaks[index], lineBreaks[index+1]),
                     Vector(0.0, fontMetrics.ascent.toDouble() +
                             (fontMetrics.ascent + fontMetrics.descent + lineSep) * index))
         }
     }
-
 }

@@ -16,9 +16,12 @@ class Sprite(val image: BufferedImage){
 
     companion object{
 
-        fun emptySprite(size: Size) = Sprite(BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB))
-        fun copySprite(sprite: Sprite) = emptySprite(sprite.size).also { it.createGraphics().drawSprite(sprite) }
-        fun loadSprite(path: Path) = copySprite(Sprite(ImageIO.read(Files.newInputStream(path))))
+        fun emptySprite(size: Size)
+                = Sprite(BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB))
+        fun copySprite(sprite: Sprite)
+                = emptySprite(sprite.size).also { it.createGraphics().draw(sprite) }
+        fun loadSprite(path: Path)
+                = copySprite(Sprite(ImageIO.read(Files.newInputStream(path))))
 
         fun fromDenseGrid(grid: Grid<VColor>,
                           backgroundColor: VColor) = emptySprite(grid.size).also { sprite ->
