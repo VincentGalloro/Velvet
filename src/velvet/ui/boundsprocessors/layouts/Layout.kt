@@ -39,6 +39,12 @@ class Layout(val boundsProcessors: List<BoundsProcessor>): BoundsProcessor {
         return add(snapTrackLayout) to snapTrackLayout
     }
 
+    fun toggleable(boundsProcessor: BoundsProcessor,
+                   enabled: Boolean = true): Pair<Layout, ToggleableLayout>{
+        val toggleableLayout = ToggleableLayout(boundsProcessor, enabled)
+        return add(toggleableLayout) to toggleableLayout
+    }
+
     fun pad(amount: Vector, anchor: Vector) = add { it, _ -> it.resize(-amount, anchor) }
     fun pad(amount: Double, anchor: Vector) = add { it, _ -> it.resize(Vector(-amount), anchor) }
     fun padCenter(amount: Double) = add { it, _ -> it.resize(Vector(-amount), Vector.HALF) }

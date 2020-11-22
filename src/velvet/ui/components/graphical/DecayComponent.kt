@@ -10,7 +10,7 @@ class DecayComponent(private val initialTime: Int,
     private val alphaComponent = AlphaComponent()
 
     var hasDecayed = false
-        private set(value){
+        set(value){
             if(value && !field){ //can only transition once from false->true
                 field = value
                 onDecay?.invoke()
