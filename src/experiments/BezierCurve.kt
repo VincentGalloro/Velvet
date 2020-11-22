@@ -1,5 +1,7 @@
 package experiments
 
+import velvet.game.Camera
+import velvet.game.CameraController
 import velvet.main.VGraphics
 import velvet.main.Velvet
 import velvet.main.VelvetState
@@ -16,8 +18,11 @@ import java.awt.BasicStroke
 class BezierCurve(velvetState: VelvetState) : Velvet(velvetState) {
 
     private var points: List<Vector> = listOf()
+    private val camera = Camera(size)
 
     init{
+        rootNode.add(camera)
+        rootNode.add(CameraController(camera))
         rootNode.add(object : BasicComponent(){
 
             var control = Vector()
@@ -30,7 +35,7 @@ class BezierCurve(velvetState: VelvetState) : Velvet(velvetState) {
 
             init{
                 uiEventListener.onMouseMoved = { e, _ ->
-                    control = e.pos
+                    control = camera.fromScreenPos(e.pos)
                     points = (0..101).map { it*0.01 }.map {
                         val a1 = start*(1-it) + control*it
                         val a2 = control*(1-it) + end*it
